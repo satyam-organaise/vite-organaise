@@ -1,5 +1,7 @@
-import { Box, Grid, Typography, TextField, 
-    Button, IconButton, InputAdornment } from '@mui/material'
+import {
+    Box, Grid, Typography, TextField,
+    Button, IconButton, InputAdornment
+} from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress';
 import React, { useEffect, useState } from 'react'
 import organaiseLogo from "../../assets/Logo/organaise-logo.png";
@@ -20,7 +22,10 @@ import {
 } from "../../api/CognitoApi/CognitoApi";
 import { passwordValidator } from '../../utils/validation';
 import { userCreateAccount, userLoginAccount } from '../../api/InternalApi/OurDevApi';
-
+import checkboxIcon from '../../assets/BackgroundImages/checkbox.png'
+import GoogleIcon from '../../assets/svg/Google.svg'
+import FacebookIcon from '../../assets/svg/Facebook.svg'
+import AppleIcon from '../../assets/svg/Apple.svg'
 
 
 const cssStyle = {
@@ -32,6 +37,7 @@ const cssStyle = {
     content_container_box: {
         backgroundColor: "#ffffff",
         padding: "10% 20%",
+        // padding: "2% 20%",
         minHeight: "500px",
         maxHeight: "100vh"
     },
@@ -58,7 +64,7 @@ const cssStyle = {
         }
     },
     grid_textBox_button: {
-        margin: "5px 0px"
+        margin: "4px 0px"
     },
 }
 
@@ -294,7 +300,7 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
     const bgImgForLoginSignUpForgetVarify = (serviceType) => {
         switch (serviceType) {
             case "login":
-                return <img src={loginPageBackgroundImg} style={{ width: "100%" }} alt="login-page-background-image" />
+                return <img src={loginPageBackgroundImg} style={{ width: "70%" }} alt="login-page-background-image" />
                 break;
             case "signup":
                 return <img src={signupPageBgImg} style={{ width: "100%" }} alt="signUp-page-background-image" />
@@ -314,11 +320,11 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
 
 
     return (
-        <Box container sx={cssStyle.parent_box}>
-            <Grid container>
-                <Grid item xs={12} sm={12} md={6}>
-                    <Box container sx={{ ...cssStyle.content_container_box, padding: "10% 5% 10% 20% !important" }} >
-                        <Box>
+        <Box container sx={cssStyle.parent_box}  >
+            <Grid container >
+                <Grid item xs={12} sm={12} md={6} >
+                    <Box container sx={{ ...cssStyle.content_container_box, padding: "10% 5% 10% 20% !important" }}  >
+                        <Box >
                             <img
                                 src={organaiseLogo}
                                 style={{ width: "150px" }}
@@ -329,6 +335,33 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
                                 ? bgImgForLoginSignUpForgetVarify("verification") :
                                 bgImgForLoginSignUpForgetVarify(serviceType)}
                         </Box>
+                        {serviceType === 'login' &&
+                            <Box  sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} padding={2} borderRadius={4} width='80%'>
+
+                                <Typography variant='h5' paddingBottom={1} textAlign='center' fontWeight='bold'>Discover what sets us apart</Typography>
+
+                                <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                    <img src={checkboxIcon} />
+                                    <Typography textAlign='center'>Profile Creation</Typography>
+                                </Box>
+                                <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                    <img src={checkboxIcon} />
+                                    <Typography textAlign='center'>Social Networking</Typography>
+                                </Box>
+                                <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                    <img src={checkboxIcon} />
+                                    <Typography textAlign='center'>Media Sharing</Typography>
+                                </Box>
+                                <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                    <img src={checkboxIcon} />
+                                    <Typography textAlign='center'>Groups and Communities</Typography>
+                                </Box>
+                                <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                    <img src={checkboxIcon} />
+                                    <Typography textAlign='center'>Privacy Controls</Typography>
+                                </Box>
+                            </Box>
+                        }
                     </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
@@ -366,6 +399,7 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
                                             sx={cssStyle.btn_textfield}
                                             value={emailAddress ? emailAddress : ""}
                                             onChange={(e) => setEmailAddress(e?.target?.value)}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
@@ -506,6 +540,37 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
 
                                     </Grid>
                                 </Grid>
+                                {serviceType === 'login' &&
+                                    <Grid item xs={12} display='flex' justifyContent='center' alignItems='center' gap={2} paddingTop={2}>
+                                        <Box height='1px' width='45%' backgroundColor='gray' />
+                                        <Typography>OR</Typography>
+                                        <Box height='1px' width='45%' backgroundColor='gray' />
+                                    </Grid>
+                                }
+                                {serviceType === 'login' &&
+                                    <Grid item xs={12} >
+                                        <Box marginTop={3} sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} borderRadius={2}>
+                                            <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                                <img src={GoogleIcon} />
+                                                <Typography fontWeight='bold' textAlign='center'>Continue with Google</Typography>
+                                            </Box>
+                                        </Box>
+
+                                        <Box marginTop={3} sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} borderRadius={2}>
+                                            <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                                <img src={FacebookIcon} />
+                                                <Typography fontWeight='bold' textAlign='center'>Continue with Facebook</Typography>
+                                            </Box>
+                                        </Box>
+
+                                        <Box marginTop={3} sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} borderRadius={2}>
+                                            <Box display='flex' marginLeft={8} alignItems='center' gap={2} padding={1}>
+                                                <img src={AppleIcon} />
+                                                <Typography fontWeight='bold' textAlign='center'>Continue with Apple</Typography>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
+                                }
                             </Box>
                         </Box>
                     }
