@@ -20,6 +20,7 @@ from '../../api/InternalApi/OurDevApi';
 import { getSender } from '../../utils/chatLogic';
 import io from "socket.io-client";
 
+import ListModal from '../Chat/ListModal';
 
 const ENDPOINT = "https://devorganaise.com";
 //"https://devorganaise.com/api"
@@ -347,7 +348,9 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                 <Avatar sx={cssStyle.avatarCss} alt="Cindy Baker" src="https://mui.com/static/images/avatar/3.jpg" />
                             </Stack>
                         </Box>
-                        <Box>
+
+
+                        <Box display={'flex'} alignItems={'center'} >
                             <Button
                                 sx={{ ...cssStyle.listofPeopeBtn, marginRight: "10px" }}
                                 variant="outlined"
@@ -355,9 +358,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                 onClick={() => modelOpens()}>
                                 Add Member
                             </Button>
-                            <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
+                            {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
                                 List Of People
-                            </Button>
+                            </Button> */}
+                            <ListModal buttonStyle={cssStyle.listofPeopeBtn}/>
                         </Box>
                     </>
                 }
