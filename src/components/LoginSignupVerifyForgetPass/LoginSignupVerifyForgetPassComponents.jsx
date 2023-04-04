@@ -26,7 +26,7 @@ import checkboxIcon from '../../assets/BackgroundImages/checkbox.png'
 import GoogleIcon from '../../assets/svg/Google.svg'
 import FacebookIcon from '../../assets/svg/Facebook.svg'
 import AppleIcon from '../../assets/svg/Apple.svg'
-import { List, ListItem, ListItemText} from '@mui/material';
+import { List, ListItem, ListItemText } from '@mui/material';
 
 const cssStyle = {
     parent_box: {
@@ -336,7 +336,7 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
                                 bgImgForLoginSignUpForgetVarify(serviceType)}
                         </Box>
                         {serviceType === 'login' &&
-                            <Box  sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} padding={2} borderRadius={4} width='80%'>
+                            <Box sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} padding={2} borderRadius={4} width='80%'>
 
                                 <Typography variant='h5' paddingBottom={1} textAlign='center' fontWeight='bold'>Discover what sets us apart</Typography>
 
@@ -478,42 +478,43 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
                                             />
                                         </Grid>
                                     }
+                                    {serviceType === "login" &&
+                                        <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
+                                            <Button
+                                                variant="contained"
+                                                sx={{
+                                                    ...cssStyle.btn_textfield,
+                                                    height: "50px", position: "relative",
+                                                    backgroundColor: "primary",
+                                                    '&:hover': {
+                                                        backgroundColor: '#1c529b' // background color on hover
+                                                    }
+                                                }}
+                                                disabled={btnDisabed || isLoadingSignUpFun}
+                                                onClick={() => buttonAction(serviceType)}
 
-                                    <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
-                                        <Button
-                                            variant="contained"
-                                            sx={{
-                                                ...cssStyle.btn_textfield,
-                                                height: "50px", position: "relative",
-                                                backgroundColor: "primary",
-                                                '&:hover': {
-                                                    backgroundColor: '#1c529b' // background color on hover
-                                                }
-                                            }}
-                                            disabled={btnDisabed || isLoadingSignUpFun}
-                                            onClick={() => buttonAction(serviceType)}
+                                            >
+                                                {(btnDisabed || isLoadingSignUpFun) && (
+                                                    <CircularProgress
+                                                        size={24}
+                                                        style={{
+                                                            position: 'absolute',
+                                                            top: '50%',
+                                                            right: '3%',
+                                                            marginTop: -12,
+                                                            marginLeft: -12,
+                                                            color: "primary"
+                                                        }}
+                                                    />
+                                                )}
+                                                {serviceType === "login" && 'Login'}
+                                                {serviceType === "signup" && 'Create Account'}
+                                                {serviceType === "forgetPassword" && 'Send OTP'}
 
-                                        >
-                                            {(btnDisabed || isLoadingSignUpFun) && (
-                                                <CircularProgress
-                                                    size={24}
-                                                    style={{
-                                                        position: 'absolute',
-                                                        top: '50%',
-                                                        right: '3%',
-                                                        marginTop: -12,
-                                                        marginLeft: -12,
-                                                        color: "primary"
-                                                    }}
-                                                />
-                                            )}
-                                            {serviceType === "login" && 'Login'}
-                                            {serviceType === "signup" && 'Create Account'}
-                                            {serviceType === "forgetPassword" && 'Send OTP'}
+                                            </Button>
 
-                                        </Button>
-
-                                    </Grid>
+                                        </Grid>
+                                    }
                                     <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
                                         {serviceType === "login" &&
                                             <Typography variant="subtitle2" align='center'>
@@ -541,11 +542,12 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
                                     </Grid>
                                 </Grid>
                                 {serviceType === 'signup' &&
-                                    <Grid item xs={12}  gap={2} paddingTop={2}>
-                                        <Typography color='red'>At least 8 characters </Typography>
-                                        <Typography color='red'>At least 1 lestter (a,b,c...)</Typography>
-                                        <Typography color='red'>At least 1 number (1,2,3...)</Typography>
-                                        <Typography  color='red'>Both uppercase & lowercase characters</Typography>
+                                    <Grid item xs={12} gap={2} paddingTop={2}>
+                                        <Typography fontWeight='bold' paddingBottom={2} >Password must have</Typography>
+                                        <Typography as='li' color='red'>At least 8 characters </Typography>
+                                        <Typography as='li' color='red'>At least 1 lestter (a,b,c...)</Typography>
+                                        <Typography as='li' color='red'>At least 1 number (1,2,3...)</Typography>
+                                        <Typography as='li' color='red'>Both uppercase & lowercase characters</Typography>
                                     </Grid>
                                 }
                                 {serviceType === 'signup' &&
