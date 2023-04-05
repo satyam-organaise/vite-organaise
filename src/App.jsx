@@ -25,6 +25,11 @@ import AllFiles from './pages/AllFiles';
 import ChatProvider from './Context/ChatProvider';
 import LeftSideBar from './components/LeftSideBar/LeftSideBar';
 import { useContext } from 'react';
+import LoginPage from './components/AuthPages/LoginPage';
+import { SignupPage } from './components/AuthPages/SignupPage';
+import GetStart from './components/AuthPages/GetStart';
+import ForgetPage from './components/AuthPages/ForgetPage';
+import OtpVerfPage from './components/AuthPages/OtpVerfPage';
 
 export const LeftSideBarContext = createContext(null);
 function App() {
@@ -90,7 +95,7 @@ function App() {
         setIsAuthenticated(false);
         if (location.pathname === "/") {
           // navigate("/login");
-          navigate("/start");
+          navigate("/getStart");
         } else {
           navigate(location.pathname);
         }
@@ -109,10 +114,11 @@ function App() {
         {!isAuthenticated
           ?
           <Routes>
-            <Route path="/login" element={<AuthService serviceType="login" />} />
-            <Route path="/start" element={<AuthService serviceType="start" />} />
-            <Route path="/forget-password" element={<AuthService serviceType="forgetPassword" />} />
-            <Route path="/signup" element={<AuthService serviceType="signup" />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/getStart" element={<GetStart  />} />
+            <Route path="/forget-password" element={<ForgetPage />} />
+            <Route path="/OtpVerf" element={<OtpVerfPage />} />
           </Routes>
           :
           <ChatProvider>
