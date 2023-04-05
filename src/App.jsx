@@ -89,7 +89,8 @@ function App() {
         console.log("error get in app.js", err);
         setIsAuthenticated(false);
         if (location.pathname === "/") {
-          navigate("/login");
+          // navigate("/login");
+          navigate("/start");
         } else {
           navigate(location.pathname);
         }
@@ -109,6 +110,7 @@ function App() {
           ?
           <Routes>
             <Route path="/login" element={<AuthService serviceType="login" />} />
+            <Route path="/start" element={<AuthService serviceType="start" />} />
             <Route path="/forget-password" element={<AuthService serviceType="forgetPassword" />} />
             <Route path="/signup" element={<AuthService serviceType="signup" />} />
           </Routes>
