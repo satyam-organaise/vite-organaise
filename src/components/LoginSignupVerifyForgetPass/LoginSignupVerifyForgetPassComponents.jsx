@@ -100,7 +100,7 @@ const LoginSignupVerifyForgetPassComponents = ({ serviceType }) => {
             userLoginV1(email, password);
             setTimeout(() => {
                 setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
-                window.location = "/";
+                window.location = "/chat";
             }, [1500])
         } else {
             ////////user account created but user account not activated//////

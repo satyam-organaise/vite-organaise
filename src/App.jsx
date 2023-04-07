@@ -23,8 +23,19 @@ import CompanyDetails from './pages/CompanyDetails';
 import ContentModels from './pages/ContentModels';
 import AllFiles from './pages/AllFiles';
 import ChatProvider from './Context/ChatProvider';
-import LeftSideBar from './components/LeftSideBar/LeftSideBar';
-import { useContext } from 'react';
+import MyAccount from "./pages/MyAccount"
+// import ServiceProvider from './Context/ServiceProvider'; 
+// import LeftSideBar from './components/LeftSideBar/LeftSideBar';
+// import { useContext } from 'react';
+
+// import InviteTeam from './pages/InviteTeam'; 
+// import ServiceProvider from './Context/ServiceProvider'; 
+// import LoginPage from './components/AuthPages/LoginPage'; 
+// import { SignupPage } from './components/AuthPages/SignupPage'; 
+// import GetStart from './components/AuthPages/GetStart'; 
+// import ForgetPage from './components/AuthPages/ForgetPage'; 
+// import OtpVerfPage from './components/AuthPages/OtpVerfPage'; 
+// import ProjectName from './pages/ProjectName'; 
 
 export const LeftSideBarContext = createContext(null);
 function App() {
@@ -118,6 +129,19 @@ function App() {
           <ChatProvider>
               
             <Routes>
+              <Route path="/model" element={<ContentModels />} />
+              <Route path="/companyDetail" element={<CompanyDetails />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
+            </Routes>
+              <Routes>
+
+              <Route path="/files/allFiles" element={<AllFiles />} />
+              <Route path="/files/upload" element={<FileUpload />} />
+              <Route path="/files/create-folder" element={<FolderData userId={userId} />} />
+              <Route path="/chat" element={<MyMessage userId={userId} />} />
+              <Route path="/account" element={<MyAccount />} /> 
+              <Route path="*" element={<>404 page</>} />
+              {/* <Route path="/" element={<MyMessage userId={userId} />} /> */}
               {/* <Route path="/" element={<Dashboard />} /> */}
               {/* <Route path="/data" element={<Data userId={userId} />} /> */}
               {/** Delete code  aafter file upload feaature complete */}
@@ -125,31 +149,12 @@ function App() {
               {/** Delete code after creaing new message feature complete */}
               {/* <Route path="/folder" element={<Folder userId={userId} />} /> */}
               {/** Delete code after folder feature complete */}
-              <Route path="/model" element={<ContentModels />} />
-              <Route path="/companyDetail" element={<CompanyDetails />} />
-
-          
-              {/* 
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/settings" element={<Setting />} /> 
-            */}
-              <Route path="/forget-password" element={<ForgetPassword />} />
-            </Routes>
-
-            {/* <LeftSideBar data={{leftSideData}} > */}
-            {/* <LeftSideBarContext.Provider value={{setLeftSideData}}> */}
-              <Routes>
-
-              <Route path="/:feature/:section" element={<FileUpload />} />
-              <Route path="/:feature/:section" element={<FolderData userId={userId} />} />
-              <Route path="/" element={<MyMessage userId={userId} />} />
-              <Route path="/:feature" element={<MyMessage userId={userId} />} />
-              <Route path="/:feature/:section" element={<AllFiles />} />
-              <Route path="*" element={<>404 page</>} />
+              
+              {/* <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/settings" element={<Setting />} />  */}
+           
 
               </Routes>
-              {/* </LeftSideBarContext.Provider> */}
-            {/* </LeftSideBar> */}
           </ChatProvider>
         }
 
@@ -160,3 +165,5 @@ function App() {
 }
 
 export default App
+
+
