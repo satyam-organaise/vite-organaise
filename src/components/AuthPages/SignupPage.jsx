@@ -2,6 +2,7 @@ import {
     Box, Grid, Typography, TextField,
     Button, IconButton, InputAdornment
 } from '@mui/material'
+
 import CircularProgress from '@mui/material/CircularProgress';
 import React, { useEffect, useState } from 'react'
 import organaiseLogo from "../../assets/Logo/organaise-logo.png";
@@ -9,7 +10,7 @@ import loginPageBackgroundImg from "../../assets/BackgroundImages/loginBackGroun
 import forgetPassPageBGImg from "../../assets/BackgroundImages/forgetPasswordBgImg.png"
 import signupPageBgImg from "../../assets/BackgroundImages/signupBackgroundImg.png"
 import otpVerificationBgImg from "../../assets/BackgroundImages/otpVerificationBgImg.png"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import OtpField from 'react-otp-field';
 import { toast } from 'react-toastify';
@@ -22,11 +23,7 @@ import {
 } from "../../api/CognitoApi/CognitoApi";
 import { passwordValidator } from '../../utils/validation';
 import { userCreateAccount, userLoginAccount } from '../../api/InternalApi/OurDevApi';
-import checkboxIcon from '../../assets/BackgroundImages/checkbox.png'
-import GoogleIcon from '../../assets/svg/Google.svg'
-import FacebookIcon from '../../assets/svg/Facebook.svg'
-import AppleIcon from '../../assets/svg/Apple.svg'
-import { List, ListItem, ListItemText } from '@mui/material';
+import { ServiceState } from '../../Context/ServiceProvider';
 
 
 const cssStyle = {
@@ -76,6 +73,7 @@ export const SignupPage = () => {
     const [OtpValue, setOtpValue] = useState('');////otp value store here
     const [showOtpVeriCont, setShowVeriCon] = useState(false);
     /////Store email address
+    const { serviceType, setSeviceType } = ServiceState();
     const [fullName, setFullName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -86,15 +84,20 @@ export const SignupPage = () => {
     const [btnDisabed, setBtnDisabled] = useState(false);
     const [verifyBtnDisable, setVerifyBtnDisabled] = useState(false);
 
+    const navigate = useNavigate();
+
     const { mutateAsync: SignUpFunCall, isLoading: isLoadingSignUpFun } = useMutation(CognitoSignUp);
     const { mutateAsync: SignUpFunCallV1, isLoading: isLoadingSignUpFunV1 } = useMutation(userCreateAccount);
     const createAccount = async (name, email, password) => {
         const userName = email.split('@')[0];
         const userEmail = email;
         const userPassword = password;
-        const response = await SignUpFunCall({ username: userName, email: userEmail, password: userPassword })
+        // const userPhoneNo = phoneNumber;
+        const response = await SignUpFunCall({ username: userName, email: userEmail, password: userPassword})
         if (response.status && response.data.userSub) {
             toast.info("Please check your inbox");
+            setSeviceType('signup')
+            navigate("/otpVerf")
             await userInsertv1(name, email, password);
         } else {
             toast.error(response.error.message);
@@ -102,6 +105,63 @@ export const SignupPage = () => {
 
     }
 
+    // const { mutateAsync: SignUpOtpVerification } = useMutation(SignUpOtpVarify);
+    // const signupVerificationOtp = async (email, getOtp) => {
+    //     setVerifyBtnDisabled(true);
+    //     const userName = email.split('@')[0];
+    //     const otpResponse = await SignUpOtpVerification({ username: userName, userOtp: getOtp });
+    //     if (otpResponse.status) {
+    //         const response = await loginApiCall({ username: userName, password: password });
+    //         if (response.status) {
+    //             toast.success("OTP verified successfully.Please wait we are setup your account.");
+    //             setTimeout(async () => {
+    //                 localStorage.clear();
+    //                 const AgainLoginresponse = await loginApiCall({ username: userName, password: password });
+    //                 if (AgainLoginresponse.status) {
+    //                     userLoginV1(email, password);
+    //                     setVerifyBtnDisabled(false)
+    //                     setTimeout(() => {
+    //                         window.location = "/companyDetail";
+    //                     }, [1000])
+    //                 }
+    //             }, [1000])
+    //         }
+    //     } else {
+    //         toast.error(otpResponse.error.message);
+    //         setVerifyBtnDisabled(false);
+    //     }
+    // }
+
+    const buttonAction = async () => {
+            // if (firstName === "" || lastName === "" || emailAddress === "" || password === "" || confirmPassword === "" || phoneNumber === "") {
+        if (firstName === "" || lastName === "" || emailAddress === "" || password === "" || confirmPassword === "" ) {    
+            toast.error("Please fill all fields.")
+                return null;
+            }
+            if (password !== confirmPassword) {
+                toast.error("Password and confirm password not matched.")
+                return null;
+            }
+            if (!passwordValidator(password) || !passwordValidator(confirmPassword)) {
+                return null;
+            }
+            await createAccount(firstName+lastName, emailAddress, password);
+            // await createAccount(firstName, lastName, emailAddress, password);
+       
+    }
+
+    ////////// When click on the verify button
+    const otpVerifyBtn = async (serviceType) => {
+        await signupVerificationOtp(emailAddress, OtpValue);
+    }
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleToggleConfPassword = () => {
+        setShowConfPass(!showConfPass);
+    }
     return (
         <Box container sx={cssStyle.parent_box}  >
             <Grid container >
@@ -262,11 +322,12 @@ export const SignupPage = () => {
                                     height: "50px", position: "relative",
                                     backgroundColor: "primary",
                                     '&:hover': {
-                                        backgroundColor: '#1c529b' // background color on hover
+                                        backgroundColor: '#1c529b' 
+                                        // background color on hover
                                     }
                                 }}
-                                // disabled={btnDisabed || isLoadingSignUpFun}
-                                // onClick={() => buttonAction(serviceType)}
+                                disabled={btnDisabed || isLoadingSignUpFun}
+                                onClick={() => buttonAction()}
 
                             >
                                

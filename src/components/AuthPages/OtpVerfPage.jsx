@@ -22,11 +22,7 @@ import {
 } from "../../api/CognitoApi/CognitoApi";
 import { passwordValidator } from '../../utils/validation';
 import { userCreateAccount, userLoginAccount } from '../../api/InternalApi/OurDevApi';
-import checkboxIcon from '../../assets/BackgroundImages/checkbox.png'
-import GoogleIcon from '../../assets/svg/Google.svg'
-import FacebookIcon from '../../assets/svg/Facebook.svg'
-import AppleIcon from '../../assets/svg/Apple.svg'
-import { List, ListItem, ListItemText } from '@mui/material';
+import { ServiceState } from '../../Context/ServiceProvider';
 
 const cssStyle = {
     parent_box: {
@@ -68,7 +64,7 @@ const cssStyle = {
     },
 }
 
-const OtpVerfPage = ({ serviceType }) => {
+const OtpVerfPage = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfPass, setShowConfPass] = useState(false);
@@ -86,85 +82,14 @@ const OtpVerfPage = ({ serviceType }) => {
     const [btnDisabed, setBtnDisabled] = useState(false);
     /////// Verify button disaabled until operation not complete
     const [verifyBtnDisable, setVerifyBtnDisabled] = useState(false);
-
+    const { serviceType, setSeviceType } = ServiceState();
+    console.log(serviceType);
 
     ////////Here we are write the calling api react query function and call the login fuction and resend  confermation mail
     const { mutateAsync: loginApiCall } = useMutation(userSignIn);
     const { mutateAsync: loginV1 } = useMutation(userLoginAccount);
     const { mutateAsync: resendVerificationMail } = useMutation(resendConfermationEMail);
-    const loginAccount = async (email, password) => {
-        setBtnDisabled(true);
-        const response = await loginApiCall({ username: email.split("@")[0], password: password });
-        if (response.status) {
-            toast.success("Login successfully");
-            userLoginV1(email, password);
-            setTimeout(() => {
-                setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
-                window.location = "/";
-            }, [1500])
-        } else {
-            ////////user account created but user account not activated//////
-            if (response.error.message === "User is not confirmed.") {
-                setShowVeriCon(true);
-                const mailApiRes = await resendVerificationMail({ username: email.split("@")[0] });
-                if (mailApiRes.status) {
-                    toast.info("Please check your mail inbox.");
-                    setBtnDisabled(false);
-                } else {
-                    toast.error(mailApiRes.error.message);
-                    setBtnDisabled(false);
-                }
-            } else {
-                setBtnDisabled(false)
-                toast.error(response.error.message);
-            }
-        }
-    }
 
-    ///////// when click on the signup button then code run 
-    const { mutateAsync: SignUpFunCall, isLoading: isLoadingSignUpFun } = useMutation(CognitoSignUp);
-    const { mutateAsync: SignUpFunCallV1, isLoading: isLoadingSignUpFunV1 } = useMutation(userCreateAccount);
-    const createAccount = async (name, email, password) => {
-        const userName = email.split('@')[0];
-        const userEmail = email;
-        const userPassword = password;
-        const response = await SignUpFunCall({ username: userName, email: userEmail, password: userPassword })
-        if (response.status && response.data.userSub) {
-            toast.info("Please check your inbox");
-            await userInsertv1(name, email, password);
-        } else {
-            toast.error(response.error.message);
-        }
-
-    }
-    const userInsertv1 = async (name, email, password) => {
-        const createUserDetOject = { name, email, password };
-        try {
-            setShowVeriCon(true);
-            const response = await SignUpFunCallV1(createUserDetOject);
-            if (response.status) {
-                console.log("data created in v1");
-            }
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
-
-    }
-
-    const userLoginV1 = async (email, password) => {
-        try {
-            const response = await loginV1({ email, password });
-            if (response.status) {
-                localStorage.setItem("userInfo", JSON.stringify(response))
-            } else {
-                console.log("User not login in v1");
-            }
-
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
-
-    }
 
     ///////// Signup otp verification/////////
     const { mutateAsync: SignUpOtpVerification } = useMutation(SignUpOtpVarify);
@@ -235,47 +160,7 @@ const OtpVerfPage = ({ serviceType }) => {
         setConfirmPassword("");
     }, [serviceType])
 
-    /////////// when clickk on the button Like -  login , signup , forget password
-    const buttonAction = async (serviceType) => {
-        if (serviceType === "login") {
-            if (emailAddress === "" || password === "") {
-                toast.error("Please fill all fields.")
-                return null;
-            }
-            loginAccount(emailAddress, password);
-        }
-
-        if (serviceType === "signup") {
-            if (firstName === "" || lastName === "" || emailAddress === "" || password === "" || confirmPassword === "") {
-                toast.error("Please fill all fields.")
-                return null;
-            }
-            if (password !== confirmPassword) {
-                toast.error("Password and confirm password not matched.")
-                return null;
-            }
-            if (!passwordValidator(password) || !passwordValidator(confirmPassword)) {
-                return null;
-            }
-            await createAccount(firstName, lastName, emailAddress, password);
-            // await createAccount(firstName, lastName, emailAddress, password);
-        }
-
-        if (serviceType === "forgetPassword") {
-            if (emailAddress === "" || password === "" || confirmPassword === "") {
-                toast.error("Please fill all fields.")
-                return null;
-            }
-            if (password != confirmPassword) {
-                toast.error("Password and confirm password not matched.")
-                return null;
-            }
-            resendOtpInMail(emailAddress);
-        }
-
-    }
-
-    ////////// When click on the verify button
+   
     const otpVerifyBtn = async (serviceType) => {
         if ((OtpValue === "") || (OtpValue.length !== 6)) {
             toast.error("Please enter six digit OTP.");

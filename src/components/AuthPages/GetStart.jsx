@@ -332,7 +332,7 @@ const GetStart = ({ serviceType }) => {
         <Box container sx={cssStyle.parent_box}  >
             <Grid container >
                 <Grid item xs={12} sm={12} md={6} >
-                    <Box container sx={{ ...cssStyle.content_container_box, padding: "6% 5% 10% 20% !important" }}  >
+                    <Box container sx={{ ...cssStyle.content_container_box, padding: "6% 3% 10% 20% !important" }}  >
                         <Box >
                             <img
                                 src={organaiseLogo}
