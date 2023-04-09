@@ -15,7 +15,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  padding:'1.4rem 2rem',
+  padding:'2rem 2rem',
   borderRadius:"6px"
 };
 
@@ -70,50 +70,25 @@ const LogOut = ({handleLogout}) => {
           aria-describedby="modal-modal-description"
         >
             
-          <Box sx={{...style, width: {xs:'100%',sm:350,md:420} }}>
+          <Box sx={{...style, width: {xs:'100%',sm:350,md:520}, }}>
           
-          <IconButton
-            style={{ position: "absolute", top: "3%", right: "4%",boxShadow:'2px 2px 10px rgba(0, 0, 0, 0.2)',outline:'none',
-            cursor: "pointer",
-            color: "#333333",
-            fontSize: "18px",
-            borderRadius: "50%",
-            border: "1px solid #33333342",
-            padding: "2px",
-          }}
-            onClick={() => setOpen(false)}
-          >
-            <CloseIcon sx={{p:0,fontSize:'15px'}}/>
-          </IconButton>
+       
             
-            <Typography id="modal-modal-title" color={'black'} fontSize={'22px'} mb='.5rem'>
-              Log Out
+            <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'}>
+            <Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
+            Are you sure you want to Logout?
             </Typography>
-            
-            <Box  mb={".6rem"} display={'flex'} justifyContent={'space-between'}>
-              <Typography id="modal-modal-title" variant="p" color={'#448DF0'} fontSize={'16px'}>
-                # General
-              </Typography>
-              <Typography  variant="p" color={'#BEBEBE'} fontSize={'14px'}>3 people</Typography>
+            <Typography mt='1rem' width={'95%'} color='#777777' fontWeight={400} id="modal-modal-title" textAlign={'center'} fontSize={'16px'} lineHeight={'148.19%'}>
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+            </Typography>
             </Box>
-  
-            <Box my={".6rem"}>
-                  <OutlinedInput
-                    id="input-with-icon-adornment"
-                    fullWidth
-                    size='small'
-                    placeholder="Search people here..."
-                    startAdornment={<InputAdornment position="start"><SearchIcon sx={{color:'#BEBEBE'}}/></InputAdornment>}
-                  />
-            </Box>
+     
             
-            <Box my='1.2rem'>
-            
-            <IconButton aria-label="add" size="small" sx={{color:'#A9A9A9',border:'1px solid #A9A9A9',borderRadius:'5px',outline:'none !important'}}>
-              <AddIcon fontSize="inherit"/>
-            </IconButton>
-            
-            <Button sx={{p:0,px:1,color:'black',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={handleLogout}>
+            <Box mt='1.2rem' mb='.5rem' display={'flex'} justifyContent={'space-between'}>
+            <Button variant="outlined" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={handleClose} >
+                Cancel
+            </Button>
+            <Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={handleLogout} >
                 Log out
             </Button>
             </Box>

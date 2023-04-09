@@ -143,8 +143,8 @@ function App() {
               <Route path="/files/upload" element={<FileUpload />} />
               <Route path="/files/create-folder" element={<FolderData userId={userId} />} />
               <Route path="/chat" element={<MyMessage userId={userId} />} />
-              <Route path="/account" element={<MyAccount />} />
               <Route path="*" element={<>404 page</>} />
+              {/* <Route path="/account" element={<MyAccount />} /> */}
               {/* <Route path="/" element={<MyMessage userId={userId} />} /> */}
               {/* <Route path="/" element={<Dashboard />} /> */}
               {/* <Route path="/data" element={<Data userId={userId} />} /> */}
