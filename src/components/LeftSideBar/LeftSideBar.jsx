@@ -432,8 +432,8 @@ const LeftSideBar = (props) => {
                    
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
-                    color="primary">Microsoft</Typography>
+                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
+                    color="primary">{comNameSave?.length !== 0 && comNameSave[0]?.companyName}</Typography>
 
                         
                 
@@ -612,10 +612,11 @@ const LeftSideBar = (props) => {
                     {open&&<Box>
 
                     {/* <Box display="flex" justifyContent="center" width={'100%'}>
-                            <Typography
-                                variant="subtitle1"
-                                sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
-                                color="primary">Microsoft</Typography>
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
+                            color="primary">Microsoft
+                        </Typography>
                             
                     </Box> */}
                     <Divider />
@@ -690,6 +691,7 @@ const LeftSideBar = (props) => {
                                         }}
                                     />
                                 </ListItem> */}
+
                                 {
                                     //channelList.length !== 0 && channelList.map((d) =>
                                     chats.length !== 0 && chats.map((d,index) =>
