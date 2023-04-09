@@ -68,7 +68,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   // console.log(ServiceState);
-  const { serviceType, setSeviceType,setContextEmail, setContextPassword } = ServiceState();
+  const { serviceType, setSeviceType, setContextEmail, setContextPassword } = ServiceState();
   // console.log(setSeviceType,setContextEmail, setContextPassword);
 
   ////////Here we are write the calling api react query function and call the login fuction and resend  confermation mail
@@ -97,7 +97,7 @@ const LoginPage = () => {
           setContextEmail(emailAddress);
           setContextPassword(password)
           navigate("/otpVerf")
-          
+
         } else {
           toast.error(mailApiRes.error.message);
           setBtnDisabled(false);
@@ -155,18 +155,18 @@ const LoginPage = () => {
   }
 
   const buttonAction = async () => {
-    
-    if (emailAddress === "" && password === ""){
+
+    if (emailAddress === "" && password === "") {
       toast.error("Please fill all fields")
       return null;
     }
 
-     if (emailAddress === "" ) {
+    if (emailAddress === "") {
       toast.error("Please fill your email")
       return null;
     }
-   
-     if (password === "") {
+
+    if (password === "") {
       toast.error("Please fill your password")
       return null;
     }

@@ -119,33 +119,108 @@ export const SignupPage = () => {
         }
 
     }
-    // const { mutateAsync: SignUpOtpVerification } = useMutation(SignUpOtpVarify);
-    // const signupVerificationOtp = async (email, getOtp) => {
-    //     setVerifyBtnDisabled(true);
-    //     const userName = email.split('@')[0];
-    //     const otpResponse = await SignUpOtpVerification({ username: userName, userOtp: getOtp });
-    //     if (otpResponse.status) {
-    //         const response = await loginApiCall({ username: userName, password: password });
-    //         if (response.status) {
-    //             toast.success("OTP verified successfully.Please wait we are setup your account.");
-    //             setTimeout(async () => {
-    //                 localStorage.clear();
-    //                 const AgainLoginresponse = await loginApiCall({ username: userName, password: password });
-    //                 if (AgainLoginresponse.status) {
-    //                     userLoginV1(email, password);
-    //                     setVerifyBtnDisabled(false)
-    //                     setTimeout(() => {
-    //                         window.location = "/companyDetail";
-    //                     }, [1000])
-    //                 }
-    //             }, [1000])
-    //         }
-    //     } else {
-    //         toast.error(otpResponse.error.message);
-    //         setVerifyBtnDisabled(false);
-    //     }
-    // }
 
+    const { mutateAsync: loginApiCall } = useMutation(userSignIn);
+    const { mutateAsync: loginV1 } = useMutation(userLoginAccount);
+    const { mutateAsync: resendVerificationMail } = useMutation(resendConfermationEMail);
+    const loginAccount = async (email, password) => {
+        setBtnDisabled(true);
+        const response = await loginApiCall({ username: email.split("@")[0], password: password });
+        if (response.status) {
+            toast.success("Login successfully");
+            userLoginV1(email, password);
+            setTimeout(() => {
+                setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
+                window.location = "/chat";
+            }, [1500])
+        } else {
+            ////////user account created but user account not activated//////
+            if (response.error.message === "User is not confirmed.") {
+                setShowVeriCon(true);
+                const mailApiRes = await resendVerificationMail({ username: email.split("@")[0] });
+                if (mailApiRes.status) {
+                    toast.info("Please check your mail inbox.");
+                    setBtnDisabled(false);
+                } else {
+                    toast.error(mailApiRes.error.message);
+                    setBtnDisabled(false);
+                }
+            } else {
+                setBtnDisabled(false)
+                toast.error(response.error.message);
+            }
+        }
+    }
+
+
+    const { mutateAsync: SignUpOtpVerification } = useMutation(SignUpOtpVarify);
+    const signupVerificationOtp = async (email, getOtp) => {
+        setVerifyBtnDisabled(true);
+        const userName = email.split('@')[0];
+        const otpResponse = await SignUpOtpVerification({ username: userName, userOtp: getOtp });
+        if (otpResponse.status) {
+            const response = await loginApiCall({ username: userName, password: password });
+            if (response.status) {
+                toast.success("OTP verified successfully.Please wait we are setup your account.");
+                setTimeout(async () => {
+                    localStorage.clear();
+                    const AgainLoginresponse = await loginApiCall({ username: userName, password: password });
+                    if (AgainLoginresponse.status) {
+                        userLoginV1(email, password);
+                        setVerifyBtnDisabled(false)
+                        setTimeout(() => {
+                            window.location = "/companyDetail";
+                        }, [1000])
+                    }
+                }, [1000])
+            }
+        } else {
+            toast.error(otpResponse.error.message);
+            setVerifyBtnDisabled(false);
+        }
+    }
+
+      const userLoginV1 = async (email, password) => {
+        try {
+            const response = await loginV1({ email, password });
+            if (response.status) {
+                localStorage.setItem("userInfo", JSON.stringify(response))
+            } else {
+                console.log("User not login in v1");
+            }
+
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
+
+    }
+    const { mutateAsync: updatePasswordWithOtp } = useMutation(otpWithResetPassword);
+    const updateNewPassword = async (email, GetOtp, newPassword) => {
+        setVerifyBtnDisabled(true)
+        let userName = email.split('@')[0]
+        const updatePassword = await updatePasswordWithOtp({ username: userName, otp: GetOtp, password: newPassword });
+        if (updatePassword.status) {
+            toast.success("Password update successfullly.Please wait we are redirect in login page.");
+            setTimeout(() => {
+                setVerifyBtnDisabled(false)
+                window.location = "/login";
+            }, [3000])
+        } else {
+            toast.error(updatePassword.error.message);
+            setVerifyBtnDisabled(false)
+        }
+    }
+    const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
+    const resendOtpInMail = async (email) => {
+        const response = await resetPasswordFunCall({ username: email.split("@")[0] });
+        if (response.status) {
+            toast.info("Otp send in your mail please check your mail inbox.");
+            setShowVeriCon(true);
+        } else {
+            toast.error(response.error.message);
+        }
+    } 
+    
     const buttonAction = async () => {
         // if (firstName === "" || lastName === "" || emailAddress === "" || password === "" || confirmPassword === "" || phoneNumber === "") {
         if (firstName === "" || emailAddress === "" || password === "" || confirmPassword === "") {
@@ -209,7 +284,7 @@ export const SignupPage = () => {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6}  display={'flex'} justifyContent={'center'} >
+                <Grid item xs={12} sm={12} md={6} display={'flex'} justifyContent={'center'} >
                     <Grid container xs={8}  >
                         {/* <Box display='flex' gap={2} > */}
 

@@ -106,7 +106,19 @@ const ForgetPage = () => {
 
     }
 
+    const userInsertv1 = async (name, email, password) => {
+        const createUserDetOject = { name, email, password };
+        try {
+            setShowVeriCon(true);
+            const response = await SignUpFunCallV1(createUserDetOject);
+            if (response.status) {
+                console.log("data created in v1");
+            }
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
 
+    }
 
     const buttonAction = async () => {
 

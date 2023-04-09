@@ -6,7 +6,7 @@ const ServiceProvider = ({ children }) => {
     const [serviceType, setSeviceType] = useState("");
     const [contextEmail, setContextEmail] = useState("");
     const [contextPassword, setContextPassword] = useState("");
-    useEffect(()=>{
+    useEffect(() => {
         console.log(serviceType)
         console.log(contextEmail)
     }, [serviceType])

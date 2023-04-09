@@ -94,7 +94,7 @@ const OtpVerfPage = () => {
 
     ///////// Signup otp verification/////////
     const { mutateAsync: SignUpOtpVerification } = useMutation(SignUpOtpVarify);
-    const signupVerificationOtp = async (email, getOtp, passsword) => {
+    const signupVerificationOtp = async (email, getOtp) => {
         console.log(email, 'email');
         console.log(getOtp, "getOtp");
         setVerifyBtnDisabled(true);
@@ -144,9 +144,9 @@ const OtpVerfPage = () => {
     ///////// resend otp 
     const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
     const resendOtpInMail = async (email) => {
-        console.log(email,'1')
+        console.log(email, '1')
         const response = await resetPasswordFunCall({ username: email.split("@")[0] });
-        console.log(response,'resp1');
+        console.log(response, 'resp1');
         if (response.status) {
             toast.info("Otp send in your mail please check your mail inbox.");
             setShowVeriCon(true);
@@ -163,7 +163,7 @@ const OtpVerfPage = () => {
         setVerifyBtnDisabled(true)
         let userName = email.split('@')[0]
         const updatePassword = await updatePasswordWithOtp({ username: userName, otp: GetOtp, password: newPassword });
-       console.log(updatePassword, '2');
+        console.log(updatePassword, '2');
         if (updatePassword.status) {
             toast.success("Password update successfullly.Please wait we are redirect in login page.");
             setTimeout(() => {
@@ -193,7 +193,7 @@ const OtpVerfPage = () => {
             return null;
         }
         if (serviceType === "login") {
-            await signupVerificationOtp(contextEmail, OtpValue);
+            await signupVerificationOtp(contextEmail, OtpValue, contextPassword);
         }
 
         if (serviceType === "signup") {
@@ -253,9 +253,9 @@ const OtpVerfPage = () => {
                             </Grid>
                             <Grid item xs={12} sx={cssStyle.grid_textBox_button} paddingY={3} display='flex' justifyContent='center' alignItems='center'>
                                 <Typography variant="subtitle1" align='center' fontWeight='400' color="#333333">
-                                    Didn’t receive OTP? 
+                                    Didn’t receive OTP?
                                     {
-                                        console.log(contextEmail,'otpMail')
+                                        console.log(contextEmail, 'otpMail')
                                     }
                                 </Typography>
                                 <Button onClick={() => resendOtpInMail(contextEmail)} style={{ fontWeight: 700, color: "#1c529b" }}>
