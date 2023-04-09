@@ -32,8 +32,10 @@ import { SignupPage } from './components/AuthPages/SignupPage';
 import GetStart from './components/AuthPages/GetStart';
 import ForgetPage from './components/AuthPages/ForgetPage';
 import OtpVerfPage from './components/AuthPages/OtpVerfPage';
+import NewPassword from './components/AuthPages/NewPassword';
+
 import ProjectName from './pages/ProjectName';
-import MyAccount from './pages/MyAccount';
+// import MyAccount from './pages/MyAccount';
 
 export const LeftSideBarContext = createContext(null);
 function App() {
@@ -133,6 +135,7 @@ function App() {
               <Route path="/getStart" element={<GetStart serviceType='start' />} />
               <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
               <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
+              <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} />
             </Routes>
           </ServiceProvider>
           :
@@ -143,7 +146,7 @@ function App() {
               <Route path="/files/upload" element={<FileUpload />} />
               <Route path="/files/create-folder" element={<FolderData userId={userId} />} />
               <Route path="/chat" element={<MyMessage userId={userId} />} />
-              <Route path="/account" element={<MyAccount />} />
+              {/* <Route path="/account" element={<MyAccount />} /> */}
               <Route path="*" element={<>404 page</>} />
               {/* <Route path="/" element={<MyMessage userId={userId} />} /> */}
               {/* <Route path="/" element={<Dashboard />} /> */}
@@ -156,7 +159,6 @@ function App() {
 
               {/* <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/settings" element={<Setting />} />  */}
-
 
             </Routes>
           </ChatProvider>

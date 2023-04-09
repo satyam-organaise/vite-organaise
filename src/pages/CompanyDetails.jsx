@@ -17,7 +17,6 @@ const CompanyDetails = () => {
         'Invite Team',
         'Project Name',
     ];
-
     const [userId, setUserID] = useState("")
 
 
@@ -38,16 +37,16 @@ const CompanyDetails = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
-    //     setUserID(UserId);
-    // }, [])
+    useEffect(() => {
+        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        setUserID(UserId);
+    }, [])
 
-    // useEffect(() => {
-    //     if (userId !== "") {
-    //         getComFun(userId);
-    //     }
-    // }, [userId])
+    useEffect(() => {
+        if (userId !== "") {
+            getComFun(userId);
+        }
+    }, [userId])
 
 
 
@@ -74,7 +73,6 @@ const CompanyDetails = () => {
             console.log(error);
             toast.error(error.response.message);
         }
-
     }
 
     return (
@@ -99,7 +97,7 @@ const CompanyDetails = () => {
                                 ))}
                             </Stepper>
                         </Box>
-                        
+
                         <Box container mt={2} width={"100%"}>
                             <Typography textAlign={'center'} variant="h4" fontWeight={"600"}>Please enter your Company name</Typography>
                         </Box>

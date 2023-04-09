@@ -44,7 +44,7 @@ const cssStyle = {
     },
     btn_textfield: {
         width: "100%",
-        marginBottom: "3px",
+        marginBottom: "5px",
         '& .MuiInputLabel-root': {
             color: '#1c529b', // default label color
         },
@@ -66,14 +66,14 @@ const cssStyle = {
     },
 }
 
-export const SignupPage = () => {
+const NewPassword = () => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfPass, setShowConfPass] = useState(false);
     const [OtpValue, setOtpValue] = useState('');////otp value store here
     const [showOtpVeriCont, setShowVeriCon] = useState(false);
     /////Store email address
-    const { serviceType, setSeviceType, setContextEmail, setContextPassword } = ServiceState();
+    const { serviceType, setSeviceType } = ServiceState();
     const [fullName, setFullName] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -97,8 +97,6 @@ export const SignupPage = () => {
         if (response.status && response.data.userSub) {
             toast.info("Please check your inbox");
             setSeviceType('signup')
-            setContextEmail(emailAddress);
-            setContextPassword(password)
             navigate("/otpVerf")
             await userInsertv1(name, email, password);
         } else {
@@ -106,45 +104,36 @@ export const SignupPage = () => {
         }
 
     }
-    const userInsertv1 = async (name, email, password) => {
-        const createUserDetOject = { name, email, password };
-        try {
-            setShowVeriCon(true);
-            const response = await SignUpFunCallV1(createUserDetOject);
-            if (response.status) {
-                console.log("data created in v1");
-            }
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
 
+       const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
+    const resendOtpInMail = async (email) => {
+        const response = await resetPasswordFunCall({ username: email.split("@")[0] });
+        if (response.status) {
+            toast.info("Otp send in your mail please check your mail inbox.");
+            setShowVeriCon(true);
+        } else {
+            toast.error(response.error.message);
+        }
     }
-    // const { mutateAsync: SignUpOtpVerification } = useMutation(SignUpOtpVarify);
-    // const signupVerificationOtp = async (email, getOtp) => {
-    //     setVerifyBtnDisabled(true);
-    //     const userName = email.split('@')[0];
-    //     const otpResponse = await SignUpOtpVerification({ username: userName, userOtp: getOtp });
-    //     if (otpResponse.status) {
-    //         const response = await loginApiCall({ username: userName, password: password });
-    //         if (response.status) {
-    //             toast.success("OTP verified successfully.Please wait we are setup your account.");
-    //             setTimeout(async () => {
-    //                 localStorage.clear();
-    //                 const AgainLoginresponse = await loginApiCall({ username: userName, password: password });
-    //                 if (AgainLoginresponse.status) {
-    //                     userLoginV1(email, password);
-    //                     setVerifyBtnDisabled(false)
-    //                     setTimeout(() => {
-    //                         window.location = "/companyDetail";
-    //                     }, [1000])
-    //                 }
-    //             }, [1000])
-    //         }
-    //     } else {
-    //         toast.error(otpResponse.error.message);
-    //         setVerifyBtnDisabled(false);
-    //     }
-    // }
+
+
+    //////// change password api call or Reset password code here when user in forget passsword page 
+    const { mutateAsync: updatePasswordWithOtp } = useMutation(otpWithResetPassword);
+    const updateNewPassword = async (email, GetOtp, newPassword) => {
+        setVerifyBtnDisabled(true)
+        let userName = email.split('@')[0]
+        const updatePassword = await updatePasswordWithOtp({ username: userName, otp: GetOtp, password: newPassword });
+        if (updatePassword.status) {
+            toast.success("Password update successfullly.Please wait we are redirect in login page.");
+            setTimeout(() => {
+                setVerifyBtnDisabled(false)
+                window.location = "/login";
+            }, [3000])
+        } else {
+            toast.error(updatePassword.error.message);
+            setVerifyBtnDisabled(false)
+        }
+    }
 
     const buttonAction = async () => {
         // if (firstName === "" || lastName === "" || emailAddress === "" || password === "" || confirmPassword === "" || phoneNumber === "") {
@@ -166,24 +155,7 @@ export const SignupPage = () => {
 
     ////////// When click on the verify button
     const otpVerifyBtn = async (serviceType) => {
-        if ((OtpValue === "") || (OtpValue.length !== 6)) {
-            toast.error("Please enter six digit OTP.");
-            return null;
-        }
-        if (serviceType === "login") {
-            await signupVerificationOtp(emailAddress, OtpValue);
-        }
-
-        if (serviceType === "signup") {
-            await signupVerificationOtp(emailAddress, OtpValue);
-        }
-
-        if (serviceType === "forgetPassword") {
-            updateNewPassword(emailAddress, OtpValue, password)
-        }
-        if (serviceType === "forgetPassword") {
-            resendOtpInMail(emailAddress)
-        }
+        await signupVerificationOtp(emailAddress, OtpValue);
     }
 
     const handleTogglePassword = () => {
@@ -209,7 +181,7 @@ export const SignupPage = () => {
                         </Box>
                     </Box>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6}  display={'flex'} justifyContent={'center'} >
+                <Grid item xs={12} sm={12} md={6} display={'flex'} justifyContent={'center'} >
                     <Grid container xs={8}  >
                         {/* <Box display='flex' gap={2} > */}
 
@@ -217,46 +189,11 @@ export const SignupPage = () => {
 
                             <Box paddingBottom={2}>
                                 <Typography variant="h4" fontWeight='600' color="#333333">
-                                    Signup Account
+                                    Reset Password
                                 </Typography>
                             </Box>
-
-                            <TextField
-                                id="signup-name-user"
-                                label="First Name"
-                                variant='outlined'
-                                type="text"
-                                sx={cssStyle.btn_textfield}
-                                value={firstName ? firstName : ""}
-                                onChange={(e) => setFirstName(e?.target?.value)}
-                            />
                         </Grid>
 
-                        {/* <Grid item xs={6} sx={cssStyle.grid_textBox_button}>
-                                    <TextField
-                                        id="signup-name-user"
-                                        label="Last Name"
-                                        variant='outlined'
-                                        type="text"
-                                        sx={cssStyle.btn_textfield}
-                                        value={lastName ? lastName : ""}
-                                    onChange={(e) => setLastName(e?.target?.value)}
-                                    />
-                                </Grid> */}
-
-                        {/* </Box> */}
-
-                        <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
-                            {/* <TextField
-                                    id="login-signup-forgetPassword-email"
-                                    label="Phone Number"
-                                    variant='outlined'
-                                    type="number"
-                                    sx={cssStyle.btn_textfield}
-                                    value={phoneNumber ? phoneNumber : ""}
-                                    onChange={(e) => setPhoneNumber(e?.target?.value)}
-                                /> */}
-                        </Grid>
                         <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
                             <TextField
                                 id="login-signup-forgetPassword-email"
@@ -341,14 +278,6 @@ export const SignupPage = () => {
 
                         </Grid>
 
-                        <Grid item xs={12} gap={2} paddingBottom={1}>
-                            <Typography fontWeight='bold' paddingBottom={1} >Password must have</Typography>
-                            <Typography as='li' color='red'>At least 8 characters </Typography>
-                            <Typography as='li' color='red'>At least 1 lestter (a,b,c...)</Typography>
-                            <Typography as='li' color='red'>At least 1 number (1,2,3...)</Typography>
-                            <Typography as='li' color='red'>Both uppercase & lowercase characters</Typography>
-                        </Grid>
-
                         <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
                             <Button
                                 variant="contained"
@@ -361,7 +290,7 @@ export const SignupPage = () => {
                                         // background color on hover
                                     }
                                 }}
-                                disabled={btnDisabed || isLoadingSignUpFun}
+                                disabled={btnDisabed || resetPasswordFunCall}
                                 onClick={() => buttonAction()}
 
                             >
@@ -377,7 +306,7 @@ export const SignupPage = () => {
                                         color: "primary"
                                     }}
                                 />
-                                Create Account
+                                Change Password 
                             </Button>
 
                         </Grid>
@@ -387,3 +316,4 @@ export const SignupPage = () => {
         </Box >
     )
 }
+export default NewPassword;

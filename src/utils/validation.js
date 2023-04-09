@@ -8,3 +8,4 @@ export const passwordValidator = (pass_word) => {
     }
     return true;
 }
+
