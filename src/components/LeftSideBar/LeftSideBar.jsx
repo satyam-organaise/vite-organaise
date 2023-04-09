@@ -419,19 +419,19 @@ const LeftSideBar = (props) => {
                             <Box display={'flex'} width={drawerWidth && drawerWidth} alignItems={'center'} justifyContent={'space-between'} >
 
 
-                                <CardMedia
-                                    className='blog-img'
-                                    component="img"
-                                    image={oLogo}
-                                    alt="Image"
-                                    sx={{ height: '40px', width: '40px' }}
-                                    onClick={handleDrawerOpen}
-                                />
-
-                                <Typography
-                                    variant="subtitle1"
-                                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75, color: '#646464' }}
-                                    color="primary">Microsoft</Typography>
+                    <CardMedia
+                    className='blog-img'
+                    component="img"
+                    image={oLogo}
+                    alt="Image"
+                    sx={{ height:'40px',width:'40px' }}
+                    onClick={handleDrawerOpen}
+                    />
+                   
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
+                    color="primary">{comNameSave?.length !== 0 && comNameSave[0]?.companyName}</Typography>
 
 
 
@@ -609,11 +609,12 @@ const LeftSideBar = (props) => {
 
                     {open && <Box>
 
-                        {/* <Box display="flex" justifyContent="center" width={'100%'}>
-                            <Typography
-                                variant="subtitle1"
-                                sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
-                                color="primary">Microsoft</Typography>
+                    {/* <Box display="flex" justifyContent="center" width={'100%'}>
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
+                            color="primary">Microsoft
+                        </Typography>
                             
                     </Box> */}
                         <Divider />
@@ -688,96 +689,98 @@ const LeftSideBar = (props) => {
                                         }}
                                     />
                                 </ListItem> */}
-                                                {
-                                                    //channelList.length !== 0 && channelList.map((d) =>
-                                                    chats.length !== 0 && chats.map((d, index) =>
-                                                        <ListItem
-                                                            key={index}
-                                                            sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
-                                                            onClick={() =>
-                                                                (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d), setActiveChatId(d._id), setActivePage("groups"))
-                                                            }
-                                                        >
-                                                            <ListItemText
-                                                                primary={
-                                                                    //    d.Name.charAt(0).toUpperCase() + d.Name.slice(1)
-                                                                    Object.keys(d).length > 0 &&
-                                                                    (d?.isGroupChat && (`# ${d?.chatName}`))
-                                                                }
-                                                                sx={{
-                                                                    opacity: open ? 1 : 0, marginTop: "4px",
-                                                                    marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
-                                                                }}
-                                                            />
-                                                        </ListItem>
-                                                    )
+
+                                {
+                                    //channelList.length !== 0 && channelList.map((d) =>
+                                    chats.length !== 0 && chats.map((d,index) =>
+                                        <ListItem
+                                        key={index}
+                                            sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                            onClick={() =>
+                                                (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d),setActiveChatId(d._id),setActivePage("groups"))
+                                            }
+                                        >
+                                            <ListItemText
+                                                primary={
+                                                    //    d.Name.charAt(0).toUpperCase() + d.Name.slice(1)
+                                                    Object.keys(d).length > 0 &&
+                                                    (d?.isGroupChat && (`# ${d?.chatName}`))
                                                 }
-                                                <ListItem
-                                                    sx={{
-                                                        paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: "58px", cursor: "pointer"
-                                                    }}
-                                                    onClick={() => modelOpens()}
-                                                >
-                                                    <AddBoxOutlinedIcon
-                                                        sx={{
-                                                            fontSize: "13px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
-                                                        }} />
-                                                    <ListItemText
-                                                        primary={`Create Group`}
-                                                        sx={{
-                                                            opacity: open ? 1 : 0,
-                                                            marginTop: "4px", marginBottom: "0px",
-                                                            "& span": { fontSize: "13px", fontWeight: 500, color: "#333333b5" }
-                                                        }}
-                                                    />
-                                                </ListItem>
-                                            </List>
-                                        </Box>
-                                    </Box>
-                                    <Box id="single_user_box">
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
-                                            <Button
-                                                id="single-user-inbox-create-button"
-                                                aria-controls={open ? 'basic-menu' : undefined}
-                                                aria-haspopup="true"
-                                                aria-expanded={open ? 'true' : undefined}
-                                                onClick={() => { setActivePage("inbox"), setActiveChatId("") }}
-                                                // onClick={() => {navigatePage(""),setActivePage("inbox")}}
-                                                variant={activePage === "inbox" ? "contained" : "text"}
-                                                size='small'
                                                 sx={{
-                                                    width: "100%", justifyContent: 'flex-start',
-                                                    color: activePage === "inbox" ? "#ffffff" : "#646464"
+                                                    opacity: open ? 1 : 0, marginTop: "4px",
+                                                    marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId==d?._id?700:500, color: activeChatId==d?._id?"#3976C9":"#333333b5" }
                                                 }}
-                                                endIcon={<KeyboardArrowDownIcon sx={{ position: "absolute", right: "10px", top: "8px" }} />}
-                                            >
-                                                <GroupAddIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
-                                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px", }}>
-                                                    Inbox
-                                                </span>
-                                            </Button>
-                                        </Box>
-                                        <Box>
-                                            <List sx={{ padding: "0px" }} >
-                                                {chats.length !== 0 && chats.map((d, index) =>
-
-                                                    <ListItem
-                                                        key={index}
-                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
-                                                        onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d), setActiveChatId(d?._id), setActivePage("inbox") }
-                                                        }
-                                                    >
-                                                        {
-                                                            Object.keys(d).length > 0 && (
-                                                                !d?.isGroupChat && <Avatar
-                                                                    alt="Remy Sharp"
-                                                                    src="https://images.pexels.com/photos/839633/pexels-photo-839633.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                                                                    sx={{ width: 12, height: 12, mr: '8px' }}
-                                                                />
-                                                            )
-
-                                                        }
+                                            />
+                                        </ListItem>
+                                    )
+                                }
+                                <ListItem
+                                    sx={{
+                                        paddingTop: "0px", paddingBottom: "0px",
+                                        paddingLeft: "58px", cursor: "pointer"
+                                    }}
+                                    onClick={() => modelOpens()}
+                                >
+                                    <AddBoxOutlinedIcon
+                                        sx={{
+                                            fontSize: "13px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
+                                        }} />
+                                    <ListItemText
+                                        primary={`Create Group`}
+                                        sx={{
+                                            opacity: open ? 1 : 0,
+                                            marginTop: "4px", marginBottom: "0px",
+                                            "& span": { fontSize: "13px", fontWeight: 500, color: "#333333b5" }
+                                        }}
+                                    />
+                                </ListItem>
+                            </List>
+                        </Box>
+                    </Box>
+                    <Box id="single_user_box">
+                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                            <Button
+                                id="single-user-inbox-create-button"
+                                aria-controls={open ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={open ? 'true' : undefined}
+                                onClick={() => {setActivePage("inbox"),setActiveChatId("")}}
+                                // onClick={() => {navigatePage(""),setActivePage("inbox")}}
+                                variant={activePage === "inbox" ? "contained" : "text"}
+                                size='small'
+                                sx={{
+                                    width: "100%", justifyContent: 'flex-start',
+                                    color: activePage === "inbox" ? "#ffffff" : "#646464"
+                                }}
+                                endIcon={<KeyboardArrowDownIcon sx={{ position: "absolute", right: "10px", top: "8px" }} />}
+                            >
+                                <GroupAddIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
+                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px", }}>
+                                    Inbox
+                                </span>
+                            </Button>
+                        </Box>
+                        <Box>
+                            <List sx={{ padding: "0px" }} >
+                                {chats.length !== 0 && chats.map((d,index) =>
+                                
+                                    <ListItem
+                                        key={index}
+                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                        onClick={() =>
+                                            {location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d),setActiveChatId(d?._id),setActivePage("inbox")}
+                                        }
+                                    >
+                                        {
+                                            Object.keys(d).length > 0 &&(
+                                                !d?.isGroupChat &&<Avatar
+                                                alt="Remy Sharp"
+                                                src="https://images.pexels.com/photos/839633/pexels-photo-839633.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                                sx={{ width: 12, height: 12,mr:'8px' }}
+                                                />
+                                            )
+                                            
+                                        }
 
                                                         <ListItemText
                                                             primary={
