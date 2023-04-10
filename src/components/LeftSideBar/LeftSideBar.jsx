@@ -76,7 +76,7 @@ const closedMixin = (theme) => ({
     marginLeft:'5rem',
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(3)} + 0px)`,
+        width: `calc(${theme.spacing(3.2)} + 0px)`,
     },
 });
 
@@ -418,7 +418,7 @@ const LeftSideBar = (props) => {
             {
                 <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Box display={'flex'} width={drawerWidth&&drawerWidth} alignItems={'center'} justifyContent={'space-between'} >
+                            <Box display={'flex'} width={drawerWidth && drawerWidth} alignItems={'center'} justifyContent={'space-between'} >
                     
 
                     <CardMedia
@@ -655,7 +655,7 @@ const LeftSideBar = (props) => {
                                 aria-controls={open ? 'basic-menu' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
-                                onClick={() => {setActivePage("groups"),setActiveChatId("")}}
+                                onClick={() => {setActivePage("groups"); setActiveChatId("");}}
                                 // onClick={() => navigatePage("")}
                                 variant={activePage === "groups" ? "contained" : "text"}
                                 size='small'
@@ -698,8 +698,12 @@ const LeftSideBar = (props) => {
                                         <ListItem
                                         key={index}
                                             sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                            // onClick={() =>
+                                            //     (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d._id);setActivePage("groups");)
+                                            // }
+
                                             onClick={() =>
-                                                (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d),setActiveChatId(d._id),setActivePage("groups"))
+                                                {location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d?._id);setActivePage("groups") }
                                             }
                                         >
                                             <ListItemText
@@ -746,7 +750,7 @@ const LeftSideBar = (props) => {
                                 aria-controls={open ? 'basic-menu' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={open ? 'true' : undefined}
-                                onClick={() => {setActivePage("inbox"),setActiveChatId("")}}
+                                onClick={() => {setActivePage("inbox");setActiveChatId("");}}
                                 // onClick={() => {navigatePage(""),setActivePage("inbox")}}
                                 variant={activePage === "inbox" ? "contained" : "text"}
                                 size='small'
@@ -770,7 +774,7 @@ const LeftSideBar = (props) => {
                                         key={index}
                                         sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
                                         onClick={() =>
-                                            {location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d),setActiveChatId(d?._id),setActivePage("inbox")}
+                                            {location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d?._id);setActivePage("inbox") }
                                         }
                                     >
                                         {

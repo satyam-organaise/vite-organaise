@@ -272,7 +272,7 @@ const FolderData = () => {
                                                 }}
                                                 onClick={() => ActionDelFolAndAddFile("deleteFolder", d)}
                                             /> */}
-                                            <DeleteModal handleDelete={ActionDelFolAndAddFile} value={d} type='folder'/>
+                                            <DeleteModal handleDelete={deleteFolder} value={d._id} type='folder'/>
                                             <NoteAddIcon
                                                 sx={{
                                                     fontSize: "18px",
