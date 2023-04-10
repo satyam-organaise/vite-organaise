@@ -72,7 +72,7 @@ const DeleteModal = ({handleDelete,value,type=""}) => {
             
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'}>
             <Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
-            Are you sure do u want to delete this {type==='folder'?"folder":"file"} ?
+            Are you sure do you want to delete this {type==='folder'?"folder":"file"} ?
             </Typography>
             <Typography mt='1rem' width={'95%'} color='#777777' fontWeight={400} id="modal-modal-title" textAlign={'center'} fontSize={'16px'} lineHeight={'148.19%'}>
             It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
@@ -84,9 +84,18 @@ const DeleteModal = ({handleDelete,value,type=""}) => {
             <Button variant="outlined" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={handleClose} >
                 Cancel
             </Button>
-            <Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{type==='folder'?(handleDelete("deleteFolder",value)&&handleClose()):(handleDelete(value)&&handleClose())}}>
-                Delete
-            </Button>
+            
+            {
+              type==='folder'?<Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleDelete(value);handleClose();}}>
+              Delete
+          </Button>:
+            <Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleDelete(value);handleClose();}}>
+            Delete
+          </Button>
+            }
+            
+            
+            
             </Box>
           
   

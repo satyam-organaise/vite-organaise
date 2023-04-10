@@ -32,7 +32,7 @@ import { SignupPage } from './components/AuthPages/SignupPage';
 import GetStart from './components/AuthPages/GetStart';
 import ForgetPage from './components/AuthPages/ForgetPage';
 import OtpVerfPage from './components/AuthPages/OtpVerfPage';
-import NewPassword from './components/AuthPages/NewPassword';
+// import NewPassword from './components/AuthPages/NewPassword';
 
 import ProjectName from './pages/ProjectName';
 // import MyAccount from './pages/MyAccount';
@@ -134,7 +134,7 @@ function App() {
                             <Route path="/getStart" element={<GetStart serviceType='start' />} />
                             <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
                             <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
-                            <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} />
+                            {/* <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} /> */}
                         </Routes>
                     </ServiceProvider>
                     :

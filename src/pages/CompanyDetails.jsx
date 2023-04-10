@@ -6,7 +6,7 @@ import { getCompanyName, postCompannyName } from '../api/InternalApi/OurDevApi';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate} from "react-router-dom"
 
 
 import organaiseLogo from "../assets/Logo/organaise-logo.png";
@@ -17,9 +17,8 @@ const CompanyDetails = () => {
         'Invite Team',
         'Project Name',
     ];
-
+    const navigate=useNavigate()
     const [userId, setUserID] = useState("")
-    const navigate = useNavigate();
 
 
     const [companyName, setCompanyName] = useState("");
@@ -29,7 +28,7 @@ const CompanyDetails = () => {
             const responseGetCom = await getCompanyName(subUserId);
             if (responseGetCom.status) {
                 if (responseGetCom.data.length > 0) {
-                    window.location.href = "/"
+                    window.location.href = "/chat"
                 }
             } else {
                 toast.error(responseGetCom.message);
@@ -39,16 +38,16 @@ const CompanyDetails = () => {
         }
     }
 
-    useEffect(() => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
-        setUserID(UserId);
-    }, [])
+    // useEffect(() => {
+    //     const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+    //     setUserID(UserId);
+    // }, [])
 
-    useEffect(() => {
-        if (userId !== "") {
-            getComFun(userId);
-        }
-    }, [userId])
+    // useEffect(() => {
+    //     if (userId !== "") {
+    //         getComFun(userId);
+    //     }
+    // }, [userId])
 
 
 
@@ -66,7 +65,7 @@ const CompanyDetails = () => {
             if (response.status) {
                 toast.success(response.message);
                 setTimeout(() => {
-                    window.location = "/chat";
+                    // window.location = "/";
                     navigate("/chat")
                 }, [500])
             } else {
@@ -78,7 +77,6 @@ const CompanyDetails = () => {
         }
 
     }
-
 
     return (
         <>
@@ -102,7 +100,7 @@ const CompanyDetails = () => {
                                 ))}
                             </Stepper>
                         </Box>
-
+                        
                         <Box container mt={2} width={"100%"}>
                             <Typography textAlign={'center'} variant="h4" fontWeight={"600"}>Please enter your Company name</Typography>
                         </Box>
