@@ -24,11 +24,12 @@ const CompanyDetails = () => {
     const [companyName, setCompanyName] = useState("");
     /////// get Company data
     const getComFun = async (subUserId) => {
+        console.log(subUserId)
         try {
             const responseGetCom = await getCompanyName(subUserId);
             if (responseGetCom.status) {
                 if (responseGetCom.data.length > 0) {
-                    window.location.href = "/chat"
+                    navigate("/chat")
                 }
             } else {
                 toast.error(responseGetCom.message);
@@ -38,16 +39,16 @@ const CompanyDetails = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
-    //     setUserID(UserId);
-    // }, [])
+    useEffect(() => {
+        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        setUserID(UserId);
+    }, [])
 
-    // useEffect(() => {
-    //     if (userId !== "") {
-    //         getComFun(userId);
-    //     }
-    // }, [userId])
+    useEffect(() => {
+        if (userId !== "") {
+            getComFun(userId);
+        }
+    }, [userId])
 
 
 

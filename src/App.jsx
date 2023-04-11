@@ -136,12 +136,12 @@ function App() {
                             <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
                             {/* <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} /> */}
                         </Routes>
+                            <Route path="/companyDetail" element={<CompanyDetails />} />
                     </ServiceProvider>
                     :
                     <ChatProvider>
                         <Routes>
 
-                            <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
                             <Route path="/files/create-folder" element={<FolderData userId={userId} />} />
