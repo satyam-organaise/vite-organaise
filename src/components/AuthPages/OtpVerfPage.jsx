@@ -117,7 +117,7 @@ const OtpVerfPage = () => {
                         if (AgainLoginresponse.status == true) {
                             // userLoginV1(email, password);
                             localStorage.setItem("token", AgainLoginresponse?.token)
-                            localStorage.setItem("userId", AgainLoginresponse?._id)
+                            localStorage.setItem("userInfo", AgainLoginresponse?._id)
                             setVerifyBtnDisabled(false)
                             setTimeout(() => {
                                 // window.location = "/companyDetail";
@@ -170,20 +170,6 @@ const OtpVerfPage = () => {
     //     }
     // }
 
-    const userLoginV1 = async (email, password) => {
-        try {
-            const response = await loginV1({ email, password });
-            if (response.status) {
-                localStorage.setItem("userInfo", JSON.stringify(response))
-            } else {
-                console.log("User not login in v1");
-            }
-
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
-
-    }
     ///////// resend otp 
     const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
     const resendOtpInMail = async (email) => {
@@ -200,24 +186,24 @@ const OtpVerfPage = () => {
 
 
     //////// change password api call or Reset password code here when user in forget passsword page 
-    const { mutateAsync: updatePasswordWithOtp } = useMutation(otpWithResetPassword);
-    const updateNewPassword = async (email, GetOtp, newPassword) => {
-        console.log(email, GetOtp, newPassword, 'email, getop');
-        setVerifyBtnDisabled(true)
-        let userName = email.split('@')[0]
-        const updatePassword = await updatePasswordWithOtp({ username: userName, otp: GetOtp, password: newPassword });
-        console.log(updatePassword, '2');
-        if (updatePassword.status) {
-            toast.success("Password update successfullly.Please wait we are redirect in login page.");
-            setTimeout(() => {
-                setVerifyBtnDisabled(false)
-                window.location = "/login";
-            }, [3000])
-        } else {
-            toast.error(updatePassword.error.message);
-            setVerifyBtnDisabled(false)
-        }
-    }
+    // const { mutateAsync: updatePasswordWithOtp } = useMutation(otpWithResetPassword);
+    // const updateNewPassword = async (email, GetOtp, newPassword) => {
+    //     console.log(email, GetOtp, newPassword, 'email, getop');
+    //     setVerifyBtnDisabled(true)
+    //     let userName = email.split('@')[0]
+    //     const updatePassword = await updatePasswordWithOtp({ username: userName, otp: GetOtp, password: newPassword });
+    //     console.log(updatePassword, '2');
+    //     if (updatePassword.status) {
+    //         toast.success("Password update successfullly.Please wait we are redirect in login page.");
+    //         setTimeout(() => {
+    //             setVerifyBtnDisabled(false)
+    //             window.location = "/login";
+    //         }, [3000])
+    //     } else {
+    //         toast.error(updatePassword.error.message);
+    //         setVerifyBtnDisabled(false)
+    //     }
+    // }
 
 
     const otpVerifyBtn = async (serviceType) => {
@@ -231,9 +217,9 @@ const OtpVerfPage = () => {
             return null;
         }
 
-        if (serviceType === "forgetPassword") {
-            updateNewPassword(contextEmail, OtpValue, contextPassword)
-        }
+        // if (serviceType === "forgetPassword") {
+        //     updateNewPassword(contextEmail, OtpValue, contextPassword)
+        // }
     }
 
 

@@ -57,6 +57,7 @@ const DeleteModal = ({handleDelete,value,type=""}) => {
             }}
             onClick={handleOpen}
         /> 
+        {/* <Typography onClick={handleOpen}>Delete</Typography> */}
 
         
         <Modal

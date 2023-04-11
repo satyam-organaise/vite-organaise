@@ -56,12 +56,30 @@ export const userLoginAccount = async (getData) => {
     return response.data
 }
 
+export const ForgetEmailOtp = async (getData) => {
+    const response = await axios.post(`sendOtpForgetPassword`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+
+
 ////////-----------------------------//////////
 //////// resend email our new login ///////////
 ///////-----------------------------///////////
 
 export const resendVerification = async (getData) => {
     const response = await axios.post(`resendVeriCode`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+export const forgetPasswordVerify = async (getData) => {
+    const response = await axios.post(`forgetPasswordChange`, getData, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
@@ -156,7 +174,7 @@ export const postCompannyName = async (getData) => {
 }
 
 export const getCompanyName = async (userID) => {
-    const response = await axios.get(`/createCompany?userId=${userID}`);
+    const response = await axios.get(`v2/company/?${userID}`);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
@@ -173,7 +191,7 @@ export const removeFileApi = async (getData) => {
 
 ///////delete file
 export const deleteFileApi = async (getData) => {
-    const response = await axios.delete(`/deleteFile`, { data: getData }, headerData);
+    const response = await axios.delete(`v2/file/deleteFile`, { data: getData }, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }

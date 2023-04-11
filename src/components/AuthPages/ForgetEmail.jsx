@@ -15,7 +15,7 @@ import {
     CognitoSignUp,
     otpWithResetPassword, resetPasswordFun
 } from "../../api/CognitoApi/CognitoApi";
-import { userCreateAccount, userLoginAccount } from '../../api/InternalApi/OurDevApi';
+import { userCreateAccount, ForgetEmailOtp } from '../../api/InternalApi/OurDevApi';
 import { ServiceState } from '../../Context/ServiceProvider';
 import { useNavigate, Link } from 'react-router-dom';
 const cssStyle = {
@@ -59,66 +59,29 @@ const cssStyle = {
 }
 
 const ForgetEmail = () => {
-
-
-    const [showConfPass, setShowConfPass] = useState(false);
-    const [showOtpVeriCont, setShowVeriCon] = useState(false);
     /////Store email address
     const [emailAddress, setEmailAddress] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [password, setPassword] = useState("");
     /////// btn disabled until operation  not completed
     const [btnDisabed, setBtnDisabled] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    /////// Verify button disaabled until operation not complete
     const [verifyBtnDisable, setVerifyBtnDisabled] = useState(false);
 
-    const { serviceType, setSeviceType, setContextEmail, setContextPassword } = ServiceState();
+    const { serviceType, setSeviceType, setContextEmail, setContextOtp } = ServiceState();
     const navigate = useNavigate();
-    const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
-    const resendOtpInMail = async (email) => {
-        const response = await resetPasswordFunCall({ username: email.split("@")[0] });
-        if (response.status) {
+    const { mutateAsync: ForgetEmailApi, isLoading: ForgetEmailOtpIsLoading } = useMutation(ForgetEmailOtp);
+    
+    const forgetOtpInMail = async (email) => {
+        const response = await ForgetEmailApi({ email });
+        if (response.statusCode==200) {
             toast.info("Otp send in your mail please check your mail inbox.");
-            setShowVeriCon(true);
             setSeviceType('forgetPassword');
             setContextEmail(emailAddress);
-            setContextPassword(password)
-            navigate("/otpVerf")
+            navigate("/forget-password")
+            console.log("here")
         } else {
-            toast.error(response.error.message);
+            toast.error(response?.error?.message||"Something wrong in forget email");
         }
     }
 
-    const { mutateAsync: SignUpFunCall, isLoading: isLoadingSignUpFun } = useMutation(CognitoSignUp);
-    const { mutateAsync: SignUpFunCallV1, isLoading: isLoadingSignUpFunV1 } = useMutation(userCreateAccount);
-    const createAccount = async (name, email, password) => {
-        const userName = email.split('@')[0];
-        const userEmail = email;
-        const userPassword = password;
-        const response = await SignUpFunCall({ username: userName, email: userEmail, password: userPassword })
-        if (response.status && response.data.userSub) {
-            toast.info("Please check your inbox");
-            await userInsertv1(email);
-        } else {
-            toast.error(response.error.message);
-        }
-
-    }
-
-    const userInsertv1 = async (name, email, password) => {
-        const createUserDetOject = { name, email, password };
-        try {
-            setShowVeriCon(true);
-            const response = await SignUpFunCallV1(createUserDetOject);
-            if (response.status) {
-                console.log("data created in v1");
-            }
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
-
-    }
 
     const buttonAction = async () => {
 
@@ -127,16 +90,10 @@ const ForgetEmail = () => {
             return null;
         }
 
-        resendOtpInMail(emailAddress);
+        forgetOtpInMail(emailAddress);
     }
 
-    const handleTogglePassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handleToggleConfPassword = () => {
-        setShowConfPass(!showConfPass);
-    }
+   
 
     return (
         <Box container  >
@@ -193,11 +150,11 @@ const ForgetEmail = () => {
                                                 backgroundColor: '#1c529b' // background color on hover
                                             }
                                         }}
-                                        disabled={btnDisabed || isLoadingSignUpFun}
+                                        disabled={ForgetEmailOtpIsLoading}
                                         onClick={() => buttonAction()}
 
                                     >
-                                        {(btnDisabed || isLoadingSignUpFun) && (
+                                        {(ForgetEmailOtpIsLoading) && (
                                             <CircularProgress
                                                 size={24}
                                                 style={{

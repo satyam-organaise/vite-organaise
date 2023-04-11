@@ -208,17 +208,17 @@ const LeftSideBar = (props) => {
         () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
     );
     //////////When this page render then user_id store , and channel list also load
-    useEffect(() => {
-        getAwsCredentialsFromCognito();
-        IdentityServiceObject.setupClient();
-        let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
-        let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
-        let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
-        let GetsubUserId = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "sub")).Value;
-        setUserId(userid)
-        setSubUserId(GetsubUserId);
-        //setMember({ username: getLoginUserName, userId: userid });
-    }, [])
+    // useEffect(() => {
+    //     getAwsCredentialsFromCognito();
+    //     IdentityServiceObject.setupClient();
+    //     let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
+    //     let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
+    //     let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
+    //     let GetsubUserId = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "sub")).Value;
+    //     setUserId(userid)
+    //     setSubUserId(GetsubUserId);
+    //     //setMember({ username: getLoginUserName, userId: userid });
+    // }, [])
 
     useEffect(() => {
         if (props?.data?.pageName === "Folder") {
@@ -230,10 +230,13 @@ const LeftSideBar = (props) => {
     //////// here we are call api to getting company name
     const [comNameSave, SetComName] = useState([]);
     const { mutateAsync: getComName, isLoading: GetComNameIsLoading } = useMutation(getCompanyName);
-    const getComFun = async (subUserId) => {
+    
+    const getComFun = async (subUserId=localStorage.getItem("userInfo")) => {
         const responseGetCom = await getComName(subUserId);
-        if (responseGetCom.status) {
-            SetComName(responseGetCom.data)
+        console.log(responseGetCom.data[0].companyName,"callllllll")
+        if (responseGetCom.status==true) {
+            console.log("yahahahah")
+            SetComName(responseGetCom?.data[0]?.companyName)
         } else {
             toast.error(responseGetCom.message);
         }
@@ -407,6 +410,7 @@ const LeftSideBar = (props) => {
     ////// If selected chat  value change then  this use effect run
     useEffect(() => {
         fetchChat();
+        setSubUserId(localStorage.getItem("userInfo"))
     }, [])
 
 
@@ -433,7 +437,7 @@ const LeftSideBar = (props) => {
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
-                    color="primary">{comNameSave?.length !== 0 && comNameSave[0]?.companyName}</Typography>
+                    color="primary">{comNameSave?.length !== 0 && comNameSave}</Typography>
 
                         
                 
@@ -535,7 +539,7 @@ const LeftSideBar = (props) => {
                         >
                             <ChatTwoToneIcon fontSize='small'/>
                         </Button>
-                        <Typography sx={{color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464",fontSize:'13px'}}>Chat</Typography>
+                        <Typography sx={{color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464",fontSize:'13px' }}>Chat</Typography>
                     </Box>
 
 

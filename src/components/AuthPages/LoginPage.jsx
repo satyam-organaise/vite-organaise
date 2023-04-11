@@ -87,6 +87,9 @@ const LoginPage = () => {
       setTimeout(() => {
         setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
         // window.location = "/chat";
+        
+        localStorage.setItem("token", response?.token)
+        localStorage.setItem("userInfo", response?._id)
         navigate("/chat")
       }, [1500])
     } else {
@@ -109,7 +112,7 @@ const LoginPage = () => {
       }
       else {
         setBtnDisabled(false)
-        toast.error(response.error.message);
+        // toast.error(response?.error?.message||"User is con");
       }
     }
   }
@@ -302,7 +305,7 @@ const LoginPage = () => {
                 </Box>
 
                 <Typography variant="subtitle2" align='right' >
-                  <Link to="/forget-password" style={{ textDecoration: "none", color: "red" }}>
+                  <Link to="/forgetEmail" style={{ textDecoration: "none", color: "red" }}>
                     Forget Password?
                   </Link>
                 </Typography>

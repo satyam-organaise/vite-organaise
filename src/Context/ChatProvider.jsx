@@ -4,14 +4,14 @@ import { useLocation } from "react-router-dom";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState(localStorage.getItem("userInfo"));
     const [selectChatV1, setSelectedChatV1] = useState([]);
     const [currentChats, setCurrentChats] = useState([]);
     const [chats, setChats] = useState([]);
     const location = useLocation();
     const [serviceType, setSeviceType] = useState();
     useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        const userInfo = localStorage.getItem("userInfo");
         setUser(userInfo);
         if (!userInfo) {
             if (location.pathname !== "login") {

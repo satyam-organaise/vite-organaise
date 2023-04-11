@@ -72,17 +72,17 @@ const ContentModels = ({
     ]
 
     //////////// Store the userid of user ////////
-    const [user_id, setUserID] = useState("");
+    const [user_id, setUserID] = useState(localStorage.getItem("userInfo"));
 
     //////////When this page render then user_id store , nad channel list also load
-    useEffect(() => {
-        getAwsCredentialsFromCognito();
-        IdentityServiceObject.setupClient();
-        let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
-        let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
-        let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
-        setUserID(userid)
-    }, [])
+    // useEffect(() => {
+    //     getAwsCredentialsFromCognito();
+    //     IdentityServiceObject.setupClient();
+    //     let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
+    //     let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
+    //     let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
+    //     setUserID(userid)
+    // }, [])
 
     ////////// channel state value save here
 

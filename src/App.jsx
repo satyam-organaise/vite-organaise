@@ -100,8 +100,8 @@ function App() {
                 console.log("error get in app.js", err);
                 setIsAuthenticated(false);
                 if (location.pathname === "/") {
-                    navigate("/login");
-                    // navigate("/getStart");
+                    // navigate("/login");
+                    navigate("/getStart");
                 } else {
                     navigate(location.pathname);
                 }
@@ -119,12 +119,11 @@ function App() {
             <Routes>
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
-                <Route path="/companyDetail" element={<CompanyDetails />} />
                 <Route path="/projectName" element={<ProjectName />} />
             </Routes>
             <ThemeProvider theme={theme}>
 
-                {!isAuthenticated
+                {isAuthenticated
                     ?
                     
                     <ServiceProvider>
@@ -133,16 +132,18 @@ function App() {
                             <Route path="/login" element={<LoginPage serviceType="login" />} />
                             <Route path="/signup" element={<SignupPage serviceType="signup" />} />
                             <Route path="/getStart" element={<GetStart serviceType='start' />} />
-                            <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
                             <Route path="/forgetEmail" element={<ForgetEmail serviceType='forgetEmail ' />} />
+                            <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
                             <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
                             <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} />
+                            {/* <Route path="/companyDetail" element={<CompanyDetails />} /> */}
                         </Routes>
                     </ServiceProvider>
                     :
                     <ChatProvider>
                         <Routes>
 
+                        <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
                             <Route path="/files/create-folder" element={<FolderData userId={userId} />} />

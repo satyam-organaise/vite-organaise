@@ -70,14 +70,14 @@ const AllFiles = () => {
     }
 
     useEffect(() => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("sub");
         setUserId(UserId);
     }, [])
 
     /////// Get files of this user
     const getFilesOfUser = async (userId) => {
         const userID = { userId: userId }
-        const response = await axios.post('https://devorganaise.com/api/getfiles', userID, {
+        const response = await axios.get('https://devorganaise.com/api/v2/file/getfiles', userID, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -223,24 +223,11 @@ const AllFiles = () => {
                                     border: "0.5px solid #CBCBCB", borderRadius: "8px"
                                 }}>
                                     <Box container display={'flex'} justifyContent="end">
-                                        {/* <MoreVertIcon sx={{ fontSize: "18px", color: '#7A7A7A' }} /> */}
-                                        {/* <DeleteForeverIcon
-                                            sx={{
-                                                fontSize: "19px",
-                                                cursor: "pointer",
-                                                marginRight: "5px",
-                                                color: "#e70f0fc2"
-                                            }}
-                                            onClick={() => ActionDelFile(d)}
-                                        /> */}
+                                        
                                         <DeleteModal handleDelete={ActionDelFile} value={d} />
                                     </Box>
                                     <Box container display={'flex'} justifyContent="center">
-                                        {/* <TextSnippetIcon sx={{
-                                            fontSize: '80px',
-                                            color:colorsCode[d.fileName.split(['.'])[1]]||"#2892e7d6"
-                                            //selectRandomColor() 
-                                        }} /> */}
+                                      
                                         <FileIcon ext={d.fileName.split(['.'])[1]}/>
                                     </Box>
                                     <Box container>
