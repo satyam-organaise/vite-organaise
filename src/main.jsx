@@ -32,8 +32,9 @@ axios.defaults.baseURL = "https://devorganaise.com/api/";
 ///// add  intercepter 
 axios.interceptors.request.use(
   function (config) {
-    if ("userInfo" in localStorage) {
-      config.headers["Auth-Token"] = `Bearer ${(JSON.parse(localStorage.getItem("token")))}`;
+    if ("token" in localStorage) {
+      console.log(localStorage.getItem("token"))
+      config.headers["auth-token"] = `Bearer ${localStorage.getItem("token")}`;
     }
     return config;
   },

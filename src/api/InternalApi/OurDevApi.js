@@ -156,7 +156,7 @@ export const postCompannyName = async (getData) => {
 }
 
 export const getCompanyName = async (userID) => {
-    const response = await axios.get(`/createCompany?userId=${userID}`);
+    const response = await axios.get(`v2/company/?${userID}`);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }

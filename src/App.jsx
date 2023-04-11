@@ -137,8 +137,8 @@ function App() {
                             <Route path="/forgetEmail" element={<ForgetEmail serviceType='forgetEmail ' />} />
                             <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
                             <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} />
+                            {/* <Route path="/companyDetail" element={<CompanyDetails />} /> */}
                         </Routes>
-                            <Route path="/companyDetail" element={<CompanyDetails />} />
                     </ServiceProvider>
                     :
                     <ChatProvider>
