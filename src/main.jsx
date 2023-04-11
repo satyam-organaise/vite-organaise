@@ -33,7 +33,6 @@ axios.defaults.baseURL = "https://devorganaise.com/api/";
 axios.interceptors.request.use(
   function (config) {
     if ("token" in localStorage) {
-      console.log(localStorage.getItem("token"))
       config.headers["auth-token"] = `Bearer ${localStorage.getItem("token")}`;
     }
     return config;

@@ -30,6 +30,7 @@ const CompanyDetails = () => {
             
             if (responseGetCom.status==true) {
                 if (responseGetCom.data.length > 0) {
+                    localStorage.setItem("sub",responseGetCom?.data[0]?.companyName)
                     navigate("/chat")
                 }
             } else {
@@ -41,7 +42,7 @@ const CompanyDetails = () => {
     }
 
     useEffect(() => {
-        const UserId = localStorage.getItem("userId");
+        const UserId = localStorage.getItem("userInfo");
         setUserID(UserId);
     }, [])
 
@@ -67,6 +68,7 @@ const CompanyDetails = () => {
             if (response.status) {
                 toast.success(response.message);
                 setTimeout(() => {
+                    localStorage.setItem("sub",companyName)
                     navigate("/chat")
                 }, [500])
             } else {

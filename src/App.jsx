@@ -100,8 +100,8 @@ function App() {
                 console.log("error get in app.js", err);
                 setIsAuthenticated(false);
                 if (location.pathname === "/") {
-                    navigate("/login");
-                    // navigate("/getStart");
+                    // navigate("/login");
+                    navigate("/getStart");
                 } else {
                     navigate(location.pathname);
                 }
@@ -119,12 +119,11 @@ function App() {
             <Routes>
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
-                <Route path="/companyDetail" element={<CompanyDetails />} />
                 <Route path="/projectName" element={<ProjectName />} />
             </Routes>
             <ThemeProvider theme={theme}>
 
-                {!isAuthenticated
+                {isAuthenticated
                     ?
                     
                     <ServiceProvider>
@@ -144,6 +143,7 @@ function App() {
                     <ChatProvider>
                         <Routes>
 
+                        <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
                             <Route path="/files/create-folder" element={<FolderData userId={userId} />} />

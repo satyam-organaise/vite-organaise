@@ -70,7 +70,7 @@ const AllFiles = () => {
     }
 
     useEffect(() => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("sub");
         setUserId(UserId);
     }, [])
 

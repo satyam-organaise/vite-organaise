@@ -137,7 +137,7 @@ const FolderData = () => {
     }
 
     const getFolderDataFun = () => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("sub");
         if (UserId) {
             getFoldersData(UserId);
         }

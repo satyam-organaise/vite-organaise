@@ -87,6 +87,9 @@ const LoginPage = () => {
       setTimeout(() => {
         setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
         // window.location = "/chat";
+        
+        localStorage.setItem("token", response?.token)
+        localStorage.setItem("userInfo", response?._id)
         navigate("/chat")
       }, [1500])
     } else {
@@ -109,7 +112,7 @@ const LoginPage = () => {
       }
       else {
         setBtnDisabled(false)
-        toast.error(response.error.message);
+        // toast.error(response?.error?.message||"User is con");
       }
     }
   }
