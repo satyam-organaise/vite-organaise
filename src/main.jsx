@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 
 
 // if (process.env.NODE_ENV === 'development') {
-     axios.defaults.baseURL = "https://devorganaise.com/api";
+axios.defaults.baseURL = "https://devorganaise.com/api/";
 // } else if (process.env.NODE_ENV === 'production') {
 //   axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 // }
@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
 axios.interceptors.request.use(
   function (config) {
     if ("userInfo" in localStorage) {
-      config.headers["Auth-Token"] = `Bearer ${(JSON.parse(localStorage.userInfo)).token}`;
+      config.headers["Auth-Token"] = `Bearer ${(JSON.parse(localStorage.getItem("token")))}`;
     }
     return config;
   },

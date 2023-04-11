@@ -6,7 +6,7 @@ import { getCompanyName, postCompannyName } from '../api/InternalApi/OurDevApi';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 
 import organaiseLogo from "../assets/Logo/organaise-logo.png";
@@ -17,7 +17,7 @@ const CompanyDetails = () => {
         'Invite Team',
         'Project Name',
     ];
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const [userId, setUserID] = useState("")
 
 
@@ -38,16 +38,16 @@ const CompanyDetails = () => {
         }
     }
 
-    // useEffect(() => {
-    //     const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
-    //     setUserID(UserId);
-    // }, [])
+    useEffect(() => {
+        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        setUserID(UserId);
+    }, [])
 
-    // useEffect(() => {
-    //     if (userId !== "") {
-    //         getComFun(userId);
-    //     }
-    // }, [userId])
+    useEffect(() => {
+        if (userId !== "") {
+            getComFun(userId);
+        }
+    }, [userId])
 
 
 
@@ -61,7 +61,7 @@ const CompanyDetails = () => {
         }
         const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
         try {
-            const response = await postCompannyName({ userId: UserId, companyName: companyName })
+            const response = await postCompannyName({ companyName: companyName })
             if (response.status) {
                 toast.success(response.message);
                 setTimeout(() => {
@@ -100,7 +100,7 @@ const CompanyDetails = () => {
                                 ))}
                             </Stepper>
                         </Box>
-                        
+
                         <Box container mt={2} width={"100%"}>
                             <Typography textAlign={'center'} variant="h4" fontWeight={"600"}>Please enter your Company name</Typography>
                         </Box>
