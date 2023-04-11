@@ -4,9 +4,10 @@ const devURL = "https://devorganaise.com/api";
 //
 const localUrl = "http://localhost:8000/api";
 
-const UserApiVersion = "/v1/user";
-const ChatApiVersion = "/v1/chat";
-const MessageApiVersion = "/v1/message";
+const UserApiVersion = "signup";
+const OtpApiVersion = "verify";
+const ChatApiVersion = "v1/chat";
+const MessageApiVersion = "v1/message";
 
 // axios.interceptors.request.use(config => {
 //     config.headers['Content-Type'] = 'application/json';
@@ -25,7 +26,18 @@ const headerData =
 //////-------------------------------///////////
 
 export const userCreateAccount = async (getData) => {
-    const response = await axios.post(`${UserApiVersion}/`, getData, headerData);
+    const response = await axios.post(`${UserApiVersion}`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+//////-------------------------------///////////
+/////user sign up otp verify call in new  version////
+//////-------------------------------///////////
+
+export const otpSignUpVerify = async (getData) => {
+    const response = await axios.post(`${OtpApiVersion}`, getData, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
@@ -37,7 +49,19 @@ export const userCreateAccount = async (getData) => {
 ///////-----------------------------///////////
 
 export const userLoginAccount = async (getData) => {
-    const response = await axios.post(`${UserApiVersion}/login`, getData, headerData);
+    const response = await axios.post(`signin`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+////////-----------------------------//////////
+//////// resend email our new login ///////////
+///////-----------------------------///////////
+
+export const resendVerification = async (getData) => {
+    const response = await axios.post(`resendVeriCode`, getData, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
@@ -124,7 +148,7 @@ export const fetchMessagesV1 = async (getData) => {
 
 ////////// Create company api call
 export const postCompannyName = async (getData) => {
-    const response = await axios.post(`/createCompany`, getData, headerData);
+    const response = await axios.post(`v2/company/create`, getData, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
