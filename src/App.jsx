@@ -32,8 +32,8 @@ import { SignupPage } from './components/AuthPages/SignupPage';
 import GetStart from './components/AuthPages/GetStart';
 import ForgetPage from './components/AuthPages/ForgetPage';
 import OtpVerfPage from './components/AuthPages/OtpVerfPage';
-// import NewPassword from './components/AuthPages/NewPassword';
-
+import NewPassword from './components/AuthPages/NewPassword';
+import ForgetEmail from './components/AuthPages/ForgetEmail';
 import ProjectName from './pages/ProjectName';
 // import MyAccount from './pages/MyAccount';
 
@@ -100,8 +100,8 @@ function App() {
                 console.log("error get in app.js", err);
                 setIsAuthenticated(false);
                 if (location.pathname === "/") {
-                    // navigate("/login");
-                    navigate("/getStart");
+                    navigate("/login");
+                    // navigate("/getStart");
                 } else {
                     navigate(location.pathname);
                 }
@@ -119,6 +119,7 @@ function App() {
             <Routes>
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
+                <Route path="/companyDetail" element={<CompanyDetails />} />
                 <Route path="/projectName" element={<ProjectName />} />
             </Routes>
             <ThemeProvider theme={theme}>
@@ -133,8 +134,9 @@ function App() {
                             <Route path="/signup" element={<SignupPage serviceType="signup" />} />
                             <Route path="/getStart" element={<GetStart serviceType='start' />} />
                             <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
+                            <Route path="/forgetEmail" element={<ForgetEmail serviceType='forgetEmail ' />} />
                             <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
-                            {/* <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} /> */}
+                            <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} />
                         </Routes>
                             <Route path="/companyDetail" element={<CompanyDetails />} />
                     </ServiceProvider>
