@@ -56,12 +56,30 @@ export const userLoginAccount = async (getData) => {
     return response.data
 }
 
+export const ForgetEmailOtp = async (getData) => {
+    const response = await axios.post(`sendOtpForgetPassword`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+
+
 ////////-----------------------------//////////
 //////// resend email our new login ///////////
 ///////-----------------------------///////////
 
 export const resendVerification = async (getData) => {
     const response = await axios.post(`resendVeriCode`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+export const forgetPasswordVerify = async (getData) => {
+    const response = await axios.post(`forgetPasswordChange`, getData, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }

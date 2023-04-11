@@ -302,7 +302,7 @@ const LoginPage = () => {
                 </Box>
 
                 <Typography variant="subtitle2" align='right' >
-                  <Link to="/forget-password" style={{ textDecoration: "none", color: "red" }}>
+                  <Link to="/forgetEmail" style={{ textDecoration: "none", color: "red" }}>
                     Forget Password?
                   </Link>
                 </Typography>
