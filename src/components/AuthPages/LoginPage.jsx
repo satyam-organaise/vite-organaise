@@ -57,7 +57,7 @@ const cssStyle = {
   },
 }
 
-const LoginPage = ({setIsAuthenticated}) => {
+const LoginPage = ({ setIsAuthenticated }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfPass, setShowConfPass] = useState(false);
   const [emailAddress, setEmailAddress] = useState("");
@@ -100,7 +100,7 @@ const LoginPage = ({setIsAuthenticated}) => {
         if (mailApiRes.statusCode == 200) {
           toast.info("Please check your mail inbox.");
           setBtnDisabled(false);
-       
+
           setSeviceType('loginVerification')
           setContextEmail(emailAddress);
           setContextPassword(password)

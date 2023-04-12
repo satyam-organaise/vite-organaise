@@ -68,17 +68,17 @@ const ForgetEmail = () => {
     const { serviceType, setSeviceType, setContextEmail, setContextOtp } = ServiceState();
     const navigate = useNavigate();
     const { mutateAsync: ForgetEmailApi, isLoading: ForgetEmailOtpIsLoading } = useMutation(ForgetEmailOtp);
-    
+
     const forgetOtpInMail = async (email) => {
         const response = await ForgetEmailApi({ email });
-        if (response.statusCode==200) {
+        if (response.statusCode == 200) {
             toast.info("Otp send in your mail please check your mail inbox.");
             setSeviceType('forgetPassword');
             setContextEmail(emailAddress);
             navigate("/forget-password")
             console.log("here")
         } else {
-            toast.error(response?.error?.message||"Something wrong in forget email");
+            toast.error(response?.error?.message || "Something wrong in forget email");
         }
     }
 
@@ -93,7 +93,7 @@ const ForgetEmail = () => {
         forgetOtpInMail(emailAddress);
     }
 
-   
+
 
     return (
         <Box container  >

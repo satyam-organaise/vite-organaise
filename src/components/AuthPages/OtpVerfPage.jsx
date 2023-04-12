@@ -65,7 +65,7 @@ const cssStyle = {
     },
 }
 
-const OtpVerfPage = ({  setIsAuthenticated}) => {
+const OtpVerfPage = ({ setIsAuthenticated }) => {
     const navigate = useNavigate()
     const { serviceType, contextEmail, contextPassword, contextName } = ServiceState();
     const [OtpValue, setOtpValue] = useState('');////otp value store here
@@ -88,7 +88,7 @@ const OtpVerfPage = ({  setIsAuthenticated}) => {
     ///////// Signup otp verification/////////
     const { mutateAsync: SignUpOtpVerification } = useMutation(otpSignUpVerify);
 
-    const signupVerificationOtp = async (getOtp, email, userName='jai', password) => {
+    const signupVerificationOtp = async (getOtp, email, userName = 'jai', password) => {
         console.log("enterrrrr in function")
         const postData = {
             "email": email,
@@ -99,7 +99,7 @@ const OtpVerfPage = ({  setIsAuthenticated}) => {
         }
         setVerifyBtnDisabled(true);
         try {
-            console.log(serviceType,"our service before verify")
+            console.log(serviceType, "our service before verify")
             const otpResponse = await SignUpOtpVerification({ ...postData });
             console.log(otpResponse, '1 sign up otp response')
 
