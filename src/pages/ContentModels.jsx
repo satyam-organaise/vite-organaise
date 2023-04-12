@@ -12,15 +12,15 @@ import { useDebounce } from 'use-debounce';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess } from '../api/InternalApi/OurDevApi';
-import appConfig from "../Config";
-import {
-    createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
-    sendChannelMessage, listChannelMessages, createChannelMembership
-}
-    from "../api/ChimeApi/ChimeApi";
+// import appConfig from "../Config";
+// import {
+//     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
+//     sendChannelMessage, listChannelMessages, createChannelMembership
+// }
+//     from "../api/ChimeApi/ChimeApi";
 
 
-import { getAllUsersFromCognitoIdp, setAuthenticatedUserFromCognito } from "../api/CognitoApi/CognitoApi";
+// import { getAllUsersFromCognitoIdp, setAuthenticatedUserFromCognito } from "../api/CognitoApi/CognitoApi";
 
 //////////get the all users from congnito ///////////////////
 import { IdentityService } from '../services/IdentityService.js';
@@ -48,9 +48,9 @@ const ContentModels = ({
 
     const location = useLocation();
     ////////// Create and store Identity service //////
-    const [IdentityServiceObject] = useState(
-        () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
-    );
+    // const [IdentityServiceObject] = useState(
+    //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
+    // );
 
 
     const handleClickOpen = () => {
@@ -90,53 +90,53 @@ const ContentModels = ({
     const [channelName, setChannelName] = useState("");
     const [channelDiscription, setChannelDiscription] = useState("");
 
-    const createChannelFun = async () => {
-        if (channelName === "") {
-            toast.info("Please enter channel name");
-            return;
-        }
-        if (channelName != null && channelName !== "") {
-            const creatChannelObj = {
-                "instenceArn": `${appConfig.appInstanceArn}`,
-                "metaData": null,
-                "newName": `${channelName}`,
-                "mode": "RESTRICTED",
-                "privacy": "PRIVATE",
-                "elasticChannelConfiguration": null,
-                "userId": `${user_id}`
-            }//////// These object types value pass in createChannel function 
-            const channelArn = await createChannel(`${appConfig.appInstanceArn}`, null,
-                `${channelName}`, "RESTRICTED", "PRIVATE", null, `${user_id}`);/////////By this function we are  creating the channnel
-            if (channelArn) {
-                const channel = await describeChannel(channelArn, user_id);
-                if (channel) {
-                    // await channelListFunction(user_id);
-                    toast.success("Channel created successfully.");
-                } else {
-                    console.log('Error, could not retrieve channel information.');
-                }
-            } else {
-                console.log('Error, could not create new channel.');
-            }
-        }
-        handleClose();
-    }
+    // const createChannelFun = async () => {
+    //     if (channelName === "") {
+    //         toast.info("Please enter channel name");
+    //         return;
+    //     }
+    //     if (channelName != null && channelName !== "") {
+    //         const creatChannelObj = {
+    //             "instenceArn": `${appConfig.appInstanceArn}`,
+    //             "metaData": null,
+    //             "newName": `${channelName}`,
+    //             "mode": "RESTRICTED",
+    //             "privacy": "PRIVATE",
+    //             "elasticChannelConfiguration": null,
+    //             "userId": `${user_id}`
+    //         }//////// These object types value pass in createChannel function 
+    //         const channelArn = await createChannel(`${appConfig.appInstanceArn}`, null,
+    //             `${channelName}`, "RESTRICTED", "PRIVATE", null, `${user_id}`);/////////By this function we are  creating the channnel
+    //         if (channelArn) {
+    //             const channel = await describeChannel(channelArn, user_id);
+    //             if (channel) {
+    //                 // await channelListFunction(user_id);
+    //                 toast.success("Channel created successfully.");
+    //             } else {
+    //                 console.log('Error, could not retrieve channel information.');
+    //             }
+    //         } else {
+    //             console.log('Error, could not create new channel.');
+    //         }
+    //     }
+    //     handleClose();
+    // }
 
     /////////// Get the channel list 
-    const channelListFunction = async (userid) => {
-        const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
-            userid
-        );
-        const userChannelList = userChannelMemberships.map(
-            (channelMembership) => {
-                const channelSummary = channelMembership.ChannelSummary;
-                channelSummary.SubChannelId =
-                    channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
-                return channelSummary;
-            }
-        );
-        setChannelList(userChannelList);
-    }
+    // const channelListFunction = async (userid) => {
+    //     const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
+    //         userid
+    //     );
+    //     const userChannelList = userChannelMemberships.map(
+    //         (channelMembership) => {
+    //             const channelSummary = channelMembership.ChannelSummary;
+    //             channelSummary.SubChannelId =
+    //                 channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
+    //             return channelSummary;
+    //         }
+    //     );
+    //     setChannelList(userChannelList);
+    // }
 
     ///////// Create folder function and aadd staates here
     const [folderName, setFolderName] = useState("");
@@ -347,22 +347,22 @@ const ContentModels = ({
     //////// All users list store here //////
     const [AddAllUsers, SetAllUsersList] = useState([]);
     ////////// Whenn user id set then this useEffect run
-    useEffect(() => {
-        if ((user_id !== "") && (location.pathname === "/")) {
-            //setChannelInterval
-            channelListFunction(user_id);
-            getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
-                if (uData.status) {
-                    SetAllUsersList(uData.data)
-                } else {
-                    toast.error("Something is wrong.");
-                    console.log("Something is wrong", uData);
-                }
-            }).catch((err) => {
-                console.log("Something is wrong error get  when user list get", err);
-            });
-        }
-    }, [user_id, location]);
+    // useEffect(() => {
+    //     if ((user_id !== "") && (location.pathname === "/")) {
+    //         //setChannelInterval
+    //         channelListFunction(user_id);
+    //         getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
+    //             if (uData.status) {
+    //                 SetAllUsersList(uData.data)
+    //             } else {
+    //                 toast.error("Something is wrong.");
+    //                 console.log("Something is wrong", uData);
+    //             }
+    //         }).catch((err) => {
+    //             console.log("Something is wrong error get  when user list get", err);
+    //         });
+    //     }
+    // }, [user_id, location]);
 
 
 
@@ -370,33 +370,33 @@ const ContentModels = ({
     const [selectUserSave, setAddUserObj] = useState(null);
 
     /////////// When click on the select user then this function run here
-    const selectUserFun = async () => {
-        const response = await AddMemberButton(ActiveChannel, selectUserSave, user_id);
-        if (response.status) {
-            toast.success("Member added successfully");
-        } else {
-            toast.error("Something is wrong.Member not add in channel");
-        }
-    }
+    // const selectUserFun = async () => {
+    //     const response = await AddMemberButton(ActiveChannel, selectUserSave, user_id);
+    //     if (response.status) {
+    //         toast.success("Member added successfully");
+    //     } else {
+    //         toast.error("Something is wrong.Member not add in channel");
+    //     }
+    // }
 
-    const AddMemberButton = async (selectChannel, selectUser, user_id) => {
-        try {
-            const membership = await createChannelMembership(
-                selectChannel.ChannelArn,
-                `${appConfig.appInstanceArn}/user/${selectUser.value}`,
-                user_id,
-                undefined //activeChannel.SubChannelId
-            );
-            const memberships = []  ///activeChannelMemberships;
-            memberships.push({ Member: membership });
-            handleClose();
-            return { status: true, data: memberships }
-        } catch (err) {
-            toast.error("Something is wrong please try after some time");
-            console.log("error in adding member in channel", err);
-            return { status: false, error: err };
-        }
-    }
+    // const AddMemberButton = async (selectChannel, selectUser, user_id) => {
+    //     try {
+    //         const membership = await createChannelMembership(
+    //             selectChannel.ChannelArn,
+    //             `${appConfig.appInstanceArn}/user/${selectUser.value}`,
+    //             user_id,
+    //             undefined //activeChannel.SubChannelId
+    //         );
+    //         const memberships = []  ///activeChannelMemberships;
+    //         memberships.push({ Member: membership });
+    //         handleClose();
+    //         return { status: true, data: memberships }
+    //     } catch (err) {
+    //         toast.error("Something is wrong please try after some time");
+    //         console.log("error in adding member in channel", err);
+    //         return { status: false, error: err };
+    //     }
+    // }
 
 
     ////////// search member  in new version 1 and start single chatting
@@ -558,7 +558,7 @@ const ContentModels = ({
                                 variant="contained"
                                 size='small'
                                 sx={{ padding: "5px 30px" }}
-                                onClick={() => createChannelFun()}
+                                // onClick={() => createChannelFun()}
                             >
                                 Create Channel
                             </Button>
@@ -733,7 +733,7 @@ const ContentModels = ({
                                 variant="contained"
                                 size='small'
                                 sx={{ padding: "5px 30px" }}
-                                onClick={() => selectUserFun()}
+                                // onClick={() => selectUserFun()}
                             >
                                 Add
                             </Button>
