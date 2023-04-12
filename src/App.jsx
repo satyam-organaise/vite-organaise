@@ -121,6 +121,7 @@ function App() {
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
                 <Route path="/projectName" element={<ProjectName />} />
+                <Route path="/companyDetail" element={<CompanyDetails />} />
             </Routes>
             <ThemeProvider theme={theme}>
 
@@ -144,7 +145,6 @@ function App() {
                     <ChatProvider>
                         <Routes>
 
-                        <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
                             <Route path="/files/folder" element={<FolderData userId={userId} />} />
