@@ -116,7 +116,6 @@ const FolderData = () => {
     const [folderDataStore, setFoldersData] = useState([]);
     const getFoldersData = async (userId) => {
         try {
-            // const response = await axios.post('https://devorganaise.com/api/getFolders', userID, {
             const response = await axios.get('v2/folder', {    
             headers: {
                     'Content-Type': 'application/json'

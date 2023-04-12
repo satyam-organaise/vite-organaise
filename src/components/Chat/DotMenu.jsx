@@ -54,12 +54,14 @@ export default function DotMenu({handleDelete,handleAddFile,value,pageName='fold
           },
         }}
       >
+        { 
+          pageName==='folder'&&<MenuItem>
+            <Typography onClick={()=>{handleAddFile();handleClose()}}>Add File</Typography>
+          </MenuItem>}
           <MenuItem>
             <DeleteModal handleDelete={handleDelete} value={value} closeParentModal={handleClose} pageName={pageName}/> 
           </MenuItem>
-          <MenuItem>
-            <Typography onClick={()=>{handleAddFile();handleClose()}}>Add File</Typography>
-          </MenuItem>
+          
        </Menu>
     </div>
   );
