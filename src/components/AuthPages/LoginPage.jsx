@@ -11,10 +11,10 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { useMutation } from 'react-query'
 import { ServiceState } from '../../Context/ServiceProvider';
-import {
-  userSignIn, resendConfermationEMail,
-  CognitoSignUp,
-} from "../../api/CognitoApi/CognitoApi";
+// import {
+//   userSignIn, resendConfermationEMail,
+//   CognitoSignUp,
+// } from "../../api/CognitoApi/CognitoApi";
 import { userCreateAccount, userLoginAccount, resendVerification } from '../../api/InternalApi/OurDevApi';
 
 const cssStyle = {
@@ -57,7 +57,7 @@ const cssStyle = {
   },
 }
 
-const LoginPage = () => {
+const LoginPage = ({setIsAuthenticated}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfPass, setShowConfPass] = useState(false);
   const [emailAddress, setEmailAddress] = useState("");
@@ -77,7 +77,7 @@ const LoginPage = () => {
   const { mutateAsync: resendVerificationMail } = useMutation(resendVerification);
 
 
-  const loginAccount = async (email, password) => {
+  const loginAccount = async (email, password,) => {
     setBtnDisabled(true);
 
     const response = await loginApiCall({ email, password });
@@ -87,7 +87,7 @@ const LoginPage = () => {
       setTimeout(() => {
         setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
         // window.location = "/chat";
-        
+        setIsAuthenticated(true)
         localStorage.setItem("token", response?.token)
         localStorage.setItem("userInfo", response?._id)
         navigate("/chat")
@@ -100,6 +100,7 @@ const LoginPage = () => {
         if (mailApiRes.statusCode == 200) {
           toast.info("Please check your mail inbox.");
           setBtnDisabled(false);
+       
           setSeviceType('loginVerification')
           setContextEmail(emailAddress);
           setContextPassword(password)

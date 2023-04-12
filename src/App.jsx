@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { getAwsCredentialsFromCognito } from "./api/CognitoApi/CognitoApi";
 import { Auth } from "@aws-amplify/auth";
 import configureAmplify from './services/servicesConfig';/////////// Here we are configure the authication of server
-import AuthService from './pages/AuthService';
+// import AuthService from './pages/AuthService';
 import FileUpload from './pages/FileUpload';
 import FolderData from './pages/FolderData';
 import MyMessage from './pages/MyMessage';
@@ -69,51 +69,73 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState("")
 
-    useEffect(() => {
-        configureAmplify();
-        getAwsCredentialsFromCognito();
-    }, [])
+    // useEffect(() => {
+    //     configureAmplify();
+    //     getAwsCredentialsFromCognito();
+    // }, [])
 
-    const setAuthenticatedUserFromCognito = () => {
-        ///// Its return the current userInfo
-        Auth.currentUserInfo()
-            .then(curUser => {
-                if (curUser.attributes?.profile === 'none') {
-                    setIsAuthenticated(false);
-                } else {
-                    setUserId(curUser.attributes.sub);
-                    setIsAuthenticated(true);
-                    navigate(location.pathname);
-                }
-            })
-            .catch((err) => {
-                console.log(`Failed to set authenticated user! ${err}`);
-            });
-        //getAwsCredentialsFromCognito();
-    };
+    // const setAuthenticatedUserFromCognito = () => {
+    //     ///// Its return the current userInfo
+    //     Auth.currentUserInfo()
+    //         .then(curUser => {
+    //             if (curUser.attributes?.profile === 'none') {
+    //                 setIsAuthenticated(false);
+    //             } else {
+    //                 setUserId(curUser.attributes.sub);
+    //                 setIsAuthenticated(true);
+    //                 navigate(location.pathname);
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log(`Failed to set authenticated user! ${err}`);
+    //         });
+    //     //getAwsCredentialsFromCognito();
+    // };
 
-    useEffect(() => {
-        Auth.currentAuthenticatedUser()
-            .then(
-                setAuthenticatedUserFromCognito
-            )
-            .catch((err) => {
-                console.log("error get in app.js", err);
-                setIsAuthenticated(false);
-                if (location.pathname === "/chat") {
-                    // navigate("/login");
-                    navigate("/getStart");
-                } else {
-                    navigate(location.pathname);
-                }
-
-
-            });
-    }, [Auth]);
+    // useEffect(() => {
+    //     Auth.currentAuthenticatedUser()
+    //         .then(
+    //             setAuthenticatedUserFromCognito
+    //         )
+    //         .catch((err) => {
+    //             console.log("error get in app.js", err);
+    //             setIsAuthenticated(false);
+    //             if (location.pathname === "/") {
+    //                 // navigate("/login");
+    //                 navigate("/getStart");
+    //             } else {
+    //                 navigate(location.pathname);
+    //             }
 
 
+    //         });
+    // }, [Auth]);
 
+    const checkAuthentication=()=>{
+        const userId=localStorage.getItem("userInfo");
+        const pathname=location.pathname;
+        if(userId)
+        {
+            setIsAuthenticated(true)
+            if(pathname=='/login'||pathname=='/signup'||pathname=='/getStart'||pathname=='/getstart'||pathname=='/forgetEmail'||pathname=='/forget-password')
+            {
+                navigate("/chat")
+            }
+        }else{        
+            setIsAuthenticated(false)
+            if(pathname=='/login'||pathname=='/signup'||pathname=='/getStart'||pathname=='/forgetEmail'||pathname=='/forget-password')
+            {
+                navigate(pathname)
+            }else{
+                navigate("/login")
+            }
+        }
+    }
 
+    useEffect(()=>{
+        checkAuthentication()
+        console.log(isAuthenticated,"auth")
+    },[isAuthenticated])
 
     return (
         <>
@@ -121,7 +143,6 @@ function App() {
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
                 <Route path="/projectName" element={<ProjectName />} />
-                <Route path="/companyDetail" element={<CompanyDetails />} />
             </Routes>
             <ThemeProvider theme={theme}>
 
@@ -131,13 +152,13 @@ function App() {
                     <ServiceProvider>
 
                         <Routes>
-                            <Route path="/login" element={<LoginPage serviceType="login" />} />
-                            <Route path="/signup" element={<SignupPage serviceType="signup" />} />
+                            <Route path="/login" element={<LoginPage serviceType="login" setIsAuthenticated={setIsAuthenticated}/>} />
+                            <Route path="/signup" element={<SignupPage serviceType="signup"/>} />
                             <Route path="/getStart" element={<GetStart serviceType='start' />} />
                             <Route path="/forgetEmail" element={<ForgetEmail serviceType='forgetEmail ' />} />
                             <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
-                            <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' />} />
-                            <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} />
+                            <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf'  setIsAuthenticated={setIsAuthenticated}/>} />
+                            {/* <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} /> */}
                             {/* <Route path="/companyDetail" element={<CompanyDetails />} /> */}
                         </Routes>
                     </ServiceProvider>
@@ -145,6 +166,7 @@ function App() {
                     <ChatProvider>
                         <Routes>
 
+                            <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
                             <Route path="/files/folder" element={<FolderData userId={userId} />} />

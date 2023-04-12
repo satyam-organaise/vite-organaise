@@ -15,11 +15,11 @@ import OtpField from 'react-otp-field';
 import { toast } from 'react-toastify';
 /////Import react query functions
 import { useMutation } from 'react-query'
-import {
-    userSignIn, resendConfermationEMail,
-    CognitoSignUp, SignUpOtpVarify,
-    otpWithResetPassword, resetPasswordFun
-} from "../../api/CognitoApi/CognitoApi";
+// import {
+//     userSignIn, resendConfermationEMail,
+//     CognitoSignUp, SignUpOtpVarify,
+//     otpWithResetPassword, resetPasswordFun
+// } from "../../api/CognitoApi/CognitoApi";
 import { passwordValidator } from '../../utils/validation';
 import { userLoginAccount, otpSignUpVerify } from '../../api/InternalApi/OurDevApi';
 import { ServiceState } from '../../Context/ServiceProvider';
@@ -65,7 +65,7 @@ const cssStyle = {
     },
 }
 
-const OtpVerfPage = () => {
+const OtpVerfPage = ({  setIsAuthenticated}) => {
     const navigate = useNavigate()
     const { serviceType, contextEmail, contextPassword, contextName } = ServiceState();
     const [OtpValue, setOtpValue] = useState('');////otp value store here
@@ -80,7 +80,7 @@ const OtpVerfPage = () => {
     ////////Here we are write the calling api react query function and call the login fuction and resend  confermation mail
     const { mutateAsync: loginApiCall } = useMutation(userLoginAccount);
     const { mutateAsync: loginV1 } = useMutation(userLoginAccount);
-    const { mutateAsync: resendVerificationMail } = useMutation(resendConfermationEMail);
+    // const { mutateAsync: resendVerificationMail } = useMutation(resendConfermationEMail);
 
     // serviceType === "createAccount"
     // serviceType === "createAccount"
@@ -116,6 +116,7 @@ const OtpVerfPage = () => {
                         const AgainLoginresponse = await loginApiCall({ email, password });
                         if (AgainLoginresponse.status == true) {
                             // userLoginV1(email, password);
+                            setIsAuthenticated(true)
                             localStorage.setItem("token", AgainLoginresponse?.token)
                             localStorage.setItem("userInfo", AgainLoginresponse?._id)
                             setVerifyBtnDisabled(false)
@@ -171,18 +172,18 @@ const OtpVerfPage = () => {
     // }
 
     ///////// resend otp 
-    const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
-    const resendOtpInMail = async (email) => {
-        console.log(email, '1')
-        const response = await resetPasswordFunCall({ username: email.split("@")[0] });
-        console.log(response, 'resp1');
-        if (response.status) {
-            toast.info("Otp send in your mail please check your mail inbox.");
-            setShowVeriCon(true);
-        } else {
-            toast.error(response.error.message);
-        }
-    }
+    // const { mutateAsync: resetPasswordFunCall, isLoading: resetPasswordIsLoading } = useMutation(resetPasswordFun);
+    // const resendOtpInMail = async (email) => {
+    //     console.log(email, '1')
+    //     const response = await resetPasswordFunCall({ username: email.split("@")[0] });
+    //     console.log(response, 'resp1');
+    //     if (response.status) {
+    //         toast.info("Otp send in your mail please check your mail inbox.");
+    //         setShowVeriCon(true);
+    //     } else {
+    //         toast.error(response.error.message);
+    //     }
+    // }
 
 
     //////// change password api call or Reset password code here when user in forget passsword page 

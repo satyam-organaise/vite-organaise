@@ -34,11 +34,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ContentModels from '../../pages/ContentModels';
-import {
-    createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
-    sendChannelMessage, listChannelMessages
-}
-    from "../../api/ChimeApi/ChimeApi";
+// import {
+//     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
+//     sendChannelMessage, listChannelMessages
+// }
+//     from "../../api/ChimeApi/ChimeApi";
 import appConfig from "../../Config";
 //////////get the all users from congnito ///////////////////
 import { IdentityService } from '../../services/IdentityService.js';
@@ -53,6 +53,7 @@ import oLogo from "../../assets/svg/oLogo.svg"
 import ChatTwoToneIcon from '@mui/icons-material/ChatTwoTone';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import LogOutModal from '../Chat/LogOutModal';
+import { clearLocalStorage } from '../../utils/validation';
 
 const drawerWidth = '16%';
 
@@ -182,7 +183,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const LeftSideBar = (props) => {
 
     ////// use conetext use here
-    const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
+    const { user, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats,compNameContext,setCompNameContext } = ChatState();
     const theme = useTheme();
     const navegate = useNavigate();
     const location = useLocation();
@@ -204,9 +205,9 @@ const LeftSideBar = (props) => {
     const [UserId, setUserId] = useState("");
     const [subUserId, setSubUserId] = useState("");
     ////////// Create and store Identity service //////
-    const [IdentityServiceObject] = useState(
-        () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
-    );
+    // const [IdentityServiceObject] = useState(
+    //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
+    // );
     //////////When this page render then user_id store , and channel list also load
     // useEffect(() => {
     //     getAwsCredentialsFromCognito();
@@ -233,19 +234,18 @@ const LeftSideBar = (props) => {
     
     const getComFun = async (subUserId=localStorage.getItem("userInfo")) => {
         const responseGetCom = await getComName(subUserId);
-        console.log(responseGetCom.data[0].companyName,"callllllll")
         if (responseGetCom.status==true) {
-            console.log("yahahahah")
             SetComName(responseGetCom?.data[0]?.companyName)
+            setCompNameContext(responseGetCom?.data[0]?.companyName)
         } else {
             toast.error(responseGetCom.message);
         }
     }
     useEffect(() => {
-        if (subUserId !== "") {
+        if (compNameContext === "") {
             getComFun(subUserId);
         }
-    }, [subUserId])
+    }, [compNameContext])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -338,20 +338,20 @@ const LeftSideBar = (props) => {
     const [channelList, setChannelList] = useState([]);
     ///////  Here store channel interval
     const [ChannelInterval, setChannelInterval] = useState(null);
-    const channelListFunction = async (userid) => {
-        const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
-            userid
-        );
-        const userChannelList = userChannelMemberships.map(
-            (channelMembership) => {
-                const channelSummary = channelMembership.ChannelSummary;
-                channelSummary.SubChannelId =
-                    channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
-                return channelSummary;
-            }
-        );
-        setChannelList(userChannelList);
-    }
+    // const channelListFunction = async (userid) => {
+    //     const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
+    //         userid
+    //     );
+    //     const userChannelList = userChannelMemberships.map(
+    //         (channelMembership) => {
+    //             const channelSummary = channelMembership.ChannelSummary;
+    //             channelSummary.SubChannelId =
+    //                 channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
+    //             return channelSummary;
+    //         }
+    //     );
+    //     setChannelList(userChannelList);
+    // }
 
     /////// run first time and get the channel list and store it
 
@@ -437,7 +437,9 @@ const LeftSideBar = (props) => {
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
-                    color="primary">{comNameSave?.length !== 0 && comNameSave}</Typography>
+                    color="primary">
+                        {compNameContext || comNameSave?.length !== 0 && comNameSave}
+                    </Typography>
 
                         
                 

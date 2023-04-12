@@ -18,11 +18,11 @@ import OtpField from 'react-otp-field';
 import { toast } from 'react-toastify';
 /////Import react query functions
 import { useMutation } from 'react-query'
-import {
-    userSignIn, resendConfermationEMail,
-    CognitoSignUp, SignUpOtpVarify,
-    otpWithResetPassword, resetPasswordFun
-} from "../../api/CognitoApi/CognitoApi";
+// import {
+//     userSignIn, resendConfermationEMail,
+//     CognitoSignUp, SignUpOtpVarify,
+//     otpWithResetPassword, resetPasswordFun
+// } from "../../api/CognitoApi/CognitoApi";
 import { passwordValidator } from '../../utils/validation';
 import { userCreateAccount } from '../../api/InternalApi/OurDevApi';
 import { ServiceState } from '../../Context/ServiceProvider';
