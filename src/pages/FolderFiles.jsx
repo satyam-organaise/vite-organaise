@@ -1,32 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import LeftSideBar from '../components/LeftSideBar/LeftSideBar'
-import { Button, Box, Grid, Typography, InputAdornment, IconButton } from '@mui/material/';
+import { Button, Box, Grid, Typography, InputAdornment } from '@mui/material/';
 import fileUploadImage from "../assets/BackgroundImages/folder-data.png";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FolderIcon from '@mui/icons-material/Folder';
 import TextField from '@mui/material/TextField'
-import { AccountCircle } from '@mui/icons-material';
 import { Search } from '@mui/icons-material';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useMutation } from 'react-query';
 import { deleteFileApi } from '../api/InternalApi/OurDevApi';
 import { useDebounce } from 'use-debounce';
 import FileIcon from '../components/FileUploadModal/Icons/FileIcon';
-import DeleteModal from '../components/Chat/DeleteModal';
 import DotMenu from '../components/Chat/DotMenu';
 
-const AllFiles = () => {
+const FolderFiles = () => {
     const navigate = useNavigate();
 
     const [userFiles, setUserFiles] = useState([]);
     const [UserId, setUserId] = useState("");
 
-    // const colorsCode = ["#FBCFFF", "#FFCFCF", "#CFFFDD", "#CFEEFF", "#FFE9CF", "#CFE8FF", "#FFF2CF", "#FFCEE0", "#FFD5CF", "#DECFFF"]
-    const colorsCode={
+   const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',
         png:'#7CB2D2aa',
@@ -252,4 +245,4 @@ const AllFiles = () => {
     )
 }
 
-export default AllFiles
+export default FolderFiles

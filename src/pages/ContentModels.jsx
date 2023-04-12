@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess } from '../api/InternalApi/OurDevApi';
+import { createGroupChat, removeFileApi,showFolderFileApi, searchUserV1, SingleUserchatAccess } from '../api/InternalApi/OurDevApi';
 import appConfig from "../Config";
 import {
     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
@@ -42,7 +42,6 @@ const ContentModels = ({
     const navigate = useNavigate();
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('xs');
-    console.log(activeModel)
 
     ////// use conetext use here
     const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
@@ -149,22 +148,23 @@ const ContentModels = ({
             return;
         }
         if (folderName) {
-            const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+            const UserId = localStorage.getItem("userInfo").sub;
             const folderData = {
-                folderName: folderName,
-                folderDiscription: folderDiscription,
-                userId: UserId
+                "folderName":folderName,
+                "folderDiscription":folderDiscription,
+                "filesList":"[]"
             }
 
-            const response = await axios.post('https://devorganaise.com/api/createFolder', folderData, {
+            const response = await axios.post('v2/folder/create', folderData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             const folderResponse = response.data;
+            
             if (folderResponse.status) {
                 toast.success(folderResponse.message);
-                const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+                const UserId = localStorage.getItem("userInfo");
                 getFoldersData(UserId);
                 handleClose();
             } else {
@@ -202,7 +202,7 @@ const ContentModels = ({
 
     }
     const callGetAllFileFun = () => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("userInfo");
         if (UserId) {
             getFilesOfUser(UserId);
         }
@@ -255,9 +255,12 @@ const ContentModels = ({
     //////////// adding file api call here
     ////// Add file in folder
     const addIngFileInFolder = async (userId, fileId, selectedFolder) => {
-
-        const addFileInFolderObject = { userId: userId, folderId: selectedFolder, fileId: fileId }
-        const response = await axios.post('https://devorganaise.com/api/addFileInFolder', addFileInFolderObject, {
+       const addFileInFolderObject = {
+         folderId: selectedFolder,
+         fileId: fileId,
+       };
+        // const addFileInFolderObject = { userId: userId, folderId: selectedFolder, fileId: fileId }
+        const response = await axios.post('v2/folder/FileAddFolder', addFileInFolderObject, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -265,7 +268,7 @@ const ContentModels = ({
 
         const AddFilesResponse = response.data;
         if (AddFilesResponse.status) {
-            //nothing here
+            toast.success("File added succussfully")
         } else {
             toast.error(AddFilesResponse.message);
         }
@@ -279,7 +282,7 @@ const ContentModels = ({
             return null;
         }
         setAddBtnDisable(true);
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("userInfo");
         for (let index = 0; index < selectedFile.length; index++) {
             await addIngFileInFolder(UserId, selectedFile[index], folderSelect._id);
             if (selectedFile.length - 1 === index) {
@@ -305,12 +308,14 @@ const ContentModels = ({
 
     ////////// remove file from folder
     const removeFileApiFun = async (folderId, fileData) => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId = localStorage.getItem("userInfo");
+        console.log(folderId)
         const createObj = { folderId: folderId, userId: UserId, fileId: fileData }
         try {
             const callRemoveFileApi = await removeFileApi(createObj);
             if (callRemoveFileApi.status) {
                 const leftFilesData = folderSelect.filesList.filter((fileDa) => fileDa.fileId !== fileData.fileId);
+                console.log(leftFilesData)
                 setFolderFiles(leftFilesData);
                 toast.success(callRemoveFileApi.message);
                 getFoldersData(UserId);

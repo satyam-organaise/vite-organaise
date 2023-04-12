@@ -189,6 +189,14 @@ export const removeFileApi = async (getData) => {
     return response.data
 }
 
+export const showFolderFileApi = async (getData) => {
+    const response = await axios.post(`/removeFile`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
 ///////delete file
 export const deleteFileApi = async (getData) => {
     const response = await axios.delete(`v2/file/deleteFile`, { data: getData }, headerData);

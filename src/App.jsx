@@ -35,6 +35,7 @@ import OtpVerfPage from './components/AuthPages/OtpVerfPage';
 import NewPassword from './components/AuthPages/NewPassword';
 import ForgetEmail from './components/AuthPages/ForgetEmail';
 import ProjectName from './pages/ProjectName';
+import FolderFiles from './pages/FolderFiles';
 // import MyAccount from './pages/MyAccount';
 
 export const LeftSideBarContext = createContext(null);
@@ -99,7 +100,7 @@ function App() {
             .catch((err) => {
                 console.log("error get in app.js", err);
                 setIsAuthenticated(false);
-                if (location.pathname === "/") {
+                if (location.pathname === "/chat") {
                     // navigate("/login");
                     navigate("/getStart");
                 } else {
@@ -146,7 +147,8 @@ function App() {
                         <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
-                            <Route path="/files/create-folder" element={<FolderData userId={userId} />} />
+                            <Route path="/files/folder" element={<FolderData userId={userId} />} />
+                            <Route path="/files/folder/:fid" element={<FolderFiles userId={userId} />} />
                             <Route path="/chat" element={<MyMessage userId={userId} />} />
                             <Route path="*" element={<>404 page</>} />
                             {/* <Route path="/account" element={<MyAccount />} /> */}
