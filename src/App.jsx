@@ -124,7 +124,7 @@ function App() {
             </Routes>
             <ThemeProvider theme={theme}>
 
-                {!isAuthenticated
+                {isAuthenticated
                     ?
                     
                     <ServiceProvider>

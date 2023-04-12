@@ -71,14 +71,14 @@ const AllFiles = () => {
     }
 
     useEffect(() => {
-        const UserId =localStorage.getItem("sub");
+        const UserId =localStorage.getItem("userInfo");
         setUserId(UserId);
     }, [])
 
     /////// Get files of this user
-    const getFilesOfUser = async (userId) => {
-        const userID = { userId: userId }
-        const response = await axios.get('https://devorganaise.com/api/v2/file/getfiles', userID, {
+    const getFilesOfUser = async () => {
+        // const userID = { userId: userId }
+        const response = await axios.get('https://devorganaise.com/api/v2/file/getfiles', {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -86,10 +86,10 @@ const AllFiles = () => {
         const FilesResponse = response.data;
         if (FilesResponse.status) {
             const FilesData = FilesResponse.data;
-            FilesData.forEach((item)=>{
-                const ext=item.fileName.split(['.'])[1];
-                console.log(ext)
-            })
+            // FilesData.forEach((item)=>{
+            //     const ext=item.fileName.split(['.'])[1];
+            //     console.log(ext)
+            // })
             setUserFiles(FilesData)
         } else {
             toast.error(FilesResponse.message);
@@ -109,7 +109,7 @@ const AllFiles = () => {
     const ActionDelFile = async (data) => {
         
             // const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
-            const createDeleteObj = { fileId: data._id, userId: UserId };
+            const createDeleteObj = { fileId: data._id};
             const resData = await deleteFileApiCall(createDeleteObj);
             if (resData.status) {
                 toast.success(resData.message);
@@ -120,7 +120,7 @@ const AllFiles = () => {
                         SetSrcFileText("");
                     }
                 } else {
-                    getFilesOfUser(UserId);
+                    getFilesOfUser();
                 }
             } else {
                 toast.error(resData.message);
@@ -138,7 +138,7 @@ const AllFiles = () => {
             setUserFiles(searchingFiles);
         } else {
             if (UserId !== "") {
-                getFilesOfUser(UserId);
+                getFilesOfUser();
             }
 
         }
