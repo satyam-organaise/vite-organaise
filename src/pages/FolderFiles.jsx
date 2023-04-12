@@ -4,7 +4,7 @@ import { Button, Box, Grid, Typography, InputAdornment } from '@mui/material/';
 import fileUploadImage from "../assets/BackgroundImages/folder-data.png";
 import TextField from '@mui/material/TextField'
 import { Search } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useMutation } from 'react-query';
@@ -15,11 +15,10 @@ import DotMenu from '../components/Chat/DotMenu';
 
 const FolderFiles = () => {
     const navigate = useNavigate();
-
+    const {fid}=useParams();
     const [userFiles, setUserFiles] = useState([]);
     const [UserId, setUserId] = useState("");
-
-   const colorsCode={
+    const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',
         png:'#7CB2D2aa',
@@ -53,10 +52,8 @@ const FolderFiles = () => {
         psd:'#297CAF',
     }
 
+    const [randomName,setRandomName]=useState(Object.keys(colorsCode))
 
-    const selectRandomColor = () => {
-        return colorsCode[Math.floor(Math.random() * 10)];
-    }
     const style = {
         folderCreateMainBox: {
             minHeight: "500px", backgroundColor: "transparent",
@@ -71,24 +68,26 @@ const FolderFiles = () => {
     /////// Get files of this user
     const getFilesOfUser = async (userId) => {
         const userID = { userId: userId }
-        const response = await axios.get('https://devorganaise.com/api/v2/file/getfiles', userID, {
+        const response = await axios.get(`/v2/folder/?folderId=${fid}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        const FilesResponse = response.data;
-        if (FilesResponse.status) {
-            const FilesData = FilesResponse.data;
-            FilesData.forEach((item)=>{
-                const ext=item.fileName.split(['.'])[1];
-                console.log(ext)
-            })
+        const FilesResponse = response;
+        if (FilesResponse.status==200) {
+            const FilesData = FilesResponse?.data?.data[0]?.filesList;
+            // FilesData.forEach((item)=>{
+            //     const ext=item.fileName.split(['.'])[1];
+            //     console.log(ext)
+            // })
             setUserFiles(FilesData)
+            
         } else {
             toast.error(FilesResponse.message);
         }
 
     }
+
 
     useEffect(() => {
         // const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
@@ -208,7 +207,7 @@ const FolderFiles = () => {
                             </Box>
                         </Grid>
                         <Grid container item mt={3} xs={12} display={'flex'} >
-                            {userFiles.length !== 0 && userFiles.map((d) =>
+                            {userFiles.length !== 0 && userFiles.map((d,index) =>
                                 <Box marginRight={"25px"} my={"10px"} sx={{
                                     width: "170px",
                                     height: "170px",
@@ -222,17 +221,19 @@ const FolderFiles = () => {
                                     </Box>
                                     <Box container display={'flex'} justifyContent="center">
                                       
-                                        <FileIcon ext={d.fileName.split(['.'])[1]}/>
+                                        <FileIcon ext={d?.fileName?.split(['.'])[1]}/>
                                     </Box>
                                     <Box container>
                                         <Typography align='center' variant="subtitle2" color={"#121212"}>
-                                            {d.fileName.split(".")[0].length > 15 ? d.fileName.split(".")[0].substring(0, 14) : d.fileName.split(".")[0]}
+                                            {/* {d.fileName.split(".")[0].length > 15 ? d.fileName.split(".")[0].substring(0, 14) : d.fileName.split(".")[0]} */}
+                                            {randomName[index] }
                                         </Typography>
                                     </Box>
                                     <Box container>
                                         <Typography align='center' variant="subtitle2" fontSize={"13px"}
                                             color={"#CDCDCD"}>
-                                            {`${Math.abs(parseInt(d.fileSize) / 1000000) % 1 !== 0 ? Math.abs(parseInt(d.fileSize) / 1000000).toFixed(2) : Math.floor(Math.abs(parseInt(d.fileSize) / 1000000))} MB`}
+                                            {/* {`${Math.abs(parseInt(d?.fileSize) / 1000000) % 1 !== 0 ? Math.abs(parseInt(d?.fileSize) / 1000000).toFixed(2) : Math.floor(Math.abs(parseInt(d?.fileSize) / 1000000))} MB`} */}
+                                            1.00 MB
                                         </Typography>
                                     </Box>
                                 </Box>

@@ -15,9 +15,10 @@ import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { useDebounce } from 'use-debounce';
 import DeleteModal from '../components/Chat/DeleteModal';
 import DotMenu from "../components/Chat/DotMenu"
+import { useNavigate } from 'react-router-dom';
 
 const FolderData = () => {
-    // const colorsCode = ["#FBCFFF", "#FFCFCF", "#CFFFDD", "#CFEEFF", "#FFE9CF", "#CFE8FF", "#FFF2CF", "#FFCEE0", "#FFD5CF", "#DECFFF"]
+    const navigate=useNavigate()
     const colorsCode={
         a:'#ff7f47aa',
         b:'#fcaf45aa',
@@ -69,7 +70,6 @@ const FolderData = () => {
         }
         if (typeService === "ShowFilesInFolderModel") {
             setFolderSelect(d);
-            console.log(d)
             modelOpens("ShowFilesInFolderModel");
         }
     };
@@ -138,7 +138,7 @@ const FolderData = () => {
     }
 
     const getFolderDataFun = () => {
-        const UserId =localStorage.getItem("sub");
+        const UserId =localStorage.getItem("userInfo");
         if (UserId) {
             getFoldersData(UserId);
         }
@@ -287,7 +287,7 @@ const FolderData = () => {
                                             /> */}
 
                                         </Box>
-                                        <Box container display={'flex'} justifyContent="center">
+                                        <Box container display={'flex'} justifyContent="center"> 
                                             <FolderIcon
                                                 sx={{
                                                     fontSize: '80px',
@@ -296,8 +296,8 @@ const FolderData = () => {
                                                     ,
                                                     cursor: "pointer"
                                                 }}
-                                                onClick={() => ActionDelFolAndAddFile("ShowFilesInFolderModel", d)}
-                                            />
+                                                onClick={() =>navigate(`/files/folder/${d._id}`)}
+                                                />
                                         </Box>
                                         <Box container>
                                             <Typography align='center' variant="subtitle2" color={"#121212"}>{d.folderName}</Typography>
