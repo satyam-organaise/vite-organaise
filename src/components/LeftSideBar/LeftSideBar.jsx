@@ -182,7 +182,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const LeftSideBar = (props) => {
 
     ////// use conetext use here
-    const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
+    const { user, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats,compNameContext,setCompNameContext } = ChatState();
     const theme = useTheme();
     const navegate = useNavigate();
     const location = useLocation();
@@ -233,19 +233,18 @@ const LeftSideBar = (props) => {
     
     const getComFun = async (subUserId=localStorage.getItem("userInfo")) => {
         const responseGetCom = await getComName(subUserId);
-        console.log(responseGetCom.data[0].companyName,"callllllll")
         if (responseGetCom.status==true) {
-            console.log("yahahahah")
             SetComName(responseGetCom?.data[0]?.companyName)
+            setCompNameContext(responseGetCom?.data[0]?.companyName)
         } else {
             toast.error(responseGetCom.message);
         }
     }
     useEffect(() => {
-        if (subUserId !== "") {
+        if (compNameContext === "") {
             getComFun(subUserId);
         }
-    }, [subUserId])
+    }, [compNameContext])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -437,7 +436,9 @@ const LeftSideBar = (props) => {
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
-                    color="primary">{comNameSave?.length !== 0 && comNameSave}</Typography>
+                    color="primary">
+                        {compNameContext || comNameSave?.length !== 0 && comNameSave}
+                    </Typography>
 
                         
                 

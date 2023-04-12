@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Axios } from "axios";
 
 const initialState = {
-    CreateAccountData: {},
+    auth: false,
 }
 
 const CreateAccountSlice = createSlice({
@@ -13,7 +13,7 @@ const CreateAccountSlice = createSlice({
 
         updateCreateAccountData: (state, action) => {
             const getAccountData = action.payload;
-            state.CreateAccountData = getAccountData;
+            state.CreateAccountData.auth = getAccountData;
         },
         deleteAccountData: (state) => {
             state.CreateAccountData = {}
