@@ -100,7 +100,7 @@ function App() {
             .catch((err) => {
                 console.log("error get in app.js", err);
                 setIsAuthenticated(false);
-                if (location.pathname === "/"||location.pathname=='/chat') {
+                if (location.pathname === "/") {
                     // navigate("/login");
                     navigate("/getStart");
                 } else {
