@@ -269,7 +269,7 @@ const ForgetPage = () => {
                                             />
                                         )}
 
-                                        Send OTP
+                                       Change Password  
 
                                     </Button>
                                     <Typography marginTop={3} variant="subtitle2" align='center'>

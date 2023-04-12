@@ -37,7 +37,7 @@ const CompanyDetails = () => {
                 toast.error(responseGetCom.message);
             }
         } catch (error) {
-            console.log(error.response.message);
+            console.log(error?.response?.message);
         }
     }
 
@@ -94,7 +94,7 @@ const CompanyDetails = () => {
                 <Grid container mt={7}>
                     <Grid container display={{ xs: "none", md: "block" }} md={3} item></Grid>
                     <Grid container item xs={12} md={6} >
-                        <Box sx={{ width: '100%' }}>
+                        {/* <Box sx={{ width: '100%' }}>
                             <Stepper activeStep={0} alternativeLabel>
                                 {steps.map((label) => (
                                     <Step key={label}>
@@ -102,7 +102,7 @@ const CompanyDetails = () => {
                                     </Step>
                                 ))}
                             </Stepper>
-                        </Box>
+                        </Box> */}
 
                         <Box container mt={2} width={"100%"}>
                             <Typography textAlign={'center'} variant="h4" fontWeight={"600"}>Please enter your Company name</Typography>
