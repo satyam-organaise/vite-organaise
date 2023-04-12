@@ -34,11 +34,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ContentModels from '../../pages/ContentModels';
-import {
-    createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
-    sendChannelMessage, listChannelMessages
-}
-    from "../../api/ChimeApi/ChimeApi";
+// import {
+//     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
+//     sendChannelMessage, listChannelMessages
+// }
+//     from "../../api/ChimeApi/ChimeApi";
 import appConfig from "../../Config";
 //////////get the all users from congnito ///////////////////
 import { IdentityService } from '../../services/IdentityService.js';
@@ -53,6 +53,7 @@ import oLogo from "../../assets/svg/oLogo.svg"
 import ChatTwoToneIcon from '@mui/icons-material/ChatTwoTone';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import LogOutModal from '../Chat/LogOutModal';
+import { clearLocalStorage } from '../../utils/validation';
 
 const drawerWidth = '16%';
 
@@ -204,9 +205,9 @@ const LeftSideBar = (props) => {
     const [UserId, setUserId] = useState("");
     const [subUserId, setSubUserId] = useState("");
     ////////// Create and store Identity service //////
-    const [IdentityServiceObject] = useState(
-        () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
-    );
+    // const [IdentityServiceObject] = useState(
+    //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
+    // );
     //////////When this page render then user_id store , and channel list also load
     // useEffect(() => {
     //     getAwsCredentialsFromCognito();
@@ -337,20 +338,20 @@ const LeftSideBar = (props) => {
     const [channelList, setChannelList] = useState([]);
     ///////  Here store channel interval
     const [ChannelInterval, setChannelInterval] = useState(null);
-    const channelListFunction = async (userid) => {
-        const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
-            userid
-        );
-        const userChannelList = userChannelMemberships.map(
-            (channelMembership) => {
-                const channelSummary = channelMembership.ChannelSummary;
-                channelSummary.SubChannelId =
-                    channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
-                return channelSummary;
-            }
-        );
-        setChannelList(userChannelList);
-    }
+    // const channelListFunction = async (userid) => {
+    //     const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
+    //         userid
+    //     );
+    //     const userChannelList = userChannelMemberships.map(
+    //         (channelMembership) => {
+    //             const channelSummary = channelMembership.ChannelSummary;
+    //             channelSummary.SubChannelId =
+    //                 channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
+    //             return channelSummary;
+    //         }
+    //     );
+    //     setChannelList(userChannelList);
+    // }
 
     /////// run first time and get the channel list and store it
 
