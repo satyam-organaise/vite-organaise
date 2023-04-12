@@ -1,31 +1,21 @@
-import * as React from 'react';
+import {useState,useEffect} from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
-];
+import DeleteModal from './DeleteModal';
+import { Typography } from '@mui/material';
+// const options = [
+//   'Delete',
+//   'Add Files'
+// ];
 
 const ITEM_HEIGHT = 48;
 
-export default function DotMenu() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+export default function DotMenu({handleDelete,handleAddFile,value,pageName='folder'}) {
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,8 +23,11 @@ export default function DotMenu() {
     setAnchorEl(null);
   };
 
+
+
   return (
     <div>
+      
       <IconButton
         aria-label="more"
         id="long-button"
@@ -43,6 +36,7 @@ export default function DotMenu() {
         aria-haspopup="true"
         onClick={handleClick}
       >
+        
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -60,12 +54,15 @@ export default function DotMenu() {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
+        { 
+          pageName==='folder'&&<MenuItem>
+            <Typography onClick={()=>{handleAddFile();handleClose()}}>Add File</Typography>
+          </MenuItem>}
+          <MenuItem>
+            <DeleteModal handleDelete={handleDelete} value={value} closeParentModal={handleClose} pageName={pageName}/> 
           </MenuItem>
-        ))}
-      </Menu>
+          
+       </Menu>
     </div>
   );
 }

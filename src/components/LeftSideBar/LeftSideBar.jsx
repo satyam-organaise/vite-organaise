@@ -893,12 +893,12 @@ const LeftSideBar = (props) => {
                                             aria-expanded={open ? 'true' : undefined}
                                             // onClick={() => navigatePage("create-folder")}
                                             // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
-                                            onClick={() => navigatePage("files/create-folder")}
-                                            variant={location.pathname === "/files/create-folder" ? "contained" : "text"}
+                                            onClick={() => navigatePage("files/folder")}
+                                            variant={location.pathname === "/files/folder" ? "contained" : "text"}
                                             size='small'
                                             sx={{
                                                 width: "100%", justifyContent: 'flex-start',
-                                                color: location.pathname === "/files/create-folder" ? "#ffffff" : "#646464"
+                                                color: location.pathname === "/files/folder" ? "#ffffff" : "#646464"
                                             }}
                                         >
                                             <FolderOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />

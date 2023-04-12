@@ -42,7 +42,6 @@ const ContentModels = ({
     const navigate = useNavigate();
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('xs');
-    console.log(activeModel)
 
     ////// use conetext use here
     const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
@@ -149,22 +148,23 @@ const ContentModels = ({
             return;
         }
         if (folderName) {
-            const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+            const UserId = localStorage.getItem("userInfo").sub;
             const folderData = {
-                folderName: folderName,
-                folderDiscription: folderDiscription,
-                userId: UserId
+                "folderName":folderName,
+                "folderDiscription":folderDiscription,
+                "filesList":"[]"
             }
 
-            const response = await axios.post('https://devorganaise.com/api/createFolder', folderData, {
+            const response = await axios.post('v2/folder/create', folderData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
             const folderResponse = response.data;
+            
             if (folderResponse.status) {
                 toast.success(folderResponse.message);
-                const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+                const UserId = localStorage.getItem("userInfo");
                 getFoldersData(UserId);
                 handleClose();
             } else {
@@ -183,7 +183,7 @@ const ContentModels = ({
     const [userFiles, setUserFiles] = useState([]);
     const getFilesOfUser = async (userId) => {
         const userID = { userId: userId }
-        const response = await axios.post('https://devorganaise.com/api/getfiles', userID, {
+        const response = await axios.get('v2/file/getfiles', {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -191,9 +191,13 @@ const ContentModels = ({
         const FilesResponse = response.data;
         if (FilesResponse.status) {
             const FilesData = FilesResponse.data;
-            const newCheckedArray = FilesData.map(checkbox => {
-                const match = folderSelect.filesList.find(obj2 => checkbox.fileId === obj2.fileId);
-                return match ? { ...checkbox, checked: true } : { ...checkbox, checked: false };
+            const newCheckedArray = FilesData.filter(checkbox => {
+                
+                const match = folderSelect.filesList.find((obj2) => {
+                    return checkbox._id === obj2
+                });
+
+                return !match ? { ...checkbox, checked: false } :null;
             });
             setUserFiles(newCheckedArray);
         } else {
@@ -202,7 +206,7 @@ const ContentModels = ({
 
     }
     const callGetAllFileFun = () => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("userInfo");
         if (UserId) {
             getFilesOfUser(UserId);
         }
@@ -229,7 +233,7 @@ const ContentModels = ({
     //////////////////////////////////////////////
     ///////// adding flie in folder first staging
     //////////////////////////////////////////////
-    //// Remov the dublicate from arrayof object
+    //// Remov the duplicate from arrayof object
     function removeDuplicateObjectFromArray(array, key) {
         var check = new Set();
         return array.filter(obj => !check.has(obj[key]) && check.add(obj[key]));
@@ -237,6 +241,7 @@ const ContentModels = ({
 
     const [selectedFile, setSelectedFile] = useState([]);
     const addFileInFolder = (event, fileData) => {
+        
         const updatedCheckboxes = userFiles.map((checkbox) => {
             if (checkbox.fileId === fileData.fileId) {
                 return {
@@ -254,10 +259,13 @@ const ContentModels = ({
 
     //////////// adding file api call here
     ////// Add file in folder
-    const addIngFileInFolder = async (userId, fileId, selectedFolder) => {
-
-        const addFileInFolderObject = { userId: userId, folderId: selectedFolder, fileId: fileId }
-        const response = await axios.post('https://devorganaise.com/api/addFileInFolder', addFileInFolderObject, {
+    const addIngFileInFolder = async (userId, fileArr, selectedFolder) => {
+       const addFileInFolderObject = {
+         folderId: selectedFolder,
+         fileId: JSON.stringify(fileArr),
+       };
+        // const addFileInFolderObject = { userId: userId, folderId: selectedFolder, fileId: fileId }
+        const response = await axios.put('v2/folder/FileAddFolder', addFileInFolderObject, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -265,7 +273,10 @@ const ContentModels = ({
 
         const AddFilesResponse = response.data;
         if (AddFilesResponse.status) {
-            //nothing here
+            toast.success("Files added successfully");
+            setAddBtnDisable(false);
+            getFoldersData(localStorage.getItem("userInfo"));
+            handleClose();
         } else {
             toast.error(AddFilesResponse.message);
         }
@@ -279,17 +290,21 @@ const ContentModels = ({
             return null;
         }
         setAddBtnDisable(true);
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("userInfo");
+        console.log(folderSelect)
+        let filesArr=[...folderSelect.filesList]
         for (let index = 0; index < selectedFile.length; index++) {
-            await addIngFileInFolder(UserId, selectedFile[index], folderSelect._id);
-            if (selectedFile.length - 1 === index) {
-                toast.success("Files added successfully");
-                setAddBtnDisable(false);
-                getFoldersData(UserId);
-                handleClose();
-            }
-
+            
+            filesArr.push(selectedFile[index]._id)
         }
+
+        await addIngFileInFolder(UserId,filesArr, folderSelect._id);
+        // if (selectedFile.length - 1 === index) {
+            // toast.success("Files added successfully");
+            // setAddBtnDisable(false);
+            // getFoldersData(UserId);
+            // handleClose();
+        // }
     }
 
 
@@ -299,18 +314,21 @@ const ContentModels = ({
     const [folderFiles, setFolderFiles] = useState([]);
     useEffect(() => {
         if (activeModel === "ShowFilesInFolderModel") {
+            console.log(folderSelect)
             setFolderFiles(folderSelect.filesList);
         }
     }, [activeModel, folderSelect])
 
     ////////// remove file from folder
     const removeFileApiFun = async (folderId, fileData) => {
-        const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId = localStorage.getItem("userInfo");
+        console.log(folderId)
         const createObj = { folderId: folderId, userId: UserId, fileId: fileData }
         try {
             const callRemoveFileApi = await removeFileApi(createObj);
             if (callRemoveFileApi.status) {
                 const leftFilesData = folderSelect.filesList.filter((fileDa) => fileDa.fileId !== fileData.fileId);
+                console.log(leftFilesData)
                 setFolderFiles(leftFilesData);
                 toast.success(callRemoveFileApi.message);
                 getFoldersData(UserId);
@@ -898,7 +916,8 @@ const ContentModels = ({
                                             label={`${fd.fileName}`}
                                         /> */}
                                         <Typography variant="subtitle2">
-                                            {fd.fileName}
+                                            {/* {fd.fileName} */}
+                                            {fd}
                                         </Typography>
                                         <Tooltip title="Remove file from folder" placement="top" arrow>
                                             <CancelIcon
