@@ -101,12 +101,9 @@ const OtpVerfPage = ({ setIsAuthenticated }) => {
         try {
             console.log(serviceType, "our service before verify")
             const otpResponse = await SignUpOtpVerification({ ...postData });
-            console.log(otpResponse, '1 sign up otp response')
 
             if (otpResponse.status == true) {
                 const response = await loginApiCall({ email, password });
-
-                console.log(response, '2 login response')
 
                 if (response.status == true) {
 
@@ -276,7 +273,9 @@ const OtpVerfPage = ({ setIsAuthenticated }) => {
                                         console.log(contextEmail, 'otpMail')
                                     }
                                 </Typography>
-                                <Button onClick={() => resendOtpInMail(contextEmail)} style={{ fontWeight: 700, color: "#1c529b" }}>
+                                <Button 
+                                // onClick={() => resendOtpInMail(contextEmail)}
+                                 style={{ fontWeight: 700, color: "#1c529b" }}>
                                     Resend
                                 </Button>
                             </Grid>

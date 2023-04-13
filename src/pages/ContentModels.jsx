@@ -23,7 +23,7 @@ import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess } fr
 // import { getAllUsersFromCognitoIdp, setAuthenticatedUserFromCognito } from "../api/CognitoApi/CognitoApi";
 
 //////////get the all users from congnito ///////////////////
-import { IdentityService } from '../services/IdentityService.js';
+// import { IdentityService } from '../services/IdentityService.js';
 import { useMutation } from 'react-query';
 import { ChatState } from '../Context/ChatProvider';
 

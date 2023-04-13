@@ -41,7 +41,7 @@ import ContentModels from '../../pages/ContentModels';
 //     from "../../api/ChimeApi/ChimeApi";
 import appConfig from "../../Config";
 //////////get the all users from congnito ///////////////////
-import { IdentityService } from '../../services/IdentityService.js';
+// import { IdentityService } from '../../services/IdentityService.js';
 import { useMutation } from 'react-query';
 import { fetchAllChatSingleUserOrGroup, getCompanyName } from '../../api/InternalApi/OurDevApi';
 import { toast } from 'react-toastify';
