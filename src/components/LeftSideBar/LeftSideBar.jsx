@@ -380,6 +380,7 @@ const LeftSideBar = (props) => {
 
     //when user in another page and want to acccess messaging part
     const InanotherPage = async (type, data) => {
+        console.log("another",type,data)
         if (type === "1") {
             setSelectedChatV1(data);
             // props.data.setSelectedChannel(data);
@@ -395,13 +396,14 @@ const LeftSideBar = (props) => {
 
     /////// get the chat of selected group or selected member v1
     const { mutateAsync: userGroupFetchChat } = useMutation(fetchAllChatSingleUserOrGroup);
-    const [loggedUser, setLoggedUser] = useState(null);
+    // const [loggedUser, setLoggedUser] = useState(null);
     const fetchChat = async () => {
         try {
             const response = await userGroupFetchChat();
             if (response) {
+                console.log(response)
                 setChats(response);
-                setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+                // setLoggedUser(localStorage.getItem("userInfo"));
             }
         } catch (error) {
             console.log("NewMessageGrid", error.response);
@@ -422,7 +424,7 @@ const LeftSideBar = (props) => {
             {
                 <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                            <Box display={'flex'} width={drawerWidth && drawerWidth} alignItems={'center'} justifyContent={'space-between'} >
+                            <Box display={'flex'} width={'200px'} alignItems={'center'} justifyContent={'space-between'} >
                     
 
                     <CardMedia
@@ -436,7 +438,7 @@ const LeftSideBar = (props) => {
                    
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
+                    sx={{ fontWeight: "500", fontSize:{base:'13px'}, lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
                     color="primary">
                         {compNameContext || comNameSave?.length !== 0 && comNameSave}
                     </Typography>
@@ -575,7 +577,6 @@ const LeftSideBar = (props) => {
                     variant="permanent"
                     open={open}
                     position='relative'
-                    
                 >   
                     <Box position={'absolute'} right={'0%'} bottom={'20%'}>
                         {/* <Typography onClick={handleDrawerClose}>asdf</Typography> */}
@@ -896,7 +897,7 @@ const LeftSideBar = (props) => {
                                             // onClick={() => navigatePage("create-folder")}
                                             // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
                                             onClick={() => navigatePage("files/folder")}
-                                            variant={location.pathname === "/files/folder" ? "contained" : "text"}
+                                            variant={location.pathname === ("/files/folder") ? "contained" : "text"}
                                             size='small'
                                             sx={{
                                                 width: "100%", justifyContent: 'flex-start',

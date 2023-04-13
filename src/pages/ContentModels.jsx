@@ -347,22 +347,22 @@ const ContentModels = ({
     //////// All users list store here //////
     const [AddAllUsers, SetAllUsersList] = useState([]);
     ////////// Whenn user id set then this useEffect run
-    // useEffect(() => {
-    //     if ((user_id !== "") && (location.pathname === "/")) {
-    //         //setChannelInterval
-    //         channelListFunction(user_id);
-    //         getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
-    //             if (uData.status) {
-    //                 SetAllUsersList(uData.data)
-    //             } else {
-    //                 toast.error("Something is wrong.");
-    //                 console.log("Something is wrong", uData);
-    //             }
-    //         }).catch((err) => {
-    //             console.log("Something is wrong error get  when user list get", err);
-    //         });
-    //     }
-    // }, [user_id, location]);
+    useEffect(() => {
+        if ((user_id !== "") && (location.pathname === "/")) {
+            //setChannelInterval
+            channelListFunction(user_id);
+            getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
+                if (uData.status) {
+                    SetAllUsersList(uData.data)
+                } else {
+                    toast.error("Something is wrong.");
+                    console.log("Something is wrong", uData);
+                }
+            }).catch((err) => {
+                console.log("Something is wrong error get  when user list get", err);
+            });
+        }
+    }, [user_id, location]);
 
 
 
@@ -479,6 +479,7 @@ const ContentModels = ({
         } catch (error) {
             console.log(error.response);
         }
+        handleClose();
     }
 
 
@@ -1155,7 +1156,7 @@ const ContentModels = ({
                                 variant="contained"
                                 size='small'
                                 sx={{ padding: "5px 30px" }}
-                                onClick={() => createGroupFun()}
+                                onClick={() => {createGroupFun();}}
                             >
                                 Create Group
                             </Button>
