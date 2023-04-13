@@ -400,8 +400,9 @@ const LeftSideBar = (props) => {
         try {
             const response = await userGroupFetchChat();
             if (response) {
+                console.log(response)
                 setChats(response);
-                setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+                setLoggedUser(localStorage.getItem("userInfo"));
             }
         } catch (error) {
             console.log("NewMessageGrid", error.response);
@@ -422,7 +423,7 @@ const LeftSideBar = (props) => {
             {
                 <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                            <Box display={'flex'} width={drawerWidth && drawerWidth} alignItems={'center'} justifyContent={'space-between'} >
+                            <Box display={'flex'} width={'200px'} alignItems={'center'} justifyContent={'space-between'} >
                     
 
                     <CardMedia
@@ -436,7 +437,7 @@ const LeftSideBar = (props) => {
                    
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
+                    sx={{ fontWeight: "500", fontSize:{base:'13px'}, lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
                     color="primary">
                         {compNameContext || comNameSave?.length !== 0 && comNameSave}
                     </Typography>
@@ -575,7 +576,6 @@ const LeftSideBar = (props) => {
                     variant="permanent"
                     open={open}
                     position='relative'
-                    
                 >   
                     <Box position={'absolute'} right={'0%'} bottom={'20%'}>
                         {/* <Typography onClick={handleDrawerClose}>asdf</Typography> */}

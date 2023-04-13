@@ -40,7 +40,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 
-const DeleteModal = ({handleDelete,value,pageName,closeParentModal}) => {
+const DeleteModal = ({handleDelete,value,pageName,closeParentModal,toggleDeleteModal}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

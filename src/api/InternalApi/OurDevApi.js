@@ -6,7 +6,7 @@ const localUrl = "http://localhost:8000/api";
 
 const UserApiVersion = "signup";
 const OtpApiVersion = "verify";
-const ChatApiVersion = "v1/chat";
+const ChatApiVersion = "v2/chat";
 const MessageApiVersion = "v1/message";
 
 // axios.interceptors.request.use(config => {
@@ -93,7 +93,7 @@ export const forgetPasswordVerify = async (getData) => {
 
 export const searchUserV1 = async (getData) => {
 
-    const response = await axios.get(`v1/?search=${getData.search}`, headerData);
+    const response = await axios.get(`v2/chat/searchUser?search=${getData.search}`, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
