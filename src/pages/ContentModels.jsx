@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess } from '../api/InternalApi/OurDevApi';
+import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess,AddMemberInGroup } from '../api/InternalApi/OurDevApi';
 // import appConfig from "../Config";
 // import {
 //     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
@@ -347,22 +347,22 @@ const ContentModels = ({
     //////// All users list store here //////
     const [AddAllUsers, SetAllUsersList] = useState([]);
     ////////// Whenn user id set then this useEffect run
-    useEffect(() => {
-        if ((user_id !== "") && (location.pathname === "/")) {
-            //setChannelInterval
-            channelListFunction(user_id);
-            getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
-                if (uData.status) {
-                    SetAllUsersList(uData.data)
-                } else {
-                    toast.error("Something is wrong.");
-                    console.log("Something is wrong", uData);
-                }
-            }).catch((err) => {
-                console.log("Something is wrong error get  when user list get", err);
-            });
-        }
-    }, [user_id, location]);
+    // useEffect(() => {
+    //     if ((user_id !== "") && (location.pathname === "/")) {
+    //         //setChannelInterval
+    //         channelListFunction(user_id);
+    //         getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
+    //             if (uData.status) {
+    //                 SetAllUsersList(uData.data)
+    //             } else {
+    //                 toast.error("Something is wrong.");
+    //                 console.log("Something is wrong", uData);
+    //             }
+    //         }).catch((err) => {
+    //             console.log("Something is wrong error get  when user list get", err);
+    //         });
+    //     }
+    // }, [user_id, location]);
 
 
 
@@ -370,14 +370,20 @@ const ContentModels = ({
     const [selectUserSave, setAddUserObj] = useState(null);
 
     /////////// When click on the select user then this function run here
-    // const selectUserFun = async () => {
-    //     const response = await AddMemberButton(ActiveChannel, selectUserSave, user_id);
-    //     if (response.status) {
-    //         toast.success("Member added successfully");
-    //     } else {
-    //         toast.error("Something is wrong.Member not add in channel");
-    //     }
-    // }
+    const selectUserFun = async () => {
+        const data={
+            "chatId":selectChatV1._id, 
+            "userId":selectSrcMember._id
+       }
+       console.log(data)
+        const response = await AddMemberInGroup(data);
+        if (response) {
+            toast.success("Member added successfully");
+        } else {
+            toast.error("Something is wrong.Member not add in channel");
+        }
+        handleClose()
+    }
 
     // const AddMemberButton = async (selectChannel, selectUser, user_id) => {
     //     try {
@@ -422,6 +428,7 @@ const ContentModels = ({
         const selectUserIdMem = selectSrcMember._id;
         try {
             const response = await creatSingleMemChatV1({ userId: selectUserIdMem });
+            console.log(response)
             if (response) {
                 setSelectedChatV1(response);
                 InanotherPage("1", response)
@@ -682,29 +689,31 @@ const ContentModels = ({
                             <Box container sx={{ width: "100%" }}>
                                 <Autocomplete
                                     freeSolo
-                                    id="search_teammate_and_add"
+                                    id="search_member_and_add"
                                     disableClearable
-                                    options={AddAllUsers}
+                                    options={listNewMembers}
                                     onChange={(event, newValue) => {
-                                        setAddUserObj(newValue);
+                                        setSelectSrcMem(newValue);
                                     }}
-                                    getOptionLabel={(option) => option.label}
-                                    getOptionSelected={(option, value) => option.value === value.value}
+                                    getOptionLabel={(option) => option.name}
+                                    //getOptionSelected={(option, value) => option.email === value.email}
                                     renderOption={(props, option) => (
                                         <div {...props}>
-                                            <div>{option.label}</div>
+                                            <div>{option.name}</div>
                                             {/* <div>{option.value}</div> */}
                                         </div>
                                     )}
                                     renderInput={(params) => (
                                         <TextField
                                             {...params}
-                                            label="Username"
+                                            label="Name Or Email"
                                             InputProps={{
                                                 ...params.InputProps,
                                                 type: 'search',
                                             }}
-                                        />
+                                            onChange={(event, newValue) => {
+                                                SetSrcMemberText(event.target.value);
+                                            }}/>
                                     )}
                                 />
                             </Box>
@@ -734,7 +743,7 @@ const ContentModels = ({
                                 variant="contained"
                                 size='small'
                                 sx={{ padding: "5px 30px" }}
-                            // onClick={() => selectUserFun()}
+                                onClick={() => selectUserFun()}
                             >
                                 Add
                             </Button>
