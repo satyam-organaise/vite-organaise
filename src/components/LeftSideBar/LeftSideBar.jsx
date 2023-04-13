@@ -424,21 +424,22 @@ const LeftSideBar = (props) => {
             {
                 <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                            <Box display={'flex'} width={'200px'} alignItems={'center'} justifyContent={'space-between'} >
-                    
+                    <Box display={'flex'} width={drawerWidth&&drawerWidth} alignItems={'center'}>
+            
 
                     <CardMedia
                     className='blog-img'
                     component="img"
                     image={oLogo}
                     alt="Image"
-                    sx={{ height:'40px',width:'40px' }}
+                    sx={{ height:'40px',width:'40px',flex:'0.2' }}
                     onClick={handleDrawerOpen}
+                    
                     />
                    
                   <Typography
                     variant="subtitle1"
-                    sx={{ fontWeight: "500", fontSize:{base:'13px'}, lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
+                    sx={{ fontWeight: "500", fontSize:{base:'13px',sm:"15px",lg:'17px',xl:'22px'}, lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize",flex:0.8,textAlign:'center'}}
                     color="primary">
                         {compNameContext || comNameSave?.length !== 0 && comNameSave}
                     </Typography>

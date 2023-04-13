@@ -136,6 +136,14 @@ export const createGroupChat = async (getData) => {
     return response.data
 }
 
+export const AddMemberInGroup = async (getData) => {
+    const response = await axios.put(`v2/chat/groupadd`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
 
 /////////////----------------------------///////////
 ///////////// sending message here /////////////////
