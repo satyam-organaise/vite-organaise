@@ -148,15 +148,15 @@ const NewPassword = () => {
         if (!passwordValidator(password) || !passwordValidator(confirmPassword)) {
             return null;
         }
-        await createAccount(firstName, emailAddress, password);
+        // await createAccount(firstName, emailAddress, password);
         // await createAccount(firstName, lastName, emailAddress, password);
 
     }
 
     ////////// When click on the verify button
-    const otpVerifyBtn = async (serviceType) => {
-        await signupVerificationOtp(emailAddress, OtpValue);
-    }
+    // const otpVerifyBtn = async (serviceType) => {
+    //     await signupVerificationOtp(emailAddress, OtpValue);
+    // }
 
     const handleTogglePassword = () => {
         setShowPassword(!showPassword);
@@ -290,7 +290,7 @@ const NewPassword = () => {
                                         // background color on hover
                                     }
                                 }}
-                                disabled={btnDisabed || resetPasswordFunCall}
+                                disabled={btnDisabed}
                                 onClick={() => buttonAction()}
 
                             >

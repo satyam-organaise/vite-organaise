@@ -166,35 +166,35 @@ const LoginPage = ({setIsAuthenticated}) => {
   //   }
 
   // }
-  const userInsertv1 = async (name, email, password) => {
-    const createUserDetOject = { name, email, password };
-    try {
-      setShowVeriCon(true);
-      const response = await SignUpFunCallV1(createUserDetOject);
-      if (response.status) {
-        console.log("data created in v1");
+  // const userInsertv1 = async (name, email, password) => {
+  //   const createUserDetOject = { name, email, password };
+  //   try {
+  //     setShowVeriCon(true);
+  //     const response = await SignUpFunCallV1(createUserDetOject);
+  //     if (response.status) {
+  //       console.log("data created in v1");
 
-      }
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
+  //     }
+  //   } catch (error) {
+  //     console.log(error.response.data.message);
+  //   }
 
-  }
+  // }
 
-  const userLoginV1 = async (email, password) => {
-    try {
-      const response = await loginV1({ email, password });
-      if (response.status) {
-        localStorage.setItem("userInfo", JSON.stringify(response))
-      } else {
-        console.log("User not login in v1");
-      }
+  // const userLoginV1 = async (email, password) => {
+  //   try {
+  //     const response = await loginV1({ email, password });
+  //     if (response.status) {
+  //       localStorage.setItem("userInfo", JSON.stringify(response))
+  //     } else {
+  //       console.log("User not login in v1");
+  //     }
 
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
+  //   } catch (error) {
+  //     console.log(error.response.data.message);
+  //   }
 
-  }
+  // }
 
   const buttonAction = async () => {
 
