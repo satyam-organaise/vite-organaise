@@ -378,6 +378,7 @@ const LeftSideBar = (props) => {
 
     //when user in another page and want to acccess messaging part
     const InanotherPage = async (type, data) => {
+        console.log("another",type,data)
         if (type === "1") {
             setSelectedChatV1(data);
             // props.data.setSelectedChannel(data);
@@ -393,13 +394,14 @@ const LeftSideBar = (props) => {
 
     /////// get the chat of selected group or selected member v1
     const { mutateAsync: userGroupFetchChat } = useMutation(fetchAllChatSingleUserOrGroup);
-    const [loggedUser, setLoggedUser] = useState(null);
+    // const [loggedUser, setLoggedUser] = useState(null);
     const fetchChat = async () => {
         try {
             const response = await userGroupFetchChat();
             if (response) {
+                console.log(response)
                 setChats(response);
-                setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+                // setLoggedUser(localStorage.getItem("userInfo"));
             }
         } catch (error) {
             console.log("NewMessageGrid", error.response);
@@ -417,27 +419,27 @@ const LeftSideBar = (props) => {
             <Box id="main_container_box" sx={{ display: 'flex' }}>
                 <CssBaseline />
 
-                {
-                    <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
-                        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-                            <Box display={'flex'} width={drawerWidth && drawerWidth} alignItems={'center'} justifyContent={'space-between'} >
+            {
+                <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
+                <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+                            <Box display={'flex'} width={'200px'} alignItems={'center'} justifyContent={'space-between'} >
+                    
 
-
-                                <CardMedia
-                                    className='blog-img'
-                                    component="img"
-                                    image={oLogo}
-                                    alt="Image"
-                                    sx={{ height: '40px', width: '40px' }}
-                                    onClick={handleDrawerOpen}
-                                />
-
-                                <Typography
-                                    variant="subtitle1"
-                                    sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75, color: '#646464', textTransform: "capitalize" }}
-                                    color="primary">
-                                    {compNameContext || comNameSave?.length !== 0 && comNameSave}
-                                </Typography>
+                    <CardMedia
+                    className='blog-img'
+                    component="img"
+                    image={oLogo}
+                    alt="Image"
+                    sx={{ height:'40px',width:'40px' }}
+                    onClick={handleDrawerOpen}
+                    />
+                   
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: "500", fontSize:{base:'13px'}, lineHeight: 2.75 ,color:'#646464',textTransform:"capitalize"}}
+                    color="primary">
+                        {compNameContext || comNameSave?.length !== 0 && comNameSave}
+                    </Typography>
 
 
 
@@ -573,8 +575,7 @@ const LeftSideBar = (props) => {
                     variant="permanent"
                     open={open}
                     position='relative'
-
-                >
+                >   
                     <Box position={'absolute'} right={'0%'} bottom={'20%'}>
                         {/* <Typography onClick={handleDrawerClose}>asdf</Typography> */}
                         {
@@ -831,81 +832,81 @@ const LeftSideBar = (props) => {
                         }
 
 
-                        {
-                            location.pathname.split(['/'])[1] == 'files' && (
-                                <>
-                                    <Box id="all_files" mt={1}>
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
-                                            <Button
-                                                id="all_file_button"
-                                                aria-controls={open ? 'basic-menu' : undefined}
-                                                aria-haspopup="true"
-                                                aria-expanded={open ? 'true' : undefined}
-                                                // onClick={() => navigatePage("allFiles")}
-                                                // onClick={() => {navigatePage("files/allFiles"),setActivePage("allFiles")}}
-                                                onClick={() => navigatePage("files/allFiles")}
-                                                variant={location.pathname === "/files/allFiles" ? "contained" : "text"}
-                                                size='small'
-                                                sx={{
-                                                    width: "100%", justifyContent: 'flex-start',
-                                                    color: location.pathname === "/files/allFiles" ? "#ffffff" : "#646464"
-                                                }}
-                                            >
-                                                <TextSnippetIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
-                                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
-                                                    All files
-                                                </span>
-                                            </Button>
-                                        </Box>
+                    {
+                        location.pathname.split(['/'])[1]=='files'&&(
+                            <>
+                            <Box id="all_files" mt={1}>
+                                    <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Button
+                                            id="all_file_button"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            // onClick={() => navigatePage("allFiles")}
+                                            // onClick={() => {navigatePage("files/allFiles"),setActivePage("allFiles")}}
+                                            onClick={() => navigatePage("files/allFiles")}
+                                            variant={location.pathname === "/files/allFiles" ? "contained" : "text"}
+                                            size='small'
+                                            sx={{
+                                                width: "100%", justifyContent: 'flex-start',
+                                                color: location.pathname === "/files/allFiles" ? "#ffffff" : "#646464"
+                                            }}
+                                        >
+                                            <TextSnippetIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
+                                            <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
+                                                All files
+                                            </span>
+                                        </Button>
                                     </Box>
-                                    <Box id="Upload_file_box" mt={1}>
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
-                                            <Button
-                                                id="upload-file-button"
-                                                aria-controls={open ? 'basic-menu' : undefined}
-                                                aria-haspopup="true"
-                                                aria-expanded={open ? 'true' : undefined}
-                                                // onClick={() => {navigatePage("files/upload"),setActivePage("upload")}}
-                                                onClick={() => navigatePage("files/upload")}
-                                                variant={location.pathname === "/files/upload" ? "contained" : "text"}
-                                                size='small'
-                                                sx={{
-                                                    width: "100%", justifyContent: 'flex-start',
-                                                    color: location.pathname === "/files/upload" ? "#ffffff" : "#646464"
-                                                }}
-                                            >
-                                                <CloudUploadOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
-                                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
-                                                    Upload Data
-                                                </span>
-                                            </Button>
-                                        </Box>
+                                </Box>
+                                <Box id="Upload_file_box" mt={1}>
+                                    <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Button
+                                            id="upload-file-button"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            // onClick={() => {navigatePage("files/upload"),setActivePage("upload")}}
+                                            onClick={() => navigatePage("files/upload")}
+                                            variant={location.pathname === "/files/upload"? "contained" : "text"}
+                                            size='small'
+                                            sx={{
+                                                width: "100%", justifyContent: 'flex-start',
+                                                color: location.pathname === "/files/upload" ? "#ffffff" : "#646464"
+                                            }}
+                                        >
+                                            <CloudUploadOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
+                                            <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
+                                                Upload Data
+                                            </span>
+                                        </Button>
                                     </Box>
-
-                                    <Box id="create_folder_box" mt={1}>
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
-                                            <Button
-                                                id="create_folder-button"
-                                                aria-controls={open ? 'basic-menu' : undefined}
-                                                aria-haspopup="true"
-                                                aria-expanded={open ? 'true' : undefined}
-                                                // onClick={() => navigatePage("create-folder")}
-                                                // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
-                                                onClick={() => navigatePage("files/folder")}
-                                                variant={location.pathname === "/files/folder" ? "contained" : "text"}
-                                                size='small'
-                                                sx={{
-                                                    width: "100%", justifyContent: 'flex-start',
-                                                    color: location.pathname === "/files/folder" ? "#ffffff" : "#646464"
-                                                }}
-                                            >
-                                                <FolderOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
-                                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
-                                                    Create Folders
-                                                </span>
-                                            </Button>
-                                        </Box>
+                                 </Box>
+                                
+                                <Box id="create_folder_box" mt={1}>
+                                    <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Button
+                                            id="create_folder-button"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            // onClick={() => navigatePage("create-folder")}
+                                            // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
+                                            onClick={() => navigatePage("files/folder")}
+                                            variant={location.pathname === ("/files/folder") ? "contained" : "text"}
+                                            size='small'
+                                            sx={{
+                                                width: "100%", justifyContent: 'flex-start',
+                                                color: location.pathname === "/files/folder" ? "#ffffff" : "#646464"
+                                            }}
+                                        >
+                                            <FolderOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
+                                            <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
+                                                Create Folders
+                                            </span>
+                                        </Button>
                                     </Box>
+                                </Box>
 
                                     {/* <Box id="my_account_box" mt={1}>
                                     <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
