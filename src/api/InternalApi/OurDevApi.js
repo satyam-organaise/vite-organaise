@@ -93,7 +93,7 @@ export const forgetPasswordVerify = async (getData) => {
 
 export const searchUserV1 = async (getData) => {
 
-    const response = await axios.get(`${UserApiVersion}/?search=${getData.search}`, headerData);
+    const response = await axios.get(`v1/?search=${getData.search}`, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }

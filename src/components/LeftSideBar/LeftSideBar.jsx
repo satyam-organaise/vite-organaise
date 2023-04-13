@@ -896,7 +896,7 @@ const LeftSideBar = (props) => {
                                             // onClick={() => navigatePage("create-folder")}
                                             // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
                                             onClick={() => navigatePage("files/folder")}
-                                            variant={location.pathname === "/files/folder" ? "contained" : "text"}
+                                            variant={location.pathname === ("/files/folder") ? "contained" : "text"}
                                             size='small'
                                             sx={{
                                                 width: "100%", justifyContent: 'flex-start',
