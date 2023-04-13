@@ -7,7 +7,7 @@ const localUrl = "http://localhost:8000/api";
 const UserApiVersion = "signup";
 const OtpApiVersion = "verify";
 const ChatApiVersion = "v2/chat";
-const MessageApiVersion = "v1/message";
+const MessageApiVersion = "v2/message";
 
 // axios.interceptors.request.use(config => {
 //     config.headers['Content-Type'] = 'application/json';

@@ -380,6 +380,7 @@ const LeftSideBar = (props) => {
 
     //when user in another page and want to acccess messaging part
     const InanotherPage = async (type, data) => {
+        console.log("another",type,data)
         if (type === "1") {
             setSelectedChatV1(data);
             // props.data.setSelectedChannel(data);
@@ -395,14 +396,14 @@ const LeftSideBar = (props) => {
 
     /////// get the chat of selected group or selected member v1
     const { mutateAsync: userGroupFetchChat } = useMutation(fetchAllChatSingleUserOrGroup);
-    const [loggedUser, setLoggedUser] = useState(null);
+    // const [loggedUser, setLoggedUser] = useState(null);
     const fetchChat = async () => {
         try {
             const response = await userGroupFetchChat();
             if (response) {
                 console.log(response)
                 setChats(response);
-                setLoggedUser(localStorage.getItem("userInfo"));
+                // setLoggedUser(localStorage.getItem("userInfo"));
             }
         } catch (error) {
             console.log("NewMessageGrid", error.response);
