@@ -1,9 +1,10 @@
-import * as React from 'react';
+import {useState,useEffect} from 'react';
 import { IconButton,Box,Button,Typography,Modal,InputAdornment,OutlinedInput,Badge,Avatar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
+import { ChatState } from '../../Context/ChatProvider';
 
 const style = {
   position: 'absolute',
@@ -39,9 +40,16 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 
 export default function ListModal({buttonStyle}) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] =useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { selectChatV1 } = ChatState();
+  const [list,setList]=useState(selectChatV1?.users)
+  console.log(selectChatV1)
+  // useEffect(()=>{
+  //   console.log(selectChatV1)
+  //   setList(selectChatV1?.users)
+  // },[])
 
   return (
     <div>
@@ -77,9 +85,9 @@ export default function ListModal({buttonStyle}) {
           
           <Box  mb={".6rem"} display={'flex'} justifyContent={'space-between'}>
             <Typography id="modal-modal-title" variant="p" color={'#448DF0'} fontSize={'16px'}>
-              # General
+              # {selectChatV1?.chatName}
             </Typography>
-            <Typography  variant="p" color={'#BEBEBE'} fontSize={'14px'}>3 people</Typography>
+            <Typography  variant="p" color={'#BEBEBE'} fontSize={'14px'}>{selectChatV1&&selectChatV1?.users?.length} people</Typography>
           </Box>
 
           <Box my={".6rem"}>
@@ -103,13 +111,13 @@ export default function ListModal({buttonStyle}) {
           </Button>
           </Box>
 
-            <User name="John Carter" role="front end developer" online={true} img="https://images.pexels.com/photos/750646/pexels-photo-750646.jpeg?auto=compress&cs=tinysrgb&w=600" />
-            <User name="Nick Jonas" role="UI/UX Designer" online={false} img="https://images.pexels.com/photos/2068343/pexels-photo-2068343.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-            <User name="John Carter" role="front end developer" online={true} img="https://images.pexels.com/photos/750646/pexels-photo-750646.jpeg?auto=compress&cs=tinysrgb&w=600" />
-            <User name="Nick Jonas" role="UI/UX Designer" online={false} img="https://images.pexels.com/photos/2068343/pexels-photo-2068343.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-        
+           
+            {
+              selectChatV1?.users?.map((item,index)=>{
+                return  <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} />
+              })
+            }
 
-        
         </Box>
       </Modal>
     </div>
