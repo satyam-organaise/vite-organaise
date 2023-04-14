@@ -75,7 +75,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
     setBtnDisabled(true);
 
     const response = await loginApiCall({ email, password });
-    if (response.status == true) {
+    if ((response.status === true||response.status===true)&&response.statusCode!==400) {
       toast.success("Login successfully");
       // userLoginV1(email, password);
       setTimeout(() => {
@@ -87,23 +87,27 @@ const LoginPage = ({ setIsAuthenticated }) => {
         navigate("/chat")
       }, [1500])
     } else {
-      ////////user account created but user account not activated//////
-      if (response.response === "User is not confirmed.") {
-        setShowVeriCon(true);
-        const mailApiRes = await resendVerificationMail({ email });
-        if (mailApiRes.statusCode == 200) {
-          toast.info("Please check your mail inbox.");
-          setBtnDisabled(false);
-
-          setSeviceType('loginVerification')
-          setContextEmail(emailAddress);
-          setContextPassword(password)
-          navigate("/otpVerf")
-
-        } else {
-          toast.error("Resend not working");
-          setBtnDisabled(false);
+        if(response?.response==="Incorrect username or password.")
+        {
+          toast.info(response?.response)
+          return;
         }
+        ////////user account created but user account not activated//////
+        if (response?.response === "User is not confirmed.") {
+          const mailApiRes = await resendVerificationMail({ email });
+          if (mailApiRes.statusCode == 200) {
+            toast.info("Please check your mail inbox.");
+            setBtnDisabled(false);
+
+            setSeviceType('loginVerification')
+            setContextEmail(emailAddress);
+            setContextPassword(password)
+            navigate("/otpVerf")
+
+          } else {
+            toast.error("Resend not working");
+            setBtnDisabled(false);
+          }
       }
       else {
         setBtnDisabled(false)

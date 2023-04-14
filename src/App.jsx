@@ -112,10 +112,12 @@ function App() {
     // }, [Auth]);
 
     const checkAuthentication = () => {
+        console.log(isAuthenticated,"enterr pe")
         const userId = localStorage.getItem("userInfo");
         const pathname = location.pathname;
         if (userId) {
             setIsAuthenticated(true)
+            console.log(isAuthenticated,"yaha pe")
             if(pathname=='/login'||pathname=='/signup'||pathname=='/getStart'||pathname=='/getstart'||pathname=='/forgetEmail'||pathname=='/forget-password'||pathname=='/')
             {
                 navigate("/chat")
