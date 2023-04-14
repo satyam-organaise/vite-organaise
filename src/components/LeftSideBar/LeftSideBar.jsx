@@ -703,7 +703,7 @@ const LeftSideBar = (props) => {
                                                     chats.length !== 0 && chats.map((d, index) =>
                                                         <ListItem
                                                             key={index}
-                                                            sx={{ paddingY: "2px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
                                                             // onClick={() =>
                                                             //     (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d._id);setActivePage("groups");)
                                                             // }
@@ -740,7 +740,7 @@ const LeftSideBar = (props) => {
                                                         primary={`Create Group`}
                                                         sx={{
                                                             opacity: open ? 1 : 0,
-                                                            marginTop: "0px", marginBottom: "0px",
+                                                            marginTop: "3px", marginBottom: "0px",
                                                             "& span": { fontSize: "13px", fontWeight: 500, color: "#333333b5" }
                                                         }}
                                                     />
