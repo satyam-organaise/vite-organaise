@@ -25,6 +25,17 @@ const headerData =
 /////user verification already exists or not api call in new  version////
 //////-------------------------------///////////
 
+export const userTokenVerify = async () => {
+    const response = await axios.get(`tokenVerification`, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+//////-------------------------------///////////
+/////user verification already exists or not api call in new  version////
+//////-------------------------------///////////
+
 export const getStartedVerify = async (getData) => {
     const response = await axios.post(`emailCheck`, getData, headerData);
     if (!response.statusText === "OK") {
@@ -149,6 +160,14 @@ export const createGroupChat = async (getData) => {
 
 export const AddMemberInGroup = async (getData) => {
     const response = await axios.put(`v2/chat/groupadd`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+export const RemoveMemberInGroup = async (getData) => {
+    const response = await axios.put(`v2/chat/groupremove`, getData, headerData);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
