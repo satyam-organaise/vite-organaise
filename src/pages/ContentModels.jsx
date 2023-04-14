@@ -431,7 +431,8 @@ const ContentModels = ({
             console.log(response)
             if (response) {
                 setSelectedChatV1(response);
-                InanotherPage("1", response)
+                InanotherPage("1", response);
+                setChats([response, ...chats]);
                 handleClose();
             }
         } catch (error) {

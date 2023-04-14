@@ -361,7 +361,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                             {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
                                 List Of People
                             </Button> */}
-                            <ListModal buttonStyle={cssStyle.listofPeopeBtn}/>
+                            <ListModal buttonStyle={cssStyle.listofPeopeBtn} addMemberFunction={modelOpens}/>
                         </Box>
                     </>
                 }
