@@ -90,6 +90,8 @@ const LoginPage = ({ setIsAuthenticated }) => {
         if(response?.response==="Incorrect username or password.")
         {
           toast.info(response?.response)
+          // navigate("/signup")
+          setBtnDisabled(false)
           return;
         }
         ////////user account created but user account not activated//////
