@@ -150,9 +150,9 @@ const ContentModels = ({
         if (folderName) {
             const UserId = localStorage.getItem("userInfo").sub;
             const folderData = {
-                "folderName":folderName,
-                "folderDiscription":folderDiscription,
-                "filesList":"[]"
+                "folderName": folderName,
+                "folderDiscription": folderDiscription,
+                "filesList": "[]"
             }
 
             const response = await axios.post('v2/folder/create', folderData, {
@@ -161,7 +161,7 @@ const ContentModels = ({
                 }
             });
             const folderResponse = response.data;
-            
+
             if (folderResponse.status) {
                 toast.success(folderResponse.message);
                 const UserId = localStorage.getItem("userInfo");
@@ -192,12 +192,12 @@ const ContentModels = ({
         if (FilesResponse.status) {
             const FilesData = FilesResponse.data;
             const newCheckedArray = FilesData.filter(checkbox => {
-                
+
                 const match = folderSelect.filesList.find((obj2) => {
                     return checkbox._id === obj2
                 });
 
-                return !match ? { ...checkbox, checked: false } :null;
+                return !match ? { ...checkbox, checked: false } : null;
             });
             setUserFiles(newCheckedArray);
         } else {
@@ -206,7 +206,7 @@ const ContentModels = ({
 
     }
     const callGetAllFileFun = () => {
-        const UserId =localStorage.getItem("userInfo");
+        const UserId = localStorage.getItem("userInfo");
         if (UserId) {
             getFilesOfUser(UserId);
         }
@@ -241,7 +241,7 @@ const ContentModels = ({
 
     const [selectedFile, setSelectedFile] = useState([]);
     const addFileInFolder = (event, fileData) => {
-        
+
         const updatedCheckboxes = userFiles.map((checkbox) => {
             if (checkbox.fileId === fileData.fileId) {
                 return {
@@ -260,10 +260,10 @@ const ContentModels = ({
     //////////// adding file api call here
     ////// Add file in folder
     const addIngFileInFolder = async (userId, fileArr, selectedFolder) => {
-       const addFileInFolderObject = {
-         folderId: selectedFolder,
-         fileId: JSON.stringify(fileArr),
-       };
+        const addFileInFolderObject = {
+            folderId: selectedFolder,
+            fileId: JSON.stringify(fileArr),
+        };
         // const addFileInFolderObject = { userId: userId, folderId: selectedFolder, fileId: fileId }
         const response = await axios.put('v2/folder/FileAddFolder', addFileInFolderObject, {
             headers: {
@@ -290,20 +290,20 @@ const ContentModels = ({
             return null;
         }
         setAddBtnDisable(true);
-        const UserId =localStorage.getItem("userInfo");
+        const UserId = localStorage.getItem("userInfo");
         console.log(folderSelect)
-        let filesArr=[...folderSelect.filesList]
+        let filesArr = [...folderSelect.filesList]
         for (let index = 0; index < selectedFile.length; index++) {
-            
+
             filesArr.push(selectedFile[index]._id)
         }
 
-        await addIngFileInFolder(UserId,filesArr, folderSelect._id);
+        await addIngFileInFolder(UserId, filesArr, folderSelect._id);
         // if (selectedFile.length - 1 === index) {
-            // toast.success("Files added successfully");
-            // setAddBtnDisable(false);
-            // getFoldersData(UserId);
-            // handleClose();
+        // toast.success("Files added successfully");
+        // setAddBtnDisable(false);
+        // getFoldersData(UserId);
+        // handleClose();
         // }
     }
 
@@ -566,7 +566,7 @@ const ContentModels = ({
                                 variant="contained"
                                 size='small'
                                 sx={{ padding: "5px 30px" }}
-                                // onClick={() => createChannelFun()}
+                            // onClick={() => createChannelFun()}
                             >
                                 Create Channel
                             </Button>

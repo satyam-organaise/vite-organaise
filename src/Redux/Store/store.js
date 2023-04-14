@@ -5,7 +5,7 @@ import CreateAccountDataReducer from "../Reducers/CreateAccountSlice";
 
 export default configureStore({
     reducer: {
-        CreateAccountUserData: CreateAccountDataReducer,
+        // CreateAccountUserData: CreateAccountDataReducer,
         // AllData: AllDataSlice,
         // CurrentProperty: CurrentPropertySlice
     },

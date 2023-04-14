@@ -111,28 +111,26 @@ function App() {
     //         });
     // }, [Auth]);
 
-    const checkAuthentication=()=>{
-        const userId=localStorage.getItem("userInfo");
-        const pathname=location.pathname;
-        if(userId)
-        {
+    const checkAuthentication = () => {
+        const userId = localStorage.getItem("userInfo");
+        const pathname = location.pathname;
+        if (userId) {
             setIsAuthenticated(true)
             if(pathname=='/login'||pathname=='/signup'||pathname=='/getStart'||pathname=='/getstart'||pathname=='/forgetEmail'||pathname=='/forget-password'||pathname=='/')
             {
                 navigate("/chat")
             }
-        }else{        
+        } else {
             setIsAuthenticated(false)
-            if(pathname=='/login'||pathname=='/signup'||pathname=='/getStart'||pathname=='/forgetEmail'||pathname=='/forget-password')
-            {
+            if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                 navigate(pathname)
-            }else{
+            } else {
                 navigate("/login")
             }
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         checkAuthentication()
     },[isAuthenticated])
 
@@ -147,16 +145,16 @@ function App() {
 
                 {!isAuthenticated
                     ?
-                    
+
                     <ServiceProvider>
 
                         <Routes>
-                            <Route path="/login" element={<LoginPage serviceType="login" setIsAuthenticated={setIsAuthenticated}/>} />
-                            <Route path="/signup" element={<SignupPage serviceType="signup"/>} />
+                            <Route path="/login" element={<LoginPage serviceType="login" setIsAuthenticated={setIsAuthenticated} />} />
+                            <Route path="/signup" element={<SignupPage serviceType="signup" />} />
                             <Route path="/getStart" element={<GetStart serviceType='start' />} />
                             <Route path="/forgetEmail" element={<ForgetEmail serviceType='forgetEmail ' />} />
                             <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
-                            <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf'  setIsAuthenticated={setIsAuthenticated}/>} />
+                            <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' setIsAuthenticated={setIsAuthenticated} />} />
                             {/* <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} /> */}
                             {/* <Route path="/companyDetail" element={<CompanyDetails />} /> */}
                         </Routes>

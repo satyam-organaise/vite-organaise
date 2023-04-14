@@ -279,8 +279,8 @@ const GetStart = ({ serviceType }) => {
     return (
         <Box container display='flex' aligItems='center' height='100vh' >
             <Grid container padding={7}>
-                <Grid item xs={12} sm={12} md={6}  height='100%'>
-                    <Box container  display='flex' flexDirection='column' height='80%'>
+                <Grid item xs={12} sm={12} md={6} height='100%'>
+                    <Box container display='flex' flexDirection='column' height='80%'>
                         <Box paddingLeft={4} >
                             <img
                                 src={organaiseLogo}
@@ -293,10 +293,10 @@ const GetStart = ({ serviceType }) => {
 
                         <Grid xs={8} >
 
-                            <Box  sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} paddingX={2} paddingY={1} borderRadius={4}  >
+                            <Box sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} paddingX={2} paddingY={1} borderRadius={4}  >
                                 <Typography variant='h5' paddingBottom={1} textAlign='center' fontWeight='bold' fontSize='20px'>Discover what sets us apart
                                 </Typography>
-                   
+
                                 <Box display='flex' flexDirection='column' justifyContent='center' >
                                     <Box display='flex' alignItems='center' gap={2} padding={1}>
                                         <img src={checkboxIcon} />
@@ -325,7 +325,7 @@ const GetStart = ({ serviceType }) => {
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6} display={'flex'} justifyContent={'center'}  >
-                    <Box width='70%' height='80%' display='flex' flexDirection='column'  justifyContent='center'  >
+                    <Box width='70%' height='80%' display='flex' flexDirection='column' justifyContent='center'  >
                         <Grid item xs={12}   >
                             <Box>
                                 <Typography variant="h4" fontWeight='600' color="#333333">
@@ -357,11 +357,11 @@ const GetStart = ({ serviceType }) => {
                                         backgroundColor: '#1c529b' // background color on hover
                                     }
                                 }}
-                                // disabled={btnDisabed || isLoadingSignUpFun}
-                                // onClick={() => buttonAction(serviceType)}
+                            // disabled={btnDisabed || isLoadingSignUpFun}
+                            // onClick={() => buttonAction(serviceType)}
 
                             >
-                                {(btnDisabed ) && (
+                                {(btnDisabed) && (
                                     <CircularProgress
                                         size={24}
                                         style={{
