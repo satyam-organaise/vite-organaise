@@ -41,6 +41,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
     ////// use conetext use here
     const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
     //////////// Store the userid of user ////////
+    console.log(selectChatV1,"ueeeeee")
     const [UserId, setUserId] = useState("");
     ////////// Create and store Identity service //////
     // const [IdentityServiceObject] = useState(
@@ -350,19 +351,21 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         </Box>
 
 
-                        <Box display={'flex'} alignItems={'center'} >
-                            <Button
-                                sx={{ ...cssStyle.listofPeopeBtn, marginRight: "10px" }}
-                                variant="outlined"
-                                size="small"
-                                onClick={() => modelOpens()}>
-                                Add Member
-                            </Button>
-                            {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
-                                List Of People
-                            </Button> */}
-                            <ListModal buttonStyle={cssStyle.listofPeopeBtn} addMemberFunction={modelOpens}/>
-                        </Box>
+                       {
+                        (selectChatV1?.isGroupChat==='true'||selectChatV1?.isGroupChat===true)&&<Box display={'flex'} alignItems={'center'} >
+                        <Button
+                            sx={{ ...cssStyle.listofPeopeBtn, marginRight: "10px" }}
+                            variant="outlined"
+                            size="small"
+                            onClick={() => modelOpens()}>
+                            Add Member
+                        </Button>
+                        {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
+                            List Of People
+                        </Button> */}
+                        <ListModal buttonStyle={cssStyle.listofPeopeBtn} addMemberFunction={modelOpens}/>
+                    </Box>
+                       } 
                     </>
                 }
 
