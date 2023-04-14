@@ -15,7 +15,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  padding:'1.4rem 2rem',
+  padding:'2rem',
   borderRadius:"6px"
 };
 
@@ -39,17 +39,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 
-export default function ListModal({buttonStyle}) {
+export default function ListModal({buttonStyle,addMemberFunction}) {
   const [open, setOpen] =useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const { selectChatV1 } = ChatState();
-  const [list,setList]=useState(selectChatV1?.users)
-  console.log(selectChatV1)
-  // useEffect(()=>{
-  //   console.log(selectChatV1)
-  //   setList(selectChatV1?.users)
-  // },[])
+  const [search,setSearch]=useState("")
 
   return (
     <div>
@@ -92,6 +87,8 @@ export default function ListModal({buttonStyle}) {
 
           <Box my={".6rem"}>
                 <OutlinedInput
+                  value={search}
+                  onChange={(e)=>setSearch(e.target.value)}
                   id="input-with-icon-adornment"
                   fullWidth
                   size='small'
@@ -100,13 +97,13 @@ export default function ListModal({buttonStyle}) {
                 />
           </Box>
           
-          <Box my='1.2rem'>
+          <Box my='1.2rem' >
           
-          <IconButton aria-label="add" size="small" sx={{color:'#A9A9A9',border:'1px solid #A9A9A9',borderRadius:'5px',outline:'none !important'}}>
+          <IconButton aria-label="add" size="small" sx={{color:'#A9A9A9',border:'1px solid #A9A9A9',borderRadius:'5px',outline:'none !important'}} onClick={addMemberFunction}>
             <AddIcon fontSize="inherit"/>
           </IconButton>
           
-          <Button sx={{p:0,px:1,color:'black',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }}>
+          <Button sx={{p:0,px:1,color:'black',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={addMemberFunction}>
               Add People
           </Button>
           </Box>
