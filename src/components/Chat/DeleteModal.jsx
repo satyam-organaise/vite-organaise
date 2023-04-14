@@ -56,7 +56,7 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal,toggleDeleteM
             }}
             onClick={handleOpen}
         />  */}
-        <Typography onClick={handleOpen} color={'red'}>Delete</Typography>
+        <CloseIcon onClick={handleOpen} hove sx={{ fontSize: "12px", border: '1px solid #A9A9A9', borderRadius: '10px' }} />
 
         
         <Modal
