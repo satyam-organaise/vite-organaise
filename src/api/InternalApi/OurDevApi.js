@@ -22,6 +22,17 @@ const headerData =
 }
 
 //////-------------------------------///////////
+/////user verification already exists or not api call in new  version////
+//////-------------------------------///////////
+
+export const getStartedVerify = async (getData) => {
+    const response = await axios.post(`emailCheck`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+//////-------------------------------///////////
 /////user inserting api call in new  version////
 //////-------------------------------///////////
 
