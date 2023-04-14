@@ -678,7 +678,7 @@ const ContentModels = ({
                     </DialogTitle>
                     <DialogContent sx={{ paddingBottom: "0px" }}>
                         <DialogContentText id="alert-dialog-description">
-                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Add Teammates</Typography>
+                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Add New Teammate</Typography>
                             <Box >
                                 <Typography variant="subtitle2" >
                                     Start a chat conversation with adding teammates via email
@@ -996,7 +996,7 @@ const ContentModels = ({
                     </DialogTitle>
                     <DialogContent sx={{ paddingBottom: "0px" }}>
                         <DialogContentText id="alert-dialog-description">
-                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Search Member </Typography>
+                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Start Conversation </Typography>
                             <Box >
                                 <Typography variant="subtitle2" >
                                     Start a chat conversation with your member just search thee member via email or name.
