@@ -41,7 +41,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
     ////// use conetext use here
     const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
     //////////// Store the userid of user ////////
-    console.log(selectChatV1,"ueeeeee")
     const [UserId, setUserId] = useState("");
     ////////// Create and store Identity service //////
     // const [IdentityServiceObject] = useState(
@@ -271,7 +270,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
             if (newMessage !== "") {
                 //sendMessageByUser(ActiveChannel, newMessage, member)
                 sendMessagev1(newMessage);
-            }
+            }setCurrentChats
 
         }
     };

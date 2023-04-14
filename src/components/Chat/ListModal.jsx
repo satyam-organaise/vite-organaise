@@ -6,6 +6,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ChatState } from '../../Context/ChatProvider';
 import DeleteModal from '../../components/Chat/DeleteModal';
+import { RemoveMemberInGroup } from '../../api/InternalApi/OurDevApi';
+import { toast } from 'react-toastify';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -45,6 +48,26 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
   const handleClose = () => setOpen(false);
   const { selectChatV1 } = ChatState();
   const [search, setSearch] = useState("")
+
+  const removeMember=async(chatId,userId)=>{
+    try{
+      const data={
+        "chatId":chatId, 
+        "userId":userId 
+   }
+      const response=await RemoveMemberInGroup(data)
+      if(response)
+      {
+        toast.success("User removed successfully")
+      }else{
+        toast.error("User not removed")
+      }
+    }catch(error)
+    {
+      toast.error("Something is wrong")
+      console.log(error)
+    }
+  }
 
   return (
     <div>
@@ -112,7 +135,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
           {
             selectChatV1?.users?.map((item, index) => {
-              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} />
+              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id}/>
             })
           }
 
@@ -127,14 +150,14 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
 
 
-const User = ({ name, role, online = false, img }) => {
+const User = ({ name, role, online = false, img,id,removeMember,chatId }) => {
   return (
     <Box display={'flex'} justifyContent={'space-between'} mt='1rem'>
 
       <Box display={'flex'} alignItems={'center'}>
         {
           online ? <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-           
+           <Avatar alt="Remy Sharp" src={img} />
           </StyledBadge> : <Avatar alt="Remy Sharp" src={img} />
         }
 
@@ -149,7 +172,7 @@ const User = ({ name, role, online = false, img }) => {
         </Typography>
         <Box>
             <IconButton>
-              <DeleteModal />
+              <DeleteModal type='list' handleDelete={()=>{removeMember(chatId,id)}}/>
             </IconButton>
         </Box>
       </Box>
