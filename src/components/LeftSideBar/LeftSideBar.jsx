@@ -580,7 +580,7 @@ const LeftSideBar = (props) => {
                     <Box position={'absolute'} right={'0%'} bottom={'20%'}>
                         {/* <Typography onClick={handleDrawerClose}>asdf</Typography> */}
                         {
-                            open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={() => handleDrawerClose()} /> : (
+                            open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%"  }} onClick={() => handleDrawerClose()} /> : (
                                 <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
                             )
                         }
@@ -703,7 +703,7 @@ const LeftSideBar = (props) => {
                                                     chats.length !== 0 && chats.map((d, index) =>
                                                         <ListItem
                                                             key={index}
-                                                            sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                                            sx={{ paddingY: "2px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
                                                             // onClick={() =>
                                                             //     (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d._id);setActivePage("groups");)
                                                             // }
@@ -718,7 +718,7 @@ const LeftSideBar = (props) => {
                                                                     (d?.isGroupChat && (`# ${d?.chatName}`))
                                                                 }
                                                                 sx={{
-                                                                    opacity: open ? 1 : 0, marginTop: "4px",
+                                                                    opacity: open ? 1 : 0, marginTop: "0px",
                                                                     marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
                                                                 }}
                                                             />
@@ -734,13 +734,13 @@ const LeftSideBar = (props) => {
                                                 >
                                                     <AddBoxOutlinedIcon
                                                         sx={{
-                                                            fontSize: "13px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
+                                                            fontSize: "13px", marginTop: "0px", marginRight: "2px", color: "#333333b4",
                                                         }} />
                                                     <ListItemText
                                                         primary={`Create Group`}
                                                         sx={{
                                                             opacity: open ? 1 : 0,
-                                                            marginTop: "4px", marginBottom: "0px",
+                                                            marginTop: "0px", marginBottom: "0px",
                                                             "& span": { fontSize: "13px", fontWeight: 500, color: "#333333b5" }
                                                         }}
                                                     />
@@ -798,7 +798,7 @@ const LeftSideBar = (props) => {
                                                                 (!d?.isGroupChat && getSender(user, d.users))
                                                             }
                                                             sx={{
-                                                                opacity: open ? 1 : 0, marginTop: "4px",
+                                                                opacity: open ? 1 : 0, marginTop: "1px",
                                                                 marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
                                                             }}
                                                         />

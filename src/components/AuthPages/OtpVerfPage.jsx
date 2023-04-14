@@ -113,9 +113,9 @@ const OtpVerfPage = ({ setIsAuthenticated }) => {
                         const AgainLoginresponse = await loginApiCall({ email, password });
                         if (AgainLoginresponse.status == true) {
                             // userLoginV1(email, password);
-                            setIsAuthenticated(true)
                             localStorage.setItem("token", AgainLoginresponse?.token)
                             localStorage.setItem("userInfo", AgainLoginresponse?._id)
+                            setIsAuthenticated(true)
                             setVerifyBtnDisabled(false)
                             setTimeout(() => {
                                 // window.location = "/companyDetail";
