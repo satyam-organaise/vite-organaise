@@ -421,7 +421,7 @@ const LeftSideBar = (props) => {
             <Box id="main_container_box" sx={{ display: 'flex' }}>
                 <CssBaseline />
 
-            {
+                {
                 <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box display={'flex'} width={drawerWidth&&drawerWidth} alignItems={'center'}>
@@ -523,7 +523,7 @@ const LeftSideBar = (props) => {
 
 
                 {/* New sidebar  */}
-                <Box height={'100vh'} position={'fixed'} width={'90px'} display={'flex'} flexDirection={'column'} overflow={'hidden'}>
+                <Box height={'100vh'} position={'fixed'} width={'90px'} display={{base:'none',md:'flex'}} flexDirection={'column'} overflow={'hidden'}>
 
                     <Box borderBottom={'1px solid rgba(0, 0, 0, 0.06)'} height={'65px'} width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} visibility={open ? "normal" : "hidden"}>
                         <CardMedia
@@ -580,7 +580,6 @@ const LeftSideBar = (props) => {
                     position='relative'
                 >   
                     <Box position={'absolute'} right={'0%'} bottom={'20%'}>
-                        {/* <Typography onClick={handleDrawerClose}>asdf</Typography> */}
                         {
                             open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%"  }} onClick={() => handleDrawerClose()} /> : (
                                 <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
