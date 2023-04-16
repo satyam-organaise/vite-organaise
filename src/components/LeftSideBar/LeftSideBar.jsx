@@ -233,12 +233,15 @@ const LeftSideBar = (props) => {
     const { mutateAsync: getComName, isLoading: GetComNameIsLoading } = useMutation(getCompanyName);
 
     const getComFun = async (subUserId = localStorage.getItem("userInfo")) => {
-        const responseGetCom = await getComName(subUserId);
-        if (responseGetCom.status == true) {
-            SetComName(responseGetCom?.data[0]?.companyName)
-            setCompNameContext(responseGetCom?.data[0]?.companyName)
-        } else {
-            toast.info(responseGetCom?.message||"Company name is required");
+        try{
+            const responseGetCom = await getComName(subUserId);
+            if (responseGetCom.status!==404&&responseGetCom?.status === true) {
+                SetComName(responseGetCom?.data[0]?.companyName)
+                setCompNameContext(responseGetCom?.data[0]?.companyName)
+            }  
+        }catch(error)
+        {
+            toast.info("Company name is required");
             navegate("/companyDetail")
         }
     }
