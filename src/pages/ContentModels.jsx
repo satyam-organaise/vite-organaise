@@ -997,9 +997,9 @@ const ContentModels = ({
                     </DialogTitle>
                     <DialogContent sx={{ paddingBottom: "0px" }}>
                         <DialogContentText id="alert-dialog-description">
-                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Start Conversation </Typography>
+                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1} fontSize={{xs:'19px',sm:'22px'}}>Start Conversation </Typography>
                             <Box >
-                                <Typography variant="subtitle2" >
+                                <Typography variant="subtitle2"  fontSize={{xs:'12px',sm:'15px'}}>
                                     Start a chat conversation with your member just search thee member via email or name.
                                     Chat directly with them for fast solutions.
                                 </Typography>
@@ -1102,9 +1102,9 @@ const ContentModels = ({
                     </DialogTitle>
                     <DialogContent sx={{ paddingBottom: "0px" }}>
                         <DialogContentText id="alert-dialog-create-group-description">
-                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Create Group</Typography>
+                            <Typography variant="h6"  fontSize={{xs:'19px',sm:'22px'}} fontWeight={"600"} color="#333333" mb={1}>Create Group</Typography>
                             <Box >
-                                <Typography variant="subtitle2" >
+                                <Typography variant="subtitle2" fontSize={{xs:'12px',sm:'15px'}}>
                                     Start a chat conversation with creating Group and add
                                     your teammates.
                                 </Typography>
