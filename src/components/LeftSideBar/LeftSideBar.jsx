@@ -55,17 +55,29 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import LogOutModal from '../Chat/LogOutModal';
 import { clearLocalStorage } from '../../utils/validation';
 
-const drawerWidth = '16%';
+const drawerWidth = '200px';
 
 const openedMixin = (theme) => ({
-    width: drawerWidth,
+    // width: drawerWidth,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration['20000'],
     }),
     overflowX: 'hidden',
-    marginLeft: '5rem',
-    borderLeft: '2px solid  rgba(0, 0, 0, 0.06)'
+    // marginLeft: '5rem',
+    borderLeft: '2px solid  rgba(0, 0, 0, 0.06)',
+    [theme.breakpoints.up('xs')]: {
+        marginLeft: '3rem',
+        display:'none'
+    },
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: '3.8rem',
+        display:'inherit',
+        width:'160px'
+    },
+    [theme.breakpoints.up('md')]: {
+        width: drawerWidth,
+    },
 });
 
 const closedMixin = (theme) => ({
@@ -74,10 +86,18 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.complex,
     }),
     overflowX: 'hidden',
-    marginLeft: '5rem',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
+    // marginLeft: '5rem',
+    width: `calc(${theme.spacing(3.2)} + 1px)`,
+    [theme.breakpoints.up('xs')]: {
         width: `calc(${theme.spacing(3.2)} + 0px)`,
+        display:'none'
+    },
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: '3rem',
+        display:'inherit',
+    },
+    [theme.breakpoints.up('md')]: {
+        marginLeft: '4rem',
     },
 });
 
@@ -112,7 +132,6 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
-        marginLeft: '5rem',
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...(open && {
@@ -132,7 +151,6 @@ const styleCss = {
         boxShadow: "none",
         borderBottom: "1px solid #efefef !important",
         height: "65px",
-
     }
 }
 
@@ -426,16 +444,16 @@ const LeftSideBar = (props) => {
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Box display={'flex'} width={drawerWidth&&drawerWidth} alignItems={'center'}>
             
-
+                    <Box flex={0.2}>
                     <CardMedia
                     className='blog-img'
                     component="img"
                     image={oLogo}
                     alt="Image"
-                    sx={{ height:'40px',width:'40px',flex:'0.2' }}
+                    sx={{ height:'40px',width:'40px' }}
                     onClick={handleDrawerOpen}
-                    
                     />
+                    </Box>
                    
                   <Typography
                     variant="subtitle1"
@@ -523,7 +541,8 @@ const LeftSideBar = (props) => {
 
 
                 {/* New sidebar  */}
-                <Box height={'100vh'} position={'fixed'} width={'90px'} display={{base:'none',md:'flex'}} flexDirection={'column'} overflow={'hidden'}>
+                <Box height={'100vh'} position={'fixed'} width={{xs:'60px',xl:'70px'}} display={{xs:'none',sm:'flex'}} flexDirection={'column'} overflow={'hidden'}>
+                    
 
                     <Box borderBottom={'1px solid rgba(0, 0, 0, 0.06)'} height={'65px'} width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} visibility={open ? "normal" : "hidden"}>
                         <CardMedia
