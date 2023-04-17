@@ -679,9 +679,9 @@ const ContentModels = ({
                     </DialogTitle>
                     <DialogContent sx={{ paddingBottom: "0px" }}>
                         <DialogContentText id="alert-dialog-description">
-                            <Typography variant="h6" fontWeight={"600"} color="#333333" mb={1}>Add New Teammate</Typography>
+                            <Typography variant="h6" fontSize={{xs:'19px',sm:'22px'}} fontWeight={"600"} color="#333333" mb={1}>Add New Teammate</Typography>
                             <Box >
-                                <Typography variant="subtitle2" >
+                                <Typography variant="subtitle2" fontSize={{xs:'12px',sm:'15px'}}>
                                     Start a chat conversation with adding teammates via email
                                     Chat directly with them for fast solutions.
                                 </Typography>
@@ -719,7 +719,7 @@ const ContentModels = ({
                                     )}
                                 />
                             </Box>
-                            <Box container sx={{ width: "100%" }} mt={1}>
+                            <Box container sx={{ width: "100%" }} mt={2}>
                                 <TextareaAutosize
                                     minRows={4}
                                     maxRows={4}
