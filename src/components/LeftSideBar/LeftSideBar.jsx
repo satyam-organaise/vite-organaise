@@ -675,7 +675,7 @@ const LeftSideBar = (props) => {
                             location.pathname.split(['/'])[1] === "chat" && (
                                 <>
                                     <Box id="channel_box">
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Box sx={{ paddingLeft: {sm:'10px',md:"25px"}, paddingRight: {sm:'10px',md:"25px"} }}>
                                             <Button
                                                 id="channel-create-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
@@ -723,7 +723,7 @@ const LeftSideBar = (props) => {
                                                     chats.length !== 0 && chats.map((d, index) =>
                                                         <ListItem
                                                             key={index}
-                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:'40px',xl:"60px"}, cursor: "pointer" }}
                                                             // onClick={() =>
                                                             //     (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d._id);setActivePage("groups");)
                                                             // }
@@ -748,7 +748,7 @@ const LeftSideBar = (props) => {
                                                 <ListItem
                                                     sx={{
                                                         paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: "58px", cursor: "pointer"
+                                                        paddingLeft: {sm:'22px',md:'38px',xl:"58px"}, cursor: "pointer"
                                                     }}
                                                     onClick={() => modelOpens()}
                                                 >
@@ -769,7 +769,7 @@ const LeftSideBar = (props) => {
                                         </Box>
                                     </Box>
                                     <Box id="single_user_box">
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Box sx={{ paddingLeft:{sm:'10px',md:"25px"} , paddingRight:{sm:'10px',md:"25px" } }}>
                                             <Button
                                                 id="single-user-inbox-create-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
@@ -797,7 +797,7 @@ const LeftSideBar = (props) => {
 
                                                     <ListItem
                                                         key={index}
-                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px", cursor: "pointer" }}
+                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:"40px",xl:'60px'}, cursor: "pointer" }}
                                                         onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("inbox") }
                                                         }
                                                     >
@@ -828,7 +828,7 @@ const LeftSideBar = (props) => {
                                                 <ListItem
                                                     sx={{
                                                         paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: "58px", cursor: "pointer"
+                                                        paddingLeft: {sm:'22px',md:'38px',xl:"58px"}, cursor: "pointer"
                                                     }}
                                                     onClick={() => singleMessTeamMemberModel()}
                                                 >
@@ -983,7 +983,7 @@ const LeftSideBar = (props) => {
                         }
 
 
-                        <Box id="logout_box" sx={{ position: "absolute", bottom: "10px", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: "20px" }} mt={1}>
+                        <Box id="logout_box" sx={{ position: "absolute", bottom: "10px", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: {sm:'8px',md:"20px"} }} mt={1}>
                             <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
                                 {/* <Button
                                 id="logout-button"

@@ -1158,7 +1158,7 @@ const ContentModels = ({
                             <Button
                                 variant="outlined"
                                 size='small'
-                                sx={{ padding: "5px 30px" }}
+                                sx={{ padding: {xs:'3px 20px',md:"5px 30px"},fontSize:{xs:'10px',sm:'12px'} }}
                                 onClick={() => handleClose()}
                             >
                                 Discard
@@ -1166,7 +1166,7 @@ const ContentModels = ({
                             <Button
                                 variant="contained"
                                 size='small'
-                                sx={{ padding: "5px 30px" }}
+                                sx={{ padding: {xs:'3px 20px',md:"5px 30px"},fontSize:{xs:'10px',sm:'12px'} }}
                                 onClick={() => {createGroupFun();}}
                             >
                                 Create Group
