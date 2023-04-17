@@ -146,17 +146,17 @@ export const SignupPage = () => {
 
     return (
         <Box container   >
-            <Grid container padding={{ xs: 0, sm: 5 }}>
-                <Grid item xs={12} sm={12} md={12} >
+            <Grid container padding={{ xs: 1, sm: 5 }}>
+                <Grid item xs={12} >
                     <Box container display={{xs:'start',sm:'flex'}} >
-                        <Grid item xs={6} sm={10} paddingLeft={{xs:2,sm:12}}>
+                        <Grid item xs={6} sm={10} paddingLeft={{ xs: 2, sm: 2, md: 6 }}>
                             <img
                                 src={organaiseLogo}
                                 style={{ width: "150px" }}
                                 alt="organaise-logo-login-page" />
                         </Grid>
-                        <Grid item xs={12} sm={8} display='flex' justifyContent={{xs:'center',sm:'start'}}  >
-                            <Typography variant="h4" fontSize={{xs:'30px',sm:'30px', md:'40px'}} fontWeight='600' color="#333333" mb={{xs:0,sm:4}}>
+                        <Grid item xs={12} sm={9} md={8} display='flex' justifyContent={{xs:'center',sm:'start'}}  >
+                            <Typography variant="h4" fontSize={{xs:'26px',sm:'33px', md:'40px'}} fontWeight='600' color="#333333" marginY={{xs:2,sm:0}}>
                                 Create Account
                             </Typography>
                         </Grid>
