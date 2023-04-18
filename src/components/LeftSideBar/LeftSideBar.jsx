@@ -598,7 +598,7 @@ const LeftSideBar = (props) => {
                     open={open}
                     position='relative'
                 >   
-                    <Box position={'absolute'} right={'0%'} bottom={'20%'}>
+                    <Box position={'absolute'} right={'0%'} bottom={'20%'} zIndex={50}>
                         {
                             open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%"  }} onClick={() => handleDrawerClose()} /> : (
                                 <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
@@ -723,7 +723,7 @@ const LeftSideBar = (props) => {
                                                     chats.length !== 0 && chats.map((d, index) =>
                                                         <ListItem
                                                             key={index}
-                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:'40px',xl:"60px"}, cursor: "pointer" }}
+                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:'40px',xl:"42px"}, cursor: "pointer" }}
                                                             // onClick={() =>
                                                             //     (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d._id);setActivePage("groups");)
                                                             // }
@@ -748,7 +748,7 @@ const LeftSideBar = (props) => {
                                                 <ListItem
                                                     sx={{
                                                         paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: {sm:'22px',md:'38px',xl:"58px"}, cursor: "pointer"
+                                                        paddingLeft: {sm:'22px',md:'38px',xl:"42px"}, cursor: "pointer"
                                                     }}
                                                     onClick={() => modelOpens()}
                                                 >
@@ -797,7 +797,7 @@ const LeftSideBar = (props) => {
 
                                                     <ListItem
                                                         key={index}
-                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:"40px",xl:'60px'}, cursor: "pointer" }}
+                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:"40px",xl:'42px'}, cursor: "pointer" }}
                                                         onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("inbox") }
                                                         }
                                                     >
@@ -828,7 +828,7 @@ const LeftSideBar = (props) => {
                                                 <ListItem
                                                     sx={{
                                                         paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: {sm:'22px',md:'38px',xl:"58px"}, cursor: "pointer"
+                                                        paddingLeft: {sm:'22px',md:'38px',xl:"42px"}, cursor: "pointer"
                                                     }}
                                                     onClick={() => singleMessTeamMemberModel()}
                                                 >
@@ -923,7 +923,7 @@ const LeftSideBar = (props) => {
                                         >
                                             <FolderOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
                                             <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
-                                                Create Folders
+                                                All Folders
                                             </span>
                                         </Button>
                                     </Box>
