@@ -111,10 +111,10 @@ const ForgetEmail = () => {
 
     return (
         <Box container  >
-            <Grid container padding={7}>
+            <Grid container padding={{ xs: 1, sm: 5 }}>
                 <Grid item xs={12} sm={12} md={6}  >
                     <Box container display='flex' flexDirection='column'>
-                        <Box paddingLeft={4}>
+                        <Box paddingLeft={{ xs: 2, sm: 12 }}>
                             <img
                                 src={organaiseLogo}
                                 style={{ width: "150px" }}
@@ -135,7 +135,8 @@ const ForgetEmail = () => {
 
                             <Grid container xs={8} >
 
-                                <Typography marginBottom={4} variant="h4" fontWeight='600' color="#333333">
+                                <Typography marginBottom={4} fontSize={{xs:'26px', md:'40px'}} variant="h4"  
+                                fontWeight='600' color="#333333">
 
                                     Forget Password
                                 </Typography>
@@ -153,7 +154,7 @@ const ForgetEmail = () => {
                                 </Grid>
 
 
-                                <Grid item xs={12} sx={cssStyle.grid_textBox_button}>
+                                <Grid item xs={12} sx={cssStyle.grid_textBox_button} paddingY={1}>
                                     <Button
                                         variant="contained"
                                         sx={{
@@ -185,7 +186,7 @@ const ForgetEmail = () => {
                                         Send OTP
 
                                     </Button>
-                                    <Typography marginTop={3} variant="subtitle2" align='center'>
+                                    <Typography marginTop={2} variant="subtitle2" align='center'>
                                         I want to login so &nbsp;<Link to="/login">
                                             Click Here
                                         </Link>
