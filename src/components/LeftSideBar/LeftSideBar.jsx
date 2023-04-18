@@ -923,7 +923,7 @@ const LeftSideBar = (props) => {
                                         >
                                             <FolderOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
                                             <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
-                                                Create Folders
+                                                All Folders
                                             </span>
                                         </Button>
                                     </Box>
