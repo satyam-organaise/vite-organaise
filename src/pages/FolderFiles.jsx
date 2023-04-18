@@ -18,6 +18,7 @@ const FolderFiles = () => {
     const {fid}=useParams();
     const [userFiles, setUserFiles] = useState([]);
     const [UserId, setUserId] = useState("");
+    const [folderName, setFolderName] = useState("");
     const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',
@@ -76,6 +77,7 @@ const FolderFiles = () => {
         const FilesResponse = response;
         if (FilesResponse.status==200) {
             const FilesData = FilesResponse?.data?.data[0]?.filesList;
+            setFolderName(FilesResponse?.data?.data[0]?.folderName)
             // FilesData.forEach((item)=>{
             //     const ext=item.fileName.split(['.'])[1];
             //     console.log(ext)
@@ -171,9 +173,9 @@ const FolderFiles = () => {
                     <Grid container px={1} >
                         <Grid container item mt={2} xs={12} >
                             <Box container width={"100%"} display={'flex'} justifyContent="space-between">
-                                <Typography variant="h6" >All Files</Typography>
+                                <Typography variant="h6" >{folderName}</Typography>
                                 <Box >
-                                    <TextField
+                                    {/* <TextField
                                         id="search_folder"
                                         placeholder='Search file'
                                         size='small'
@@ -193,15 +195,15 @@ const FolderFiles = () => {
                                                 </InputAdornment>
                                             ),
                                         }}
-                                    />
-                                    <Button
+                                    /> */}
+                                    {/* <Button
                                         variant="contained"
                                         size='small'
                                         sx={{ padding: "5px 20px" }}
                                         onClick={() => navigate("/files/upload")}
                                     >
                                         Add File
-                                    </Button>
+                                    </Button> */}
                                 </Box>
 
                             </Box>
