@@ -38,6 +38,7 @@ import ProjectName from './pages/ProjectName';
 import FolderFiles from './pages/FolderFiles';
 // import MyAccount from './pages/MyAccount';
 import { userTokenVerify } from './api/InternalApi/OurDevApi';
+import OtpVerfPagecopy from './components/AuthPages/OtpVerfPagecopy';
 
 export const LeftSideBarContext = createContext(null);
 function App() {
@@ -120,7 +121,7 @@ function App() {
             if(response.status===true)
             {
                 setIsAuthenticated(true)
-                if(pathname=='/login'||pathname=='/signup'||pathname=='/getStart'||pathname=='/getstart'||pathname=='/forgetEmail'||pathname=='/forget-password'||pathname=='/')
+                if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/getstart' || pathname == '/forgetEmail' || pathname == '/forget-password' || pathname == '/' )
                 {
                     navigate("/chat")
                 } 
@@ -129,7 +130,9 @@ function App() {
                 if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
-                    navigate("/getStart")
+                    // navigate("/getStart")
+                    navigate("/OtpVerfPagecopy")
+
                 }
             }
         }catch(err)
@@ -138,7 +141,9 @@ function App() {
                 if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
-                    navigate("/getStart")
+                    // navigate("/getStart")
+                    navigate("/OtpVerfPagecopy")
+
                 }
         }
     }
@@ -153,6 +158,8 @@ function App() {
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
                 <Route path="/projectName" element={<ProjectName />} />
+                {/* <Route path="/otpVerfPagecopy" element={<OtpVerfPagecopy />} /> */}
+
             </Routes>
             <ThemeProvider theme={theme}>
 

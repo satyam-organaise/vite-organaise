@@ -160,7 +160,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
 
   return (
     <Box container  >
-      <Grid container padding={{ xs: 2, sm: 5 }}>
+      <Grid container padding={{ xs: 1, sm: 5 }}>
        {/* grid1 */}
         <Grid item xs={12} >
           <Box container display={{ xs: 'start', sm: 'flex' }} >
@@ -232,7 +232,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
                     />
                   </Box>
 
-                  <Typography variant="subtitle2" align='right' >
+                  <Typography variant="subtitle2" align='right' paddingY={1.5} >
                     <Link to="/forgetEmail" style={{ textDecoration: "none", color: "red" }}>
                       Forget Password?
                     </Link>
