@@ -12,6 +12,7 @@ import { deleteFileApi } from '../api/InternalApi/OurDevApi';
 import { useDebounce } from 'use-debounce';
 import FileIcon from '../components/FileUploadModal/Icons/FileIcon';
 import DotMenu from '../components/Chat/DotMenu';
+import Loader from '../components/Tools/Loader';
 
 const FolderFiles = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const FolderFiles = () => {
     const [userFiles, setUserFiles] = useState([]);
     const [UserId, setUserId] = useState("");
     const [folderName, setFolderName] = useState("");
+    const [loading,setLoading]=useState(true);
     const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',
@@ -61,10 +63,7 @@ const FolderFiles = () => {
         }
     }
 
-    useEffect(() => {
-        const UserId =localStorage.getItem("sub");
-        setUserId(UserId);
-    }, [])
+   
 
     /////// Get files of this user
     const getFilesOfUser = async (userId) => {
@@ -74,6 +73,7 @@ const FolderFiles = () => {
                 'Content-Type': 'application/json'
             }
         });
+        console.log(response)
         const FilesResponse = response;
         if (FilesResponse.status==200) {
             const FilesData = FilesResponse?.data?.data[0]?.filesList;
@@ -87,12 +87,15 @@ const FolderFiles = () => {
         } else {
             toast.error(FilesResponse.message);
         }
-
+        setLoading(false)
     }
 
 
     useEffect(() => {
+        setLoading(true)
         // const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        const UserId =localStorage.getItem("sub");
+        setUserId(UserId);
         if (UserId !== "") {
             getFilesOfUser(UserId);
         }
@@ -140,10 +143,22 @@ const FolderFiles = () => {
     }, [debouncedSearchTerm, UserId])
 
 
+    
+    if(loading)
+    {
+        return(
+        <LeftSideBar data={{ pageName: "data", index: 2 }}>
+            <Loader/>
+        </LeftSideBar>
+        )
+    }
+
+
+
     return (
         <LeftSideBar data={{ pageName: "data", index: 2 }}>
             <Box px={"20px"} sx={style.folderCreateMainBox}>
-                {userFiles.length === 0 &&
+                {userFiles?.length === 0 &&
                     <Grid container>
                         <Grid container item xs={12} mt={2} display="flex"  justifyContent={'center'}>
                             <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
@@ -169,7 +184,7 @@ const FolderFiles = () => {
                     </Grid>
                 }
 
-                {userFiles.length !== 0 &&
+                {userFiles&&userFiles?.length !== 0 &&
                     <Grid container px={1} >
                         <Grid container item mt={2} xs={12} >
                             <Box container width={"100%"} display={'flex'} justifyContent="space-between">
