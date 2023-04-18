@@ -722,6 +722,7 @@ const LeftSideBar = (props) => {
                                                 {
                                                     //channelList.length !== 0 && channelList.map((d) =>
                                                     chats.length !== 0 && chats?.map((d, index) =>
+                                                    
                                                         <ListItem
                                                             key={index}
                                                             sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:'40px',xl:"42px"}, cursor: "pointer" }}
@@ -732,7 +733,7 @@ const LeftSideBar = (props) => {
                                                             onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("groups") }
                                                             }
                                                         >
-                                                            <ListItemText
+                                                           <ListItemText
                                                                 primary={
                                                                     //    d.Name.charAt(0).toUpperCase() + d.Name.slice(1)
                                                                     Object.keys(d).length > 0 &&
