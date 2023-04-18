@@ -61,9 +61,8 @@ const openedMixin = (theme) => ({
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration['20000'],
-    }),
+    }),  
     overflowX: 'hidden',
-    // marginLeft: '5rem',
     borderLeft: '2px solid  rgba(0, 0, 0, 0.06)',
     [theme.breakpoints.up('xs')]: {
         marginLeft: '3rem',
@@ -565,7 +564,7 @@ const LeftSideBar = (props) => {
                         >
                             <ChatTwoToneIcon fontSize='small' />
                         </Button>
-                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464", fontSize: '13px' }}>Chat</Typography>
+                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464", fontSize: '14px' }}>Chat</Typography>
                     </Box>
 
 
@@ -577,7 +576,7 @@ const LeftSideBar = (props) => {
                         >
                             <ArticleOutlinedIcon fontSize='small' />
                         </Button>
-                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '13px' }}>Files</Typography>
+                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '14px' }}>Files</Typography>
                     </Box>
 
                     {/* <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
@@ -693,7 +692,7 @@ const LeftSideBar = (props) => {
                                                 }}
                                                 endIcon={<KeyboardArrowDownIcon sx={{ position: "absolute", right: "10px", top: "8px" }} />}
                                             >
-                                                <GroupAddIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
+                                                <GroupAddIcon sx={{ fontSize: "20px", marginRight: "8px" }} />
                                                 <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px", }}>
                                                     Groups
                                                 </span>
@@ -722,7 +721,7 @@ const LeftSideBar = (props) => {
 
                                                 {
                                                     //channelList.length !== 0 && channelList.map((d) =>
-                                                    chats.length !== 0 && chats.map((d, index) =>
+                                                    chats.length !== 0 && chats?.map((d, index) =>
                                                         <ListItem
                                                             key={index}
                                                             sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: {sm:'25px',md:'40px',xl:"42px"}, cursor: "pointer" }}
@@ -790,7 +789,7 @@ const LeftSideBar = (props) => {
                                                 }}
                                                 endIcon={<KeyboardArrowDownIcon sx={{ position: "absolute", right: "10px", top: "8px" }} />}
                                             >
-                                                <GroupAddIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
+                                                <GroupAddIcon sx={{ fontSize: "20px", marginRight: "8px" }} />
                                                 <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px", }}>
                                                     Inbox
                                                 </span>
@@ -820,8 +819,8 @@ const LeftSideBar = (props) => {
 
                                                         <ListItemText
                                                             primary={
-                                                                Object.keys(d).length > 0 &&
-                                                                (!d?.isGroupChat && getSender(user, d.users))
+                                                                Object.keys(d).length > 0 && 
+                                                                ((!d?.isGroupChat && getSender(user, d.users)).length<11?(!d?.isGroupChat && getSender(user, d.users)):(!d?.isGroupChat && getSender(user, d.users).slice(0,10)+" .."))
                                                             }
                                                             sx={{
                                                                 opacity: open ? 1 : 0, marginTop: "1px",
@@ -989,7 +988,7 @@ const LeftSideBar = (props) => {
                         }
 
 
-                        <Box id="logout_box" sx={{ position: "absolute", bottom: "10px", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: {sm:'8px',md:"20px"} }} mt={1}>
+                        <Box id="logout_box" sx={{ position: "absolute", bottom: "10px", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: {sm:'8px',md:"10px"},background:"white" }} mt={1}>
                             <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
                                 {/* <Button
                                 id="logout-button"
