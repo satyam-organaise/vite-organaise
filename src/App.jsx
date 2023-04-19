@@ -130,8 +130,7 @@ function App() {
                 if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
-                    // navigate("/getStart")
-                    navigate("/OtpVerfPagecopy")
+                    navigate("/getStart")
 
                 }
             }
@@ -141,8 +140,7 @@ function App() {
                 if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
-                    // navigate("/getStart")
-                    navigate("/OtpVerfPagecopy")
+                    navigate("/getStart")
 
                 }
         }

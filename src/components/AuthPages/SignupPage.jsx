@@ -169,7 +169,7 @@ export const SignupPage = () => {
                         {/* <Box display='flex' gap={2} > */}
                         <Grid item xs={12} sm={6} paddingBottom={2}  >
                             <Box paddingLeft={4} display='flex' justifyContent='center'>
-                                <img src={signupPageBgImg} style={{ width: "70%" }} alt="signUp-page-background-image" />
+                                <img src={signupPageBgImg} style={{ width: "57%" }} alt="signUp-page-background-image" />
                             </Box>
                         </Grid>
 
