@@ -8,6 +8,7 @@ import {
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import EditIcon from '@mui/icons-material/Edit';
 import MuiDrawer from "@mui/material/Drawer"
 import MenuIcon from '@mui/icons-material/Menu';
 import MuiAppBar from '@mui/material/AppBar';
@@ -53,6 +54,7 @@ import oLogo from "../../assets/svg/oLogo.svg"
 import ChatTwoToneIcon from '@mui/icons-material/ChatTwoTone';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import LogOutModal from '../Chat/LogOutModal';
+import HeaderMenu from './Items/HeaderMenu';
 
 const drawerWidth = '200px';
 
@@ -206,7 +208,7 @@ const LeftSideBar = (props) => {
     const [open, setOpen] = React.useState(true);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const settings = [ 'Dashboard', 'Account', 'Logout'];
+    const settings = ['Edit Profile',"Choose Theme","Add Account","Help", 'Logout'];
     const [activePage, setActivePage] = useState("HomePage");
     const [activeChatId, setActiveChatId] = useState("")
 
@@ -290,7 +292,7 @@ const LeftSideBar = (props) => {
     };
 
     const handleCloseUserMenu = (data = "") => {
-        if (data === 'Account') {
+        if (data === 'Edit Profile') {
             navegate("/account")
         }
         if (data === 'Dashboard') {
@@ -480,12 +482,12 @@ const LeftSideBar = (props) => {
                     </Search>
                 </Box> */}
 
-                            <Box sx={{ flexGrow: 0, width: "60%" }} display="inline-flex"
+                <Box sx={{ flexGrow: 0, width: "60%" }} display="inline-flex"
                     justifyContent={props.data.pageName === "Data" ? 'space-between' : "end"}
                 >
                     {props.data.pageName === "Data" &&
                         <Box id="file_upload_icon">
-                            <Button
+                            {/* <Button
                                 variant="contained"
                                 sx={{
                                     backgroundColor: "#03CF80",
@@ -495,7 +497,7 @@ const LeftSideBar = (props) => {
                                 onClick={() => props.setOpen(true)}
                             >
                                 Upload Data
-                            </Button>
+                            </Button> */}
                         </Box>
                     }
 
@@ -505,7 +507,7 @@ const LeftSideBar = (props) => {
                             <NotificationsNoneOutlinedIcon
                                 sx={{ width: "28px", height: "28px", fontSize: '30px', color: "#333", opacity: 0.5 }} />
                         </Box>
-                        <Box id="profile_icon"  px='1rem'>
+                        {/* <Box id="profile_icon"  px='.8rem'>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar src="https://images.pexels.com/photos/8864285/pexels-photo-8864285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -529,12 +531,18 @@ const LeftSideBar = (props) => {
                                 onClose={() => handleCloseUserMenu()}
                             >
                                 {settings.map((setting) => (
+                                    <>
                                     <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+                                        <ListItemIcon>
+                                            <EditIcon fontSize="small" />
+                                        </ListItemIcon>
                                         <Typography textAlign="center">{setting}</Typography>
                                     </MenuItem>
+                                    </>
                                 ))}
                             </Menu>
-                        </Box>
+                        </Box> */}
+                        <HeaderMenu/>
                     </Box>
                 </Box>
                         </Toolbar>
