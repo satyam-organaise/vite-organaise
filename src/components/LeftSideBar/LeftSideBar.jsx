@@ -480,7 +480,7 @@ const LeftSideBar = (props) => {
                     </Search>
                 </Box> */}
 
-                            {/* <Box sx={{ flexGrow: 0, width: "60%" }} display="inline-flex"
+                            <Box sx={{ flexGrow: 0, width: "60%" }} display="inline-flex"
                     justifyContent={props.data.pageName === "Data" ? 'space-between' : "end"}
                 >
                     {props.data.pageName === "Data" &&
@@ -535,7 +535,7 @@ const LeftSideBar = (props) => {
                             </Menu>
                         </Box>
                     </Box>
-                </Box> */}
+                </Box>
                         </Toolbar>
                     </AppBar>
                 }
@@ -579,7 +579,7 @@ const LeftSideBar = (props) => {
                         <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '14px' }}>Files</Typography>
                     </Box>
 
-                    {/* <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
+                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
                         <Button onClick={()=>{navigatePage("account")}} display='flex' flexDirection='column' sx={{
                                 color: location.pathname === "/account" ? "#448DF0" : "#646464"
                             }}
@@ -587,7 +587,7 @@ const LeftSideBar = (props) => {
                             <AccountCircleOutlinedIcon fontSize='small'/>
                         </Button>
                             <Typography sx={{color: location.pathname.split(['/'])[1] === "account" ? "#448DF0" : "#646464",fontSize:'13px'}}>Account</Typography>
-                    </Box> */}
+                    </Box>
 
 
                 </Box>
@@ -596,17 +596,18 @@ const LeftSideBar = (props) => {
 
                 <Drawer
                     variant="permanent"
-                    open={open}
+                    open={open&&!props.closeSideList}
                     position='relative'
+                    // display={props.closeSideList&&handleDrawerClose}
                 >   
-                    <Box position={'absolute'} right={'0%'} bottom={'20%'} zIndex={50}>
+                    {!props.closeSideList&&<Box position={'absolute'} right={'0%'} bottom={'20%'} zIndex={50}>
                         {
                             open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%"  }} onClick={() => handleDrawerClose()} /> : (
                                 <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
                             )
                         }
 
-                    </Box>
+                    </Box>}
 
                     {/* <DrawerHeader >
                         <Grid

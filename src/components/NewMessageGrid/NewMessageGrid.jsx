@@ -130,11 +130,11 @@ const NewMessageGrid = ({ selectedChannel }) => {
         timeRecMess: { fontSize: "10px", lineHeight: "25px", paddingLeft: "5px" },
         recRealMess: {
             paddingRight: "30px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px",  color: "#323232", background: " #F8F8F8", borderRadius: "0px 10px 10px 10px"
+            fontSize: "14px", lineHeight: "15px",  color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px",fontWeight:'400'
         },
         sendRealMess: {
             paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px",background: " #ECF4FF", color: "#323232", borderRadius: "10px 0px 10px 10px",
+            fontSize: "14px", lineHeight: "15px",background: "#448DF0", color: "white", borderRadius: "10px 0px 10px 10px",fontWeight:"400"
         },
         sendMessInput: {
             "& input": {
