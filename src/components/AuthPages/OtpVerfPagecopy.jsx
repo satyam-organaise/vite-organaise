@@ -92,41 +92,41 @@ const OtpVerfPagecopy = () => {
         <Box container  >
             <Grid container padding={{ xs: 1, sm: 5 }}>
                 {/* grid1 */}
-
-                <Grid item xs={12} >
-                    <Box container display={{ xs: 'start', sm: 'flex' }} >
-                        <Grid item xs={6} sm={10} paddingLeft={{ xs: 2, sm: 12 }}>
+                <Grid item xs={12} sm={6} >
+                    <Box container display={{ xs: 'flex', sm: 'center' }} flexDirection='column'>
+                        <Grid item xs={12} sm={12} paddingLeft={{ xs: 2, sm: 12 }}  >
                             <img
                                 src={organaiseLogo}
                                 style={{ width: "150px" }}
                                 alt="organaise-logo-login-page" />
                         </Grid>
-                        <Grid item xs={12} sm={8} justifyContent={{ xs: 'center', sm: 'start' }}  >
-                            <Typography variant="h4" fontSize={{ xs: '30px', sm: '33px', md: '40px' }} fontWeight='600' color="#333333" marginY={{ xs: 1, sm: 0 }}>
-                                OTP Verification
-                            </Typography> 
-                            <Typography fontSize={{ xs: '10px', sm: '33px', md: '16px' }} paddingLeft={{xs:12,sm:10}} paddingY={{ xs: 1, sm: 0 }}>
-                                sent code to surajgautam
+                        <Grid item xs={12} sm={12}  display='flex' flexDirection='column' justifyContent={{ xs: 'center', sm: 'center' }} paddingLeft={{xs:'0%',sm:'3%'}}  >
+                            <Typography variant="h4" textAlign={{xs:'center',md:'center'}} fontSize={{ xs: '26px', sm: '28px', md: '40px' }} fontWeight='200' color="#333333" marginY={{ xs: 1, sm: 0 }}>
+                            OTP Verification
+                            </Typography>
+                              <Typography fontSize={{ xs: '14px', sm: '15px', md: '16px' }} textAlign={{xs:'center',md:'center'}} paddingY={{ xs: 1, sm: 0 }}>
+                              We’ve sent a code to 
                             </Typography>
                         </Grid>
                     </Box>
                 </Grid>
 
-                {/* Grid2 */}
-                <Grid item xs={12} sm={12} md={12} display={'flex'} justifyContent={'center'} >
 
-                    <Grid container xs={12} display='flex' >
+                {/* Grid2 */}
+                <Grid item xs={12} sm={12} md={12} display={'flex'} justifyContent={'center'}  >
+
+                    <Grid container xs={12} display='flex' justifyContent='center'>
                         <Grid item xs={12} sm={6} paddingBottom={2} >
-                            <Box paddingLeft={4} display='flex' justifyContent='center'>
+                            <Box paddingLeft={4} display='flex' justifyContent='center' >
 
                                 <img src={otpVerificationBgImg} style={{ width: "65%" }} alt="login-page-background-image" />
                             </Box>
 
                         </Grid>
 
-                        <Grid item xs={12} sm={6} display='flex' justifyContent='center'  >
-                            <Grid item xs={11} sm={10} md={9} >
-                                <Grid item xs={12} sx={cssStyle.grid_textBox_button} display='flex' justifyContent='center' paddingY={1}>
+                        <Grid item xs={11} sm={6}  display='flex' justifyContent='center' >
+                            <Grid item xs={12} sm={12} md={10}>
+                                <Grid item xs={12} sx={cssStyle.grid_textBox_button} display='flex' justifyContent='center' paddingTop={4} >
                                     <OtpField
                                         value={OtpValue}
                                         // onChange={setOtpValue}
@@ -138,10 +138,12 @@ const OtpVerfPagecopy = () => {
                                         inputProps={{
                                             className: `otp-field__input`,
                                             disabled: false,
+                                            width:'600px'
                                         }}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sx={cssStyle.grid_textBox_button} paddingY={3} display='flex' justifyContent='center' alignItems='center'>
+
+                                <Grid item xs={12} sx={cssStyle.grid_textBox_button} paddingY={2} display='flex' justifyContent='center' alignItems='center'>
                                     <Typography variant="subtitle1" align='center' fontWeight='400' color="#333333">
                                         Didn’t receive OTP?
                                         {/* {
@@ -154,8 +156,8 @@ const OtpVerfPagecopy = () => {
                                         Resend
                                     </Button>
                                 </Grid>
-                                <Grid xs={12} sx={cssStyle.grid_textBox_button} >
-                                    <Button variant="contained"
+                                <Grid item xs={12}  sx={cssStyle.grid_textBox_button} >
+                                    <Button  variant="contained"
                                         sx={{
                                             ...cssStyle.btn_textfield,
                                             height: "50px", position: "relative",

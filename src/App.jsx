@@ -130,8 +130,8 @@ function App() {
                 if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
-                    navigate("/getStart")
-                    // navigate("/OtpVerfPagecopy")
+                    // navigate("/getStart")
+                    navigate("/OtpVerfPagecopy")
 
                 }
             }
@@ -141,8 +141,8 @@ function App() {
                 if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
-                    navigate("/getStart")
-                    // navigate("/OtpVerfPagecopy")
+                    // navigate("/getStart")
+                    navigate("/OtpVerfPagecopy")
 
                 }
         }
@@ -158,7 +158,7 @@ function App() {
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
                 <Route path="/projectName" element={<ProjectName />} />
-                {/* <Route path="/otpVerfPagecopy" element={<OtpVerfPagecopy />} /> */}
+                <Route path="/otpVerfPagecopy" element={<OtpVerfPagecopy />} />
 
             </Routes>
             <ThemeProvider theme={theme}>
