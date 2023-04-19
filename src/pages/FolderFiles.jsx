@@ -17,6 +17,7 @@ import Loader from '../components/Tools/Loader';
 const FolderFiles = () => {
     const navigate = useNavigate();
     const {fid}=useParams();
+    console.log(fid)
     const [userFiles, setUserFiles] = useState([]);
     const [UserId, setUserId] = useState("");
     const [folderName, setFolderName] = useState("");

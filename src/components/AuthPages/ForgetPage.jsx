@@ -148,7 +148,7 @@ const ForgetPage = () => {
 
                         <Grid item xs={12} sm={6} paddingBottom={2}  >
                             <Box paddingLeft={4} display='flex' justifyContent='center'>
-                                <img src={forgetPassPageBGImg} style={{ width: "60%" }} alt="forget-page-background-image" />
+                                <img src={forgetPassPageBGImg} style={{ width: "57%" }} alt="forget-page-background-image" />
                             </Box>
                         </Grid>
 

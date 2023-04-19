@@ -121,7 +121,7 @@ const ForgetEmail = () => {
                                 alt="organaise-logo-login-page" />
                         </Box>
                         <Box paddingLeft={4}>
-                            <img src={forgetPassPageBGImg} style={{ width: "70%" }}
+                            <img src={forgetPassPageBGImg} style={{ width: "57%" }}
 
                                 alt="forget-password-page-background-image" />
                         </Box>

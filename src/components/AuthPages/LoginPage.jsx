@@ -184,7 +184,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
 
             <Grid item xs={12} sm={6} paddingBottom={2} >
               <Box paddingLeft={4} display='flex' justifyContent='center'>
-                <img src={loginPageBackgroundImg} style={{ width: "65%" }} alt="login-page-background-image" />
+                <img src={loginPageBackgroundImg} style={{ width: "57%" }} alt="login-page-background-image" />
               </Box>
             </Grid>
 
