@@ -206,7 +206,7 @@ const LeftSideBar = (props) => {
     const [open, setOpen] = React.useState(true);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    const settings = [ 'Dashboard', 'Account', 'Logout'];
     const [activePage, setActivePage] = useState("HomePage");
     const [activeChatId, setActiveChatId] = useState("")
 
@@ -508,7 +508,8 @@ const LeftSideBar = (props) => {
                         <Box id="profile_icon"  px='1rem'>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" sx={{ width: "30px", height: "30px" }} />
+                                    <Avatar src="https://images.pexels.com/photos/8864285/pexels-photo-8864285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                     alt="Remy Sharp" sx={{ width: "32px", height: "32px" }} />
                                 </IconButton>
                             </Tooltip>
                             <Menu
@@ -586,7 +587,7 @@ const LeftSideBar = (props) => {
                         >
                             <AccountCircleOutlinedIcon fontSize='small'/>
                         </Button>
-                            <Typography sx={{color: location.pathname.split(['/'])[1] === "account" ? "#448DF0" : "#646464",fontSize:'13px'}}>Account</Typography>
+                            <Typography sx={{color: location.pathname.split(['/'])[1] === "account" ? "#448DF0" : "#646464",fontSize:'12.5px'}}>Account</Typography>
                     </Box>
 
 
@@ -700,7 +701,7 @@ const LeftSideBar = (props) => {
                                             </Button>
                                         </Box>
                                         {showGroups&&<Box>
-                                            <List sx={{ padding: "0px" }} >
+                                            <List sx={{ paddingTop: "5px" }} >
                                                 {/* <ListItem sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px" }}>
                                     <ListItemText
                                         primary={`# General`}
