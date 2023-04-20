@@ -48,14 +48,13 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
   const handleClose = () => setOpen(false);
   const [search, setSearch] = useState("")
   const { selectChatV1,setChats,setSelectedChatV1 } = ChatState();
+  const [adminPosition,setAdminPosition]=useState(null)
 
-  
   const fetchChat = async () => {
     try {
         const response = await fetchAllChatSingleUserOrGroup();
-            // setChats(response);
-            // setSelectedChatV1(response)
-            // setLoggedUser(localStorage.getItem("userInfo"));
+        setChats(response)
+        console.log(response,"hooooo gyaayauya")
     } catch (error) {
         console.log("Something is wrong");
     }
@@ -68,11 +67,11 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
         "userId":userId 
         }
       const response=await RemoveMemberInGroup(data)
-      console.log(response,"delete response")
       if(response)
       {
         setSelectedChatV1(response)
         toast.success("User removed successfully")
+        fetchChat()
       }else{
         toast.error("User not removed")
       }
@@ -82,6 +81,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
       toast.error("Something is wrong in delete")
     }
   }
+
 
   return (
     <div>
@@ -146,13 +146,14 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
             </Button>
           </Box>
 
-
+          <Box display={'flex'} flexDirection={'column'}>
           {
             selectChatV1?.users?.map((item, index) => {
-              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id}/>
+              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id} adminId={selectChatV1?.groupAdmin?._id}/>
             })
           }
-
+          </Box>
+          
         </Box>
       </Modal>
     </div>
@@ -164,9 +165,9 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
 
 
-const User = ({ name, role, online = false, img,id,removeMember,chatId }) => {
+const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }) => {
   return (
-    <Box display={'flex'} justifyContent={'space-between'} mt='1rem'>
+    <Box display={'flex'} justifyContent={'space-between'} mt='1rem' order={id===adminId&&"-5"}>
 
       <Box display={'flex'} alignItems={'center'}>
         {
@@ -175,8 +176,11 @@ const User = ({ name, role, online = false, img,id,removeMember,chatId }) => {
           </StyledBadge> : <Avatar alt="Remy Sharp" src={img} />
         }
 
+        <Box>
 
         <Typography pl='8px' color="black" fontSize={{xs:'12px',md:'15px'}} textTransform={'capitalize'}>{name}</Typography>
+        {id===adminId&&<Typography pl='8px' color="green" fontSize={{xs:'9px',md:'11px'}} textTransform={'capitalize'}>admin</Typography>}
+        </Box>
       </Box>
 
       <Box >
@@ -184,11 +188,11 @@ const User = ({ name, role, online = false, img,id,removeMember,chatId }) => {
         <Typography pl='8px' color=" #A1A1A1" fontSize={{xs:'10px',md:'12px'}}  textTransform={'capitalize'}>
           {role}
         </Typography>
-        <Box>
-            <IconButton>
+        {(localStorage.getItem("userInfo")===adminId)&&<Box>
+            {id!==adminId&&<IconButton>
               <DeleteModal type='list' handleDelete={()=>{removeMember(chatId,id)}}/>
-            </IconButton>
-        </Box>
+            </IconButton>}
+        </Box>}
       </Box>
       
 

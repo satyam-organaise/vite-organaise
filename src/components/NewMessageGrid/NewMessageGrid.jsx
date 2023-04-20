@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Avatar, Stack, Button, TextField } from '@mui/material'
+import { Box, Grid, Typography, Avatar, Stack, Button, TextField, AvatarGroup } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
@@ -18,6 +18,7 @@ import { useMutation } from 'react-query';
 import { fetchAllChatSingleUserOrGroup, fetchMessagesV1, sendV1Message } 
 from '../../api/InternalApi/OurDevApi';
 import { getSender } from '../../utils/chatLogic';
+import { getTime } from '../../utils/validation';
 import io from "socket.io-client";
 
 import ListModal from '../Chat/ListModal';
@@ -130,11 +131,11 @@ const NewMessageGrid = ({ selectedChannel }) => {
         timeRecMess: { fontSize: "10px", lineHeight: "25px", paddingLeft: "5px" },
         recRealMess: {
             paddingRight: "30px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px",  color: "#323232", background: " #F8F8F8", borderRadius: "0px 10px 10px 10px"
+            fontSize: "14px", lineHeight: "15px",  color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px",fontWeight:'400'
         },
         sendRealMess: {
             paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px",background: " #ECF4FF", color: "#323232", borderRadius: "10px 0px 10px 10px",
+            fontSize: "14px", lineHeight: "15px",background: "#448DF0", color: "white", borderRadius: "10px 0px 10px 10px",fontWeight:"400"
         },
         sendMessInput: {
             "& input": {
@@ -288,6 +289,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
     const fetchAllMessV1 = async (chatId) => {
         try {
             const response = await fetchingAllMess({ chatId });
+            // console.log(response,"ye response id hai")
+            // var utcDate = response[4].createdAt;  // ISO-8601 formatted date returned from server
+            // var localDate = new Date(utcDate);
+            // console.log(localDate.toLocaleTimeString())
             setCurrentChats(response)
             socket.emit("join chat", chatId)
         } catch (error) {
@@ -344,9 +349,19 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                 }
                             </Typography>
                             <Stack ml={1} direction="row" spacing={-.25}>
-                                <Avatar sx={cssStyle.avatarCss} alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
-                                <Avatar sx={cssStyle.avatarCss} alt="Travis Howard" src="https://mui.com/static/images/avatar/2.jpg" />
-                                <Avatar sx={cssStyle.avatarCss} alt="Cindy Baker" src="https://mui.com/static/images/avatar/3.jpg" />
+                                <AvatarGroup max={3} 
+                                sx={{
+                                        '& .MuiAvatar-root': { width: 24, height: 24, fontSize: 15 },
+                                    }}
+                                >
+                                    {
+                                        selectChatV1?.isGroupChat===true?
+                                        selectChatV1?.users?.map((item)=>{
+                                            return <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
+                                        }):<Avatar alt="Remy Sharp" src="">{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
+                                    }
+                                
+                                </AvatarGroup>
                             </Stack>
                         </Box>
 
@@ -488,7 +503,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
                                                                 {mes.sender.name}
                                                             </Typography>
-                                                            <Typography variant="body2" sx={cssStyle.timeRecMess} >10:30 AM</Typography>
+                                                            <Typography variant="body2" sx={cssStyle.timeRecMess} >{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
                                                         <Grid container item boxSizing={"border-box"} mr="16px" >
                                                             <Typography variant="body2" sx={cssStyle.recRealMess} >
@@ -525,7 +540,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
                                                                 {mes.sender.name}
                                                             </Typography>
-                                                            <Typography variant="body2" sx={cssStyle.timeRecMess} >10:30 AM</Typography>
+                                                            <Typography variant="body2" sx={cssStyle.timeRecMess}>{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
                                                         <Grid container item boxSizing={"border-box"} mr="16px" display={"flex"} justifyContent="end">
                                                             <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign: "right" }} >

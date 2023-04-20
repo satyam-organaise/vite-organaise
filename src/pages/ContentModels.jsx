@@ -45,17 +45,21 @@ const ContentModels = ({
     const [allUsersList,setAllUsersList]=useState({})
 
     useEffect(()=>{
-        const list=selectChatV1.users;
-        const userIdArr=list.map((item)=>{
-            return item._id
+        const list=selectChatV1?.users;
+        const userIdArr=list?.map((item)=>{
+            return item?._id
         })
-        const idKeyObj={}
-        for(let val of userIdArr)
+        if(userIdArr)
         {
-            idKeyObj[val]=true
-        }
 
-        setAllUsersList(idKeyObj)
+            const idKeyObj={}
+            for(let val of userIdArr)
+            {
+                idKeyObj[val]=true
+            }
+            
+            setAllUsersList(idKeyObj)
+        }
     },[])
     ////// use conetext use here
     const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
@@ -389,7 +393,6 @@ const ContentModels = ({
             "chatId":selectChatV1._id, 
             "userId":selectSrcMember._id
        }
-       console.log(data)
         const response = await AddMemberInGroup(data);
         if (response) {
             setSelectedChatV1(response)
