@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Avatar, Stack, Button, TextField } from '@mui/material'
+import { Box, Grid, Typography, Avatar, Stack, Button, TextField, AvatarGroup } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
@@ -349,9 +349,18 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                 }
                             </Typography>
                             <Stack ml={1} direction="row" spacing={-.25}>
-                                <Avatar sx={cssStyle.avatarCss} alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
-                                <Avatar sx={cssStyle.avatarCss} alt="Travis Howard" src="https://mui.com/static/images/avatar/2.jpg" />
-                                <Avatar sx={cssStyle.avatarCss} alt="Cindy Baker" src="https://mui.com/static/images/avatar/3.jpg" />
+                                <AvatarGroup max={3} 
+                                sx={{
+                                        '& .MuiAvatar-root': { width: 24, height: 24, fontSize: 15 },
+                                    }}
+                                >
+                                    {
+                                        selectChatV1?.users?.map((item)=>{
+                                            return <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
+                                        })
+                                    }
+                                
+                                </AvatarGroup>
                             </Stack>
                         </Box>
 
