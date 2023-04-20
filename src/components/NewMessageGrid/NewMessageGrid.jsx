@@ -317,6 +317,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
             fetchAllMessV1(selectChatV1._id)
             selectedChatCompare = selectChatV1;
         }
+        console.log(selectChatV1)
     }, [selectChatV1._id])
 
     /////// sccrollbard automatic movein bottom place
@@ -355,9 +356,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     }}
                                 >
                                     {
+                                        selectChatV1?.isGroupChat===true?
                                         selectChatV1?.users?.map((item)=>{
                                             return <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
-                                        })
+                                        }):<Avatar alt="Remy Sharp" src="">{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
                                     }
                                 
                                 </AvatarGroup>
