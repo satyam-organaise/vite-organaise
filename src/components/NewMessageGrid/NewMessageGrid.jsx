@@ -493,7 +493,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
                                                                 {mes.sender.name}
                                                             </Typography>
-                                                            <Typography variant="body2" sx={cssStyle.timeRecMess} >10:30 AM</Typography>
+                                                            <Typography variant="body2" sx={cssStyle.timeRecMess} >{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
                                                         <Grid container item boxSizing={"border-box"} mr="16px" >
                                                             <Typography variant="body2" sx={cssStyle.recRealMess} >
