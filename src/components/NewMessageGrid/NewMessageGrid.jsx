@@ -18,6 +18,7 @@ import { useMutation } from 'react-query';
 import { fetchAllChatSingleUserOrGroup, fetchMessagesV1, sendV1Message } 
 from '../../api/InternalApi/OurDevApi';
 import { getSender } from '../../utils/chatLogic';
+import { getTime } from '../../utils/validation';
 import io from "socket.io-client";
 
 import ListModal from '../Chat/ListModal';
@@ -288,6 +289,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
     const fetchAllMessV1 = async (chatId) => {
         try {
             const response = await fetchingAllMess({ chatId });
+            // console.log(response,"ye response id hai")
+            // var utcDate = response[4].createdAt;  // ISO-8601 formatted date returned from server
+            // var localDate = new Date(utcDate);
+            // console.log(localDate.toLocaleTimeString())
             setCurrentChats(response)
             socket.emit("join chat", chatId)
         } catch (error) {
@@ -525,7 +530,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
                                                                 {mes.sender.name}
                                                             </Typography>
-                                                            <Typography variant="body2" sx={cssStyle.timeRecMess} >10:30 AM</Typography>
+                                                            <Typography variant="body2" sx={cssStyle.timeRecMess}>{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
                                                         <Grid container item boxSizing={"border-box"} mr="16px" display={"flex"} justifyContent="end">
                                                             <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign: "right" }} >
