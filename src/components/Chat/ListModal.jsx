@@ -49,7 +49,6 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
   const [search, setSearch] = useState("")
   const { selectChatV1,setChats,setSelectedChatV1 } = ChatState();
 
-  
   const fetchChat = async () => {
     try {
         const response = await fetchAllChatSingleUserOrGroup();
@@ -149,7 +148,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
           {
             selectChatV1?.users?.map((item, index) => {
-              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id}/>
+              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id} adminId={selectChatV1?.groupAdmin?._id}/>
             })
           }
 
@@ -164,7 +163,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
 
 
-const User = ({ name, role, online = false, img,id,removeMember,chatId }) => {
+const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }) => {
   return (
     <Box display={'flex'} justifyContent={'space-between'} mt='1rem'>
 
@@ -184,11 +183,11 @@ const User = ({ name, role, online = false, img,id,removeMember,chatId }) => {
         <Typography pl='8px' color=" #A1A1A1" fontSize={{xs:'10px',md:'12px'}}  textTransform={'capitalize'}>
           {role}
         </Typography>
-        <Box>
+        {(localStorage.getItem("userInfo")===adminId)&&<Box>
             <IconButton>
               <DeleteModal type='list' handleDelete={()=>{removeMember(chatId,id)}}/>
             </IconButton>
-        </Box>
+        </Box>}
       </Box>
       
 
