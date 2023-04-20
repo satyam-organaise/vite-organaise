@@ -9,8 +9,10 @@ import { useState } from 'react';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderMenu = () => {
+    const navigate=useNavigate()
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const settings = ['Edit Profile',"Choose Theme","Add Account","Help", 'Logout'];
@@ -27,10 +29,10 @@ const HeaderMenu = () => {
 
     const handleCloseUserMenu = (data = "") => {
         if (data === 'Edit') {
-            navegate("/account")
+            navigate("/account")
         }
         if (data === 'Dashboard') {
-            navegate("/chat")
+            navigate("/chat")
         }
         if (data === "Logout") {
             localStorage.clear();
@@ -91,7 +93,7 @@ const HeaderMenu = () => {
                 <Typography textAlign="center"  fontSize={'14px'}>Help</Typography>
             </MenuItem>
             <Divider/>
-            <MenuItem onClick={() => Help("ds")}>
+            <MenuItem onClick={() => handleCloseUserMenu("ds")}>
                 <ListItemIcon>
                     <LogoutIcon fontSize="small" />
                 </ListItemIcon>

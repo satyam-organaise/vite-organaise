@@ -393,7 +393,6 @@ const ContentModels = ({
             "chatId":selectChatV1._id, 
             "userId":selectSrcMember._id
        }
-       console.log(data)
         const response = await AddMemberInGroup(data);
         if (response) {
             setSelectedChatV1(response)
