@@ -82,19 +82,6 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
     }
   }
 
-  const findAdmin=()=>{
-    const adminId=selectChatV1?.groupAdmin?._id;
-    let pos=0;
-    const adminObj=selectChatV1.users.find((item,index)=>{
-      pos=index;
-      return adminId===item.id
-    })
-    console.log(pos)
-  }
-
-  useEffect(()=>{
-    findAdmin()
-  },[])
 
   return (
     <div>
