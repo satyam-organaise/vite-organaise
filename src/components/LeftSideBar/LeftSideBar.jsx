@@ -609,7 +609,7 @@ const LeftSideBar = (props) => {
                     position='relative'
                     // display={props.closeSideList&&handleDrawerClose}
                 >   
-                    {!props.closeSideList&&<Box position={'absolute'} right={'0%'} bottom={'20%'} zIndex={50}>
+                    {!props.closeSideList&&<Box gcolor='red' position={'absolute'} right={'0%'} bottom={'20%'} zIndex={50}>
                         {
                             open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%"  }} onClick={() => handleDrawerClose()} /> : (
                                 <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
@@ -999,7 +999,7 @@ const LeftSideBar = (props) => {
                         }
 
 
-                        <Box id="logout_box" sx={{ position: "absolute", bottom: "10px", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: {sm:'8px',md:"10px"},background:"white" }} mt={1}>
+                        <Box id="logout_box" sx={{ position: "absolute", bottom: "0%", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: {sm:'8px',md:"10px"},background:"white" }} mt={1}>
                             <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
                                 {/* <Button
                                 id="logout-button"

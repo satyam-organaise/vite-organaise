@@ -239,3 +239,10 @@ export const deleteFileApi = async (getData) => {
 
 
 
+export const deleteFolderFileApi = async (getData) => {
+    const response = await axios.delete(`v2/file/deleteFile`, { data: getData }, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
