@@ -565,36 +565,36 @@ const LeftSideBar = (props) => {
 
 
 
-                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
-                        <Button onClick={() => { navigatePage("chat") }} display='flex' flexDirection='column' sx={{
+                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("chat") }}>
+                        <Button display='flex' flexDirection='column' sx={{
                             color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464"
                         }}
                         >
                             <ChatTwoToneIcon fontSize='small' />
                         </Button>
-                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464", fontSize: '14px' }}>Chat</Typography>
+                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "chat" ? "#448DF0" : "#646464", fontSize: '14px',cursor:"pointer" }}>Chat</Typography>
                     </Box>
 
 
 
-                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
-                        <Button onClick={() => { navigatePage("files/allFiles") }} display='flex' flexDirection='column' sx={{
+                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("files/allFiles") }}>
+                        <Button  display='flex' flexDirection='column' sx={{
                             color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464"
                         }}
                         >
                             <ArticleOutlinedIcon fontSize='small' />
                         </Button>
-                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '14px' }}>Files</Typography>
+                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '14px',cursor:"pointer" }}>Files</Typography>
                     </Box>
 
-                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
-                        <Button onClick={() => { navigatePage("account") }} display='flex' flexDirection='column' sx={{
+                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("account") }} >
+                        <Button display='flex' flexDirection='column' sx={{
                             color: location.pathname === "/account" ? "#448DF0" : "#646464"
                         }}
                         >
                             <AccountCircleOutlinedIcon fontSize='small' />
                         </Button>
-                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "account" ? "#448DF0" : "#646464", fontSize: '12.5px' }}>Account</Typography>
+                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "account" ? "#448DF0" : "#646464", fontSize: '12.5px',cursor:"pointer" }}>Account</Typography>
                     </Box>
 
 
