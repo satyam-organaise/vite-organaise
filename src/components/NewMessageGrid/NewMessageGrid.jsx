@@ -48,7 +48,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
     //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
     // );
 
-    console.log(selectChatV1,'sguas77as7dta78std78as');
+    // console.log(selectChatV1,'sguas77as7dta78std78as');
     useEffect(() => {
         setActiveChannel(selectedChannel);
     }, [selectedChannel])
