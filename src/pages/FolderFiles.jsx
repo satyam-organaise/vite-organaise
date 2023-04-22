@@ -70,17 +70,15 @@ const FolderFiles = () => {
     const getFilesOfUser = async () => {
         try{
 
-            const response = await getFileFolderApi(folderId)
-            const FilesResponse = response;
-            const FilesData = FilesResponse?.data?.data[0]?.filesList;
-            console.log(FilesData)
-            // setFolderName(FilesResponse?.data?.data[0]?.folderName)
-            // setUserFiles(FilesData)
+            const FilesResponse = await getFileFolderApi(folderId)
+            const FilesData = FilesResponse?.data[0]?.filesList;
+            setFolderName(FilesResponse?.data[0]?.folderName)
+            setUserFiles(FilesData)
             
         }catch(error)
         {
             console.log(error);
-            toast.error(error?.message);
+            toast.error(error?.message||"Something is wrong");
         }
         setLoading(false)
     }

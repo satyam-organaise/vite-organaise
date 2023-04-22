@@ -373,13 +373,14 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
                         {
                             (selectChatV1?.isGroupChat === 'true' || selectChatV1?.isGroupChat === true) && <Box display={'flex'} alignItems={'center'} >
-                                <Button
+                               
+                                {selectChatV1?.groupAdmin._id===localStorage.getItem("userInfo")&&<Button
                                     sx={{ ...cssStyle.listofPeopeBtn, marginRight: "10px" }}
                                     variant="outlined"
                                     size="small"
                                     onClick={() => modelOpens()}>
                                     Add Member
-                                </Button>
+                                </Button>}
                                 {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
                             List Of People
                         </Button> */}
