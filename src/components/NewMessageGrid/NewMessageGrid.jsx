@@ -15,8 +15,8 @@ import ContentModels from '../../pages/ContentModels';
 import { useLocation } from 'react-router-dom';
 import { ChatState } from '../../Context/ChatProvider';
 import { useMutation } from 'react-query';
-import { fetchAllChatSingleUserOrGroup, fetchMessagesV1, sendV1Message } 
-from '../../api/InternalApi/OurDevApi';
+import { fetchAllChatSingleUserOrGroup, fetchMessagesV1, sendV1Message }
+    from '../../api/InternalApi/OurDevApi';
 import { getSender } from '../../utils/chatLogic';
 import { getTime } from '../../utils/validation';
 import io from "socket.io-client";
@@ -48,6 +48,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
     //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
     // );
 
+    // console.log(selectChatV1,'sguas77as7dta78std78as');
     useEffect(() => {
         setActiveChannel(selectedChannel);
     }, [selectedChannel])
@@ -123,7 +124,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
         firstBoxMessage: { height: "80vh", backgroundColor: "#ffffff", marginTop: "0px" },
         groupNameBox: {
             position: "sticky", top: "65px", width: "100%", height: "50px", zIndex: "100",
-            background: " #FFFFFF", boxSizing: "border-box", 
+            background: " #FFFFFF", boxSizing: "border-box",
             borderBottom: "1px solid #F1F1F1"
         },
         avatarCss: { width: "25px", height: "25px" },
@@ -131,11 +132,11 @@ const NewMessageGrid = ({ selectedChannel }) => {
         timeRecMess: { fontSize: "10px", lineHeight: "25px", paddingLeft: "5px" },
         recRealMess: {
             paddingRight: "30px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px",  color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px",fontWeight:'400'
+            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400'
         },
         sendRealMess: {
             paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px",background: "#448DF0", color: "white", borderRadius: "10px 0px 10px 10px",fontWeight:"400"
+            fontSize: "14px", lineHeight: "15px", background: "#448DF0", color: "white", borderRadius: "10px 0px 10px 10px", fontWeight: "400"
         },
         sendMessInput: {
             "& input": {
@@ -341,46 +342,50 @@ const NewMessageGrid = ({ selectedChannel }) => {
                     //Object.keys(MyActiveChat).lenght > 0 &&
                     <>
                         <Box display={"flex"}>
+                            {
+                                selectChatV1?.isGroupChat === false &&
+                                    <Avatar alt="Remy Sharp" src="">{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
+                            }
                             <Typography fontWeight={"600"}
-                                variant="subtitle2">
+                                variant="subtitle2" paddingTop={1} paddingLeft={2}  >
                                 {/* {ActiveChannel.Name.charAt(0).toUpperCase() + ActiveChannel.Name.slice(1)} */}
                                 {Object.keys(MyActiveChat).length > 0 &&
                                     (!MyActiveChat.isGroupChat ? getSender(user, MyActiveChat?.users) : (MyActiveChat.chatName))
                                 }
                             </Typography>
                             <Stack ml={1} direction="row" spacing={-.25}>
-                                <AvatarGroup max={3} 
-                                sx={{
+                                <AvatarGroup max={3}
+                                    sx={{
                                         '& .MuiAvatar-root': { width: 24, height: 24, fontSize: 15 },
                                     }}
                                 >
                                     {
-                                        selectChatV1?.isGroupChat===true?
-                                        selectChatV1?.users?.map((item)=>{
+                                        selectChatV1?.isGroupChat === true &&
+                                        selectChatV1?.users?.map((item) => {
                                             return <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
-                                        }):<Avatar alt="Remy Sharp" src="">{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
+                                        })
                                     }
-                                
+                                   
                                 </AvatarGroup>
                             </Stack>
                         </Box>
 
 
-                       {
-                        (selectChatV1?.isGroupChat==='true'||selectChatV1?.isGroupChat===true)&&<Box display={'flex'} alignItems={'center'} >
-                        <Button
-                            sx={{ ...cssStyle.listofPeopeBtn, marginRight: "10px" }}
-                            variant="outlined"
-                            size="small"
-                            onClick={() => modelOpens()}>
-                            Add Member
-                        </Button>
-                        {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
+                        {
+                            (selectChatV1?.isGroupChat === 'true' || selectChatV1?.isGroupChat === true) && <Box display={'flex'} alignItems={'center'} >
+                                <Button
+                                    sx={{ ...cssStyle.listofPeopeBtn, marginRight: "10px" }}
+                                    variant="outlined"
+                                    size="small"
+                                    onClick={() => modelOpens()}>
+                                    Add Member
+                                </Button>
+                                {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
                             List Of People
                         </Button> */}
-                        <ListModal buttonStyle={cssStyle.listofPeopeBtn} addMemberFunction={modelOpens}/>
-                    </Box>
-                       } 
+                                <ListModal buttonStyle={cssStyle.listofPeopeBtn} addMemberFunction={modelOpens} />
+                            </Box>
+                        }
                     </>
                 }
 
@@ -470,10 +475,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
                             */
                     }
 
-                    {(currentChats.length > 0&&selectChatV1) &&
+                    {(currentChats.length > 0 && selectChatV1) &&
                         <>
                             {currentChats?.map((mes, index) => {
-                                if (mes?.sender?._id === selectChatV1?.users[0]?._id&&selectChatV1.isGroupChat!==true) {
+                                if (mes?.sender?._id === selectChatV1?.users[0]?._id && selectChatV1.isGroupChat !== true) {
                                     return <Grid
                                         id="rec_mess_con_grid"
                                         sx={{
