@@ -932,11 +932,13 @@ const LeftSideBar = (props) => {
                                                 // onClick={() => navigatePage("create-folder")}
                                                 // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
                                                 onClick={() => navigatePage("files/folder")}
-                                                variant={location.pathname === ("/files/folder") ? "contained" : "text"}
+                                                variant={
+                                                    location.pathname === ("/files/folder")||location.pathname.slice(0,13)=="/files/folder" ? "contained" : "text"
+                                                }
                                                 size='small'
                                                 sx={{
                                                     width: "100%", justifyContent: 'flex-start',
-                                                    color: location.pathname === "/files/folder" ? "#ffffff" : "#646464"
+                                                    color: location.pathname === "/files/folder"||location.pathname.slice(0,13)=="/files/folder" ? "#ffffff" : "#646464"
                                                 }}
                                             >
                                                 <FolderOutlinedIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
