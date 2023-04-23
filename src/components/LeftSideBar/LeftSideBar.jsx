@@ -91,7 +91,7 @@ const closedMixin = (theme) => ({
     // marginLeft: '5rem',
     width: `calc(${theme.spacing(3.2)} + 1px)`,
     [theme.breakpoints.up('xs')]: {
-        width: `calc(${theme.spacing(3.2)} + 0px)`,
+        width: `calc(${theme.spacing(0)} + 0px)`,
         display: 'none'
     },
     [theme.breakpoints.up('sm')]: {
