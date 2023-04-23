@@ -1075,7 +1075,7 @@ const LeftSideBar = (props) => {
                 </Drawer>
                 
                 {/* Drawer toggle icon */}
-                <Box height={'100vh'}  width='16px' display={{ xs: 'none', sm: 'flex' }} overflow={'hidden'} flexDirection={'column'}borderRight='2px solid  rgba(0, 0, 0, 0.06)'>
+                <Box height={'100vh'} width='16px' display={{ xs: 'none', sm: 'flex' }} overflow={'hidden'} flexDirection={'column'}borderRight='2px solid  rgba(0, 0, 0, 0.06)' zIndex={'999'}>
                         
                     {!props.closeSideList && 
                     <Box 
