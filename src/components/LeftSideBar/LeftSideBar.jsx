@@ -64,8 +64,9 @@ const openedMixin = (theme) => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration['20000'],
     }),
-    // overflowX: 'hidden',
+    overflowX: 'hidden',
     borderLeft: '2px solid  rgba(0, 0, 0, 0.06)',
+    borderRight:"0px",
     [theme.breakpoints.up('xs')]: {
         marginLeft: '3rem',
         display: 'none'
@@ -81,6 +82,7 @@ const openedMixin = (theme) => ({
 });
 
 const closedMixin = (theme) => ({
+    borderRight:"0px",
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.easeInOut,
         duration: theme.transitions.duration.complex,
@@ -89,7 +91,7 @@ const closedMixin = (theme) => ({
     // marginLeft: '5rem',
     width: `calc(${theme.spacing(3.2)} + 1px)`,
     [theme.breakpoints.up('xs')]: {
-        width: `calc(${theme.spacing(3.2)} + 0px)`,
+        width: `calc(${theme.spacing(0)} + 0px)`,
         display: 'none'
     },
     [theme.breakpoints.up('sm')]: {
@@ -609,21 +611,6 @@ const LeftSideBar = (props) => {
                    
                 // display={props.closeSideList&&handleDrawerClose}
                 >
-                    {!props.closeSideList && <Box  position={'fixed'} 
-                    sx={{
-                        fill: (theme) => theme.palette.common.white,
-                        stroke: (theme) => theme.palette.divider,
-                        strokeWidth: 1,
-                      }}  
-                  
-                     right={'0%'} bottom={'20%'} minWidth={open? "82vw": "93.4vw"} zIndex={400} >
-                        {
-                            open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={() => handleDrawerClose()} /> : (
-                                <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
-                            )
-                        }
-
-                    </Box>}
 
                     {/* <DrawerHeader >
                         <Grid
@@ -757,6 +744,7 @@ const LeftSideBar = (props) => {
                                                                     (d?.isGroupChat && (`# ${d?.chatName}`))
                                                                 }
                                                                 sx={{
+                                                                    textTransform:"capitalize",
                                                                     opacity: open ? 1 : 0, marginTop: "0px",
                                                                     marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
                                                                 }}
@@ -841,6 +829,7 @@ const LeftSideBar = (props) => {
                                                                 ((!d?.isGroupChat && getSender(user, d.users)).length < 11 ? (!d?.isGroupChat && getSender(user, d.users)) : (!d?.isGroupChat && getSender(user, d.users).slice(0, 10) + " .."))
                                                             }
                                                             sx={{
+                                                                textTransform:"capitalize",
                                                                 opacity: open ? 1 : 0, marginTop: "1px",
                                                                 marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
                                                             }}
@@ -1084,6 +1073,25 @@ const LeftSideBar = (props) => {
 
                     </Box>}
                 </Drawer>
+                
+                {/* Drawer toggle icon */}
+                <Box height={'100vh'} width='16px' display={{ xs: 'none', sm: 'flex' }} overflow={'hidden'} flexDirection={'column'}borderRight='2px solid  rgba(0, 0, 0, 0.06)' zIndex={'999'}>
+                        
+                    {!props.closeSideList && 
+                    <Box 
+                        position={'absolute'}
+                        bottom={'18%'}
+                    >
+                        {
+                            open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={() => handleDrawerClose()} /> : (
+                                <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
+                            )
+                        }
+                    </Box>
+                     }
+
+                </Box>
+
 
 
                 {/* <DrawerHeader /> */}

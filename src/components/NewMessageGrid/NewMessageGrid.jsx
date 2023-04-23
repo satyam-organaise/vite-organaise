@@ -344,10 +344,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         <Box display={"flex"}>
                             {
                                 selectChatV1?.isGroupChat === false &&
-                                    <Avatar alt="Remy Sharp" src="">{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
+                                    <Avatar alt="Remy Sharp" src="" >{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
                             }
                             <Typography fontWeight={"600"}
-                                variant="subtitle2" paddingTop={1} paddingLeft={2}  >
+                                variant="subtitle2" paddingTop={1} paddingLeft={2} textTransform={'capitalize'} >
                                 {/* {ActiveChannel.Name.charAt(0).toUpperCase() + ActiveChannel.Name.slice(1)} */}
                                 {Object.keys(MyActiveChat).length > 0 &&
                                     (!MyActiveChat.isGroupChat ? getSender(user, MyActiveChat?.users) : (MyActiveChat.chatName))
