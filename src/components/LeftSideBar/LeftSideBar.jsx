@@ -64,7 +64,7 @@ const openedMixin = (theme) => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration['20000'],
     }),
-    overflowX: 'hidden',
+    // overflowX: 'hidden',
     borderLeft: '2px solid  rgba(0, 0, 0, 0.06)',
     [theme.breakpoints.up('xs')]: {
         marginLeft: '3rem',
@@ -609,9 +609,14 @@ const LeftSideBar = (props) => {
                    
                 // display={props.closeSideList&&handleDrawerClose}
                 >
-                    {!props.closeSideList && <Box  position={'absolute'}   
+                    {!props.closeSideList && <Box  position={'fixed'} 
+                    sx={{
+                        fill: (theme) => theme.palette.common.white,
+                        stroke: (theme) => theme.palette.divider,
+                        strokeWidth: 1,
+                      }}  
                   
-                     right={'0%'} bottom={'20%'} >
+                     right={'0%'} bottom={'20%'} minWidth={open? "82vw": "93.4vw"} zIndex={400} >
                         {
                             open ? <ChevronLeftIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={() => handleDrawerClose()} /> : (
                                 <ChevronRightIcon sx={{ fontSize: "1.5rem", bgcolor: 'whitesmoke', boxShadow: '4px 0px 18px rgba(0, 0, 0, 0.06)', border: '1px solid rgba(0, 0, 0, 0.4)', color: 'gray', borderRadius: "50%" }} onClick={handleDrawerOpen} />
