@@ -117,7 +117,7 @@ const FolderData = () => {
     const getFoldersData = async () => {
         setLoading(true)
         try {
-            const response = await axios.get('v2/folder', {    
+            const response = await axios.get('api/v2/folder', {    
             headers: {
                     'Content-Type': 'application/json'
                 }
