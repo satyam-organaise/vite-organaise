@@ -355,7 +355,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
     return (
         <>
-            <Box container py="13px" px={"25px"} bgcolor='pink' boxSizing={"border-box"} sx={cssStyle.groupNameBox} display="flex" justifyContent={"space-between"} >
+            <Box container py="13px" px={"25px"} bgcolor='pink' boxSizing={"border-box"} sx={cssStyle.groupNameBox} display="flex" justifyContent={"space-between"}>
                 {
                     //Object.keys(ActiveChannel).length > 3 &&
                     //Object.keys(MyActiveChat).lenght > 0 &&
@@ -368,7 +368,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
                                 </StyledBadge>
                             }
-                            <Box display='flex' flexDirection='column' >
+                            <Box display='flex' flexDirection='column' justifyContent={'center'}>
+                                <Box>
 
                                 <Typography fontWeight={"600"}
                                     variant="subtitle2" paddingTop={0.3} paddingLeft={1.2} textTransform={'capitalize'} >
@@ -376,15 +377,18 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     {Object.keys(MyActiveChat).length > 0 &&
                                         (!MyActiveChat.isGroupChat ? getSender(user, MyActiveChat?.users) : (MyActiveChat.chatName))
                                     }
-                                    {
-
+                                     {
+                                        
                                         selectChatV1?.isGroupChat === false &&
                                         <Typography fontSize='12px'>
                                             online
                                         </Typography>
-                                    }
+                                        }
+                                    
                                 </Typography>
+                               
 
+                                </Box>
                             </Box>
                             {/* 
 
