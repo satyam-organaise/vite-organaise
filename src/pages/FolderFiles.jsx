@@ -93,7 +93,7 @@ const FolderFiles = () => {
     ///////////// Delete file folder code add here
     const { mutateAsync: deleteFileFromFolder, isLoading: delFileFromFolderIsLoading } = useMutation(deleteFileFromFolderApi)
     const ActionDelFile = async (fileId) => {      
-        const dummyData = { fileId: fileId.fileId, folderId: folderId };
+        const dummyData = { fileId: fileId?._id, folderId: folderId };
         const resData = await deleteFileFromFolder(dummyData);
         getFilesOfUser()
     }
