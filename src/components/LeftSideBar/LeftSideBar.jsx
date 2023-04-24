@@ -1,28 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import {
-    Box, Toolbar, List, ListItem, ListItemButton, ListItemIcon, InputBase,
-    ListItemText, Grid, CssBaseline, Typography, Divider, IconButton, Tooltip, Avatar, Menu, MenuItem,
-    Button, FormHelperText, FormControl, Select, LinearProgress, Paper, CardMedia
+    Box, Toolbar, List, ListItem, InputBase,
+    ListItemText, CssBaseline, Typography, Divider, Avatar,
+    Button,  FormControl,CardMedia
 } from '@mui/material/';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
-import EditIcon from '@mui/icons-material/Edit';
 import MuiDrawer from "@mui/material/Drawer"
-import MenuIcon from '@mui/icons-material/Menu';
 import MuiAppBar from '@mui/material/AppBar';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import SearchIcon from '@mui/icons-material/Search';
-import CircleNotificationsOutlinedIcon from '@mui/icons-material/CircleNotificationsOutlined';
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 
@@ -31,25 +18,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-import PersonIcon from '@mui/icons-material/Person';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ContentModels from '../../pages/ContentModels';
-// import {
-//     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
-//     sendChannelMessage, listChannelMessages
-// }
-//     from "../../api/ChimeApi/ChimeApi";
-import appConfig from "../../Config";
-//////////get the all users from congnito ///////////////////
-// import { IdentityService } from '../../services/IdentityService.js';
 import { useMutation } from 'react-query';
 import { fetchAllChatSingleUserOrGroup, getCompanyName } from '../../api/InternalApi/OurDevApi';
 import { toast } from 'react-toastify';
-import BusinessIcon from '@mui/icons-material/Business';
 import { ChatState } from '../../Context/ChatProvider';
 import { getSender } from '../../utils/chatLogic';
-import { BorderLeft } from '@mui/icons-material';
 import oLogo from "../../assets/svg/oLogo.svg"
 import ChatTwoToneIcon from '@mui/icons-material/ChatTwoTone';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
@@ -88,7 +63,6 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.complex,
     }),
     overflowX: 'hidden',
-    // marginLeft: '5rem',
     width: `calc(${theme.spacing(3.2)} + 1px)`,
     [theme.breakpoints.up('xs')]: {
         width: `calc(${theme.spacing(0)} + 0px)`,
@@ -225,24 +199,7 @@ const LeftSideBar = (props) => {
 
 
     //////////// Store the userid of user ////////
-    const [UserId, setUserId] = useState("");
     const [subUserId, setSubUserId] = useState("");
-    ////////// Create and store Identity service //////
-    // const [IdentityServiceObject] = useState(
-    //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
-    // );
-    //////////When this page render then user_id store , and channel list also load
-    // useEffect(() => {
-    //     getAwsCredentialsFromCognito();
-    //     IdentityServiceObject.setupClient();
-    //     let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
-    //     let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
-    //     let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
-    //     let GetsubUserId = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "sub")).Value;
-    //     setUserId(userid)
-    //     setSubUserId(GetsubUserId);
-    //     //setMember({ username: getLoginUserName, userId: userid });
-    // }, [])
 
     useEffect(() => {
         if (props?.data?.pageName === "Folder") {
@@ -292,39 +249,6 @@ const LeftSideBar = (props) => {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = (data = "") => {
-        if (data === 'Edit Profile') {
-            navegate("/account")
-        }
-        if (data === 'Dashboard') {
-            navegate("/chat")
-        }
-        if (data === "Logout") {
-            localStorage.clear();
-            window.location = "/login";
-        }
-        setAnchorElUser(null);
-    };
-
-    const changePage = (indexVal) => {
-        let pagesArray = ['dashboard', 'message', 'folder', 'data', 'privacy-policy', 'settings'];
-        if (indexVal === 0) {
-            navegate(`/`);
-        } else {
-            if (indexVal === 2) {
-                setOpen(!open);
-            }
-            navegate(`/${pagesArray[indexVal]}`);
-        }
-
-    }
-
-    ///// Show company Drop Down
-    const [age, setAge] = React.useState(10);
-
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
 
 
     ////// Handle  Logout function
@@ -360,39 +284,7 @@ const LeftSideBar = (props) => {
     //////// Here we are store a channel name list //////
     /////////////////////////////////////////////////////
     const [channelList, setChannelList] = useState([]);
-    ///////  Here store channel interval
-    const [ChannelInterval, setChannelInterval] = useState(null);
-    // const channelListFunction = async (userid) => {
-    //     const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
-    //         userid
-    //     );
-    //     const userChannelList = userChannelMemberships.map(
-    //         (channelMembership) => {
-    //             const channelSummary = channelMembership.ChannelSummary;
-    //             channelSummary.SubChannelId =
-    //                 channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
-    //             return channelSummary;
-    //         }
-    //     );
-    //     setChannelList(userChannelList);
-    // }
-
-    /////// run first time and get the channel list and store it
-
-    // useEffect(() => {
-    //     if ((UserId !== "") && (location.pathname === "/")) {
-    //         clearInterval(ChannelInterval);
-    //         setChannelList([]);
-    //         setChannelInterval(setInterval(() => {
-    //             channelListFunction(UserId);
-    //         }, [3000]))
-    //     } else {
-    //         if (UserId !== "") {
-    //             clearInterval(ChannelInterval);
-    //             channelListFunction(UserId);
-    //         }
-    //     }
-    // }, [UserId, location])
+ 
 
     //////// useLocation Check and update the state according to left sidebar options 
     useEffect(() => {
@@ -471,17 +363,17 @@ const LeftSideBar = (props) => {
                             </Box>
 
                             {/* <Box id="search_field_in_App_bar" pl='2rem'>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon sx={{ fontSize: "18px" }} />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                            sx={{ border:'1px solid #BEBEBE'}}
-                        />
-                    </Search>
-                </Box> */}
+                                <Search>
+                                    <SearchIconWrapper>
+                                        <SearchIcon sx={{ fontSize: "18px" }} />
+                                    </SearchIconWrapper>
+                                    <StyledInputBase
+                                        placeholder="Search…"
+                                        inputProps={{ 'aria-label': 'search' }}
+                                        sx={{ border:'1px solid #BEBEBE'}}
+                                    />
+                                </Search>
+                            </Box> */}
 
                             <Box sx={{ flexGrow: 0, width: "60%" }} display="inline-flex"
                                 justifyContent={props.data.pageName === "Data" ? 'space-between' : "end"}
@@ -609,47 +501,12 @@ const LeftSideBar = (props) => {
                     open={open && !props.closeSideList}
                     position='relative'
                    
-                // display={props.closeSideList&&handleDrawerClose}
                 >
 
-                    {/* <DrawerHeader >
-                        <Grid
-                            container
-                            display="flex"
-                            justifyContent="center"
-                            sx={{ transform: "translateX(-18px)" }}
-                          
-                        >
-                             {open &&
-                                <IconButton onClick={handleDrawerClose} sx={{ padding: "12px" }}>
-                                    {theme.direction === 'rtl' ?
-                                    <ChevronRightIcon /> :
-                                    // <ChevronLeftIcon />
-                                    <MenuIcon />
-                                }
-                                </IconButton>
-                            }
-
-                            {open && <Typography
-                                variant="subtitle1"
-                                sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
-                                color="primary">Microsoft</Typography>
-                            } 
-                        </Grid>
-                    </DrawerHeader> */}
 
                     <DrawerHeader />
 
                     {open && <Box>
-
-                        {/* <Box display="flex" justifyContent="center" width={'100%'}>
-                        <Typography
-                            variant="subtitle1"
-                            sx={{ fontWeight: "500", fontSize: "22px", lineHeight: 2.75 ,color:'#646464'}}
-                            color="primary">Microsoft
-                        </Typography>
-                            
-                    </Box> */}
                         <Divider />
 
                         <FormControl sx={{ m: 1, minWidth: 120, paddingLeft: "15px", paddingRight: "15px", }}>
