@@ -78,7 +78,7 @@ const FolderData = () => {
     //////// Delete Folder
     const deleteFolder = async (folderData) => {
         const UserId = localStorage.getItem("userInfo");
-            const response = await axios.delete('v2/folder/deleteFolder',
+            const response = await axios.delete('api/v2/folder/deleteFolder',
                 { data: { folderId: folderData} }, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ const FolderData = () => {
     const getFoldersData = async () => {
         setLoading(true)
         try {
-            const response = await axios.get('v2/folder', {    
+            const response = await axios.get('api/v2/folder', {    
             headers: {
                     'Content-Type': 'application/json'
                 }
