@@ -53,9 +53,12 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
   const fetchChat = async () => {
     try {
-        const response = await fetchAllChatSingleUserOrGroup();
-        setChats(response)
-        console.log(response,"hooooo gyaayauya")
+      const response = await fetchAllChatSingleUserOrGroup();
+
+      console.log(response, "all fetchhhhhhhh")
+      // setChats(response);
+      // setSelectedChatV1(response)
+      // setLoggedUser(localStorage.getItem("userInfo"));
     } catch (error) {
       console.log("Something is wrong");
     }

@@ -11,14 +11,11 @@ import ContentModels from './pages/ContentModels';
 import AllFiles from './pages/AllFiles';
 import ChatProvider from './Context/ChatProvider';
 import ServiceProvider from './Context/ServiceProvider';
-// import LeftSideBar from './components/LeftSideBar/LeftSideBar';
-// import { useContext } from 'react';
 import LoginPage from './components/AuthPages/LoginPage';
 import { SignupPage } from './components/AuthPages/SignupPage';
 import GetStart from './components/AuthPages/GetStart';
 import ForgetPage from './components/AuthPages/ForgetPage';
 import OtpVerfPage from './components/AuthPages/OtpVerfPage';
-// import NewPassword from './components/AuthPages/NewPassword';
 import ForgetEmail from './components/AuthPages/ForgetEmail';
 import ProjectName from './pages/ProjectName';
 import FolderFiles from './pages/FolderFiles';
@@ -106,7 +103,6 @@ function App() {
                 <Route path="/model" element={<ContentModels />} />
                 <Route path="/invite" element={<InviteTeam />} />
                 <Route path="/projectName" element={<ProjectName />} />
-                {/* <Route path="/otpVerfPagecopy" element={<OtpVerfPagecopy />} /> */}
 
             </Routes>
             <ThemeProvider theme={theme}>
@@ -123,8 +119,6 @@ function App() {
                             <Route path="/forgetEmail" element={<ForgetEmail serviceType='forgetEmail ' />} />
                             <Route path="/forget-password" element={<ForgetPage serviceType='forgetPassword' />} />
                             <Route path="/otpVerf" element={<OtpVerfPage serviceType='otpVerf' setIsAuthenticated={setIsAuthenticated} />} />
-                            {/* <Route path="/newPassword" element={<NewPassword serviceType='newPassword' />} /> */}
-                            {/* <Route path="/companyDetail" element={<CompanyDetails />} /> */}
                         </Routes>
                     </ServiceProvider>
                     :

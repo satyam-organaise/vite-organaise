@@ -48,11 +48,9 @@ const FileUploadModal = ({ handleClose, open, setJsonData, handleClickOpen, user
             });
 
             if (ShowFiles.length - 1 === index) {
-                console.log(response.data.data)
-                if (response?.data?.data?.Key) {
+                if (response?.data?.data?.status) {
                     setLoader(false)
                     toast.success(`File uploaded successfully`);
-                    // ${response.data.Key.split(".")[0]}
                     handleClose();
                     navigate("/files/allFiles");
                 } else {
