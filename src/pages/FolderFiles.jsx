@@ -72,12 +72,12 @@ const FolderFiles = () => {
 
             const FilesResponse = await getFileFolderApi(folderId)
             const FilesData = FilesResponse?.data[0]?.filesList;
-            console.log(FilesData)
             setFolderName(FilesResponse?.data[0]?.folderName)
             setUserFiles(FilesData)
             
         }catch(error)
         {
+            console.log(error);
             toast.error(error?.message||"Something is wrong");
         }
         setLoading(false)
@@ -87,15 +87,38 @@ const FolderFiles = () => {
     useEffect(() => {
         setLoading(true)
         getFilesOfUser();
+        // const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
+        // const UserId =localStorage.getItem("sub");
+        // setUserId(UserId);
+        // if (UserId !== "") {
+        // }
     }, [])
 
     
     ///////////// Delete file folder code add here
     const { mutateAsync: deleteFileFromFolder, isLoading: delFileFromFolderIsLoading } = useMutation(deleteFileFromFolderApi)
-    const ActionDelFile = async (fileId) => {      
-        const dummyData = { fileId: fileId?._id, folderId: folderId };
-        const resData = await deleteFileFromFolder(dummyData);
-        getFilesOfUser()
+    const ActionDelFile = async (fileId) => {
+          
+           
+            const dummyData = { fileId: fileId, folderId: folderId };
+            const resData = await deleteFileFromFolder(dummyData);
+            getFilesOfUser()
+            // if (resData.status) {
+            //     toast.success(resData.message);
+            //     if (debouncedSearchTerm !== "") {
+            //         const afterDelFilterFile = userFiles.filter((srcFiles) => srcFiles.fileId !== data.fileId);
+            //         setUserFiles(afterDelFilterFile);
+            //         if (afterDelFilterFile.length === 0) {
+            //             SetSrcFileText("");
+            //         }
+            //     } else {
+            //         getFilesOfUser(UserId);
+            //     }
+            // } else {
+            //     toast.error(resData.message);
+            // }
+   
+
     }
 
     ///////////// Search file 
@@ -213,13 +236,15 @@ const FolderFiles = () => {
                                     </Box>
                                     <Box container>
                                         <Typography align='center' variant="subtitle2" color={"#121212"}>
-                                            {d.fileName.split(".")[0].length > 15 ? d.fileName.split(".")[0].substring(0, 14) : d.fileName.split(".")[0]}
+                                            {/* {d.fileName.split(".")[0].length > 15 ? d.fileName.split(".")[0].substring(0, 14) : d.fileName.split(".")[0]} */}
+                                            {randomName[index] }
                                         </Typography>
                                     </Box>
                                     <Box container>
                                         <Typography align='center' variant="subtitle2" fontSize={"13px"}
                                             color={"#CDCDCD"}>
-                                            {`${Math.abs(parseInt(d?.fileSize) / 1000000) % 1 !== 0 ? Math.abs(parseInt(d?.fileSize) / 1000000).toFixed(2) : Math.floor(Math.abs(parseInt(d?.fileSize) / 1000000))} MB`}
+                                            {/* {`${Math.abs(parseInt(d?.fileSize) / 1000000) % 1 !== 0 ? Math.abs(parseInt(d?.fileSize) / 1000000).toFixed(2) : Math.floor(Math.abs(parseInt(d?.fileSize) / 1000000))} MB`} */}
+                                            1.00 MB
                                         </Typography>
                                     </Box>
                                 </Box>

@@ -501,7 +501,7 @@ const LeftSideBar = (props) => {
                     open={open && !props.closeSideList}
                     position='relative'
                    
-                >
+                   >
 
 
                     <DrawerHeader />
