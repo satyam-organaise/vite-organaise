@@ -602,9 +602,9 @@ const LeftSideBar = (props) => {
 
                                                 {
                                                     //channelList.length !== 0 && channelList.map((d) =>
-                                                    chats.length !== 0 && chats?.map((d, index) =>
+                                                    chats?.length !== 0 && chats?.map((d, index) =>
 
-                                                        <ListItem
+                                                        d?.isGroupChat&&<ListItem
                                                             key={index}
                                                             sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: { sm: '25px', md: '30px', xl: "42px" }, cursor: "pointer" }}
                                                         
@@ -679,9 +679,9 @@ const LeftSideBar = (props) => {
                                             <List sx={{ padding: "0px" }} >
                                                 {chats.length !== 0 && chats.map((d, index) =>
 
-                                                    <ListItem
+                                                    !d.isGroupChat&&<ListItem
                                                         key={index}
-                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: { sm: '15px', md: "30px", xl: '42px' }, cursor: "pointer" }}
+                                                        sx={{ paddingTop: "1px", paddingBottom: "0px", paddingLeft: { sm: '15px', md: "30px", xl: '42px' }, cursor: "pointer" }}
                                                         onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("inbox") }
                                                         }
                                                     >
