@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IconButton, Box, Button, Typography, Modal, InputAdornment, OutlinedInput, Badge, Avatar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ChatState } from '../../Context/ChatProvider';
 import DeleteModal from '../../components/Chat/DeleteModal';
-import { RemoveMemberInGroup,fetchAllChatSingleUserOrGroup } from '../../api/InternalApi/OurDevApi';
+import { RemoveMemberInGroup, fetchAllChatSingleUserOrGroup } from '../../api/InternalApi/OurDevApi';
 import { toast } from 'react-toastify';
+import socket from "../../socket/socket";
+
 
 const style = {
   position: 'absolute',
@@ -52,32 +53,33 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
   const fetchChat = async () => {
     try {
-        const response = await fetchAllChatSingleUserOrGroup();
-        setChats(response)
-        console.log(response,"hooooo gyaayauya")
+      const response = await fetchAllChatSingleUserOrGroup();
+
+      console.log(response, "all fetchhhhhhhh")
+      // setChats(response);
+      // setSelectedChatV1(response)
+      // setLoggedUser(localStorage.getItem("userInfo"));
     } catch (error) {
-        console.log("Something is wrong");
+      console.log("Something is wrong");
     }
   }
 
-  const removeMember=async(chatId,userId)=>{
-    try{
-      const data={
-        "chatId":chatId, 
-        "userId":userId 
-        }
-      const response=await RemoveMemberInGroup(data)
-      if(response)
-      {
+  const removeMember = async (chatId, userId) => {
+    try {
+      const data = {
+        "chatId": chatId,
+        "userId": userId
+      }
+      const response = await RemoveMemberInGroup(data)
+      if (response) {
         setSelectedChatV1(response)
-        toast.success("User removed successfully")
-        fetchChat()
-      }else{
+        socket.emit("remove-member-in-group",{"RemoveMemberUserId":userId, response})
+        toast.success("User removed successfully");
+      } else {
         toast.error("User not removed")
       }
       handleClose()
-    }catch(error)
-    {
+    } catch (error) {
       toast.error("Something is wrong in delete")
     }
   }
@@ -112,15 +114,15 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
             <CloseIcon sx={{ p: 0, fontSize: '15px' }} />
           </IconButton>
 
-          <Typography id="modal-modal-title" color={'black'} fontSize={{xs:'19px',sm:'22px'}} mb='.5rem'>
+          <Typography id="modal-modal-title" color={'black'} fontSize={{ xs: '19px', sm: '22px' }} mb='.5rem'>
             List of People
           </Typography>
 
           <Box mb={".6rem"} display={'flex'} justifyContent={'space-between'}>
-            <Typography id="modal-modal-title" variant="p" color={'#448DF0'} fontSize={{xs:'13px',md:'16px'}}>
+            <Typography id="modal-modal-title" variant="p" color={'#448DF0'} fontSize={{ xs: '13px', md: '16px' }}>
               # {selectChatV1?.chatName}
             </Typography>
-            <Typography variant="p" color={'#BEBEBE'} fontSize={{xs:'11px',md:'14px'}}>{selectChatV1 && selectChatV1?.users?.length} people</Typography>
+            <Typography variant="p" color={'#BEBEBE'} fontSize={{ xs: '11px', md: '14px' }}>{selectChatV1 && selectChatV1?.users?.length} people</Typography>
           </Box>
 
           <Box my={".6rem"}>
@@ -133,17 +135,6 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
               placeholder="Search people here..."
               startAdornment={<InputAdornment position="start"><SearchIcon sx={{ color: '#BEBEBE' }} /></InputAdornment>}
             />
-          </Box>
-
-          <Box my='1.2rem' >
-
-            <IconButton aria-label="add" size="small" sx={{ color: '#A9A9A9', border: '1px solid #A9A9A9', borderRadius: '5px', outline: 'none !important' }} onClick={addMemberFunction}>
-              <AddIcon fontSize="inherit" />
-            </IconButton>
-
-            <Button sx={{ p: 0, px: 1, color: 'black', fontSize: '16px', textTransform: 'capitalize', outline: 'none !important' }} onClick={addMemberFunction}>
-              Add People
-            </Button>
           </Box>
 
           <Box display={'flex'} flexDirection={'column'}>
@@ -170,10 +161,10 @@ const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }
     <Box display={'flex'} justifyContent={'space-between'} mt='1rem' order={id===adminId&&"-5"}>
 
       <Box display={'flex'} alignItems={'center'}>
-        {
-          online ? <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
+         {
+          online ?
            <Avatar alt="Remy Sharp" src={img} />
-          </StyledBadge> : <Avatar alt="Remy Sharp" src={img} />
+           : <Avatar alt="Remy Sharp" src={img} />
         }
 
         <Box>
