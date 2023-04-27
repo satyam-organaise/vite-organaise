@@ -11,19 +11,7 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess, AddMemberInGroup } from '../api/InternalApi/OurDevApi';
-// import appConfig from "../Config";
-// import {
-//     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
-//     sendChannelMessage, listChannelMessages, createChannelMembership
-// }
-//     from "../api/ChimeApi/ChimeApi";
-
-
-// import { getAllUsersFromCognitoIdp, setAuthenticatedUserFromCognito } from "../api/CognitoApi/CognitoApi";
-
-//////////get the all users from congnito ///////////////////
-// import { IdentityService } from '../services/IdentityService.js';
+import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess, AddMemberInGroup,getAllFilesApi } from '../api/InternalApi/OurDevApi';
 import { useMutation } from 'react-query';
 import { ChatState } from '../Context/ChatProvider';
 
@@ -92,15 +80,6 @@ const ContentModels = ({
     //////////// Store the userid of user ////////
     const [user_id, setUserID] = useState(localStorage.getItem("userInfo"));
 
-    //////////When this page render then user_id store , nad channel list also load
-    // useEffect(() => {
-    //     getAwsCredentialsFromCognito();
-    //     IdentityServiceObject.setupClient();
-    //     let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
-    //     let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
-    //     let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
-    //     setUserID(userid)
-    // }, [])
 
     ////////// channel state value save here
 
@@ -109,53 +88,6 @@ const ContentModels = ({
     const [channelName, setChannelName] = useState("");
     const [channelDiscription, setChannelDiscription] = useState("");
 
-    // const createChannelFun = async () => {
-    //     if (channelName === "") {
-    //         toast.info("Please enter channel name");
-    //         return;
-    //     }
-    //     if (channelName != null && channelName !== "") {
-    //         const creatChannelObj = {
-    //             "instenceArn": `${appConfig.appInstanceArn}`,
-    //             "metaData": null,
-    //             "newName": `${channelName}`,
-    //             "mode": "RESTRICTED",
-    //             "privacy": "PRIVATE",
-    //             "elasticChannelConfiguration": null,
-    //             "userId": `${user_id}`
-    //         }//////// These object types value pass in createChannel function 
-    //         const channelArn = await createChannel(`${appConfig.appInstanceArn}`, null,
-    //             `${channelName}`, "RESTRICTED", "PRIVATE", null, `${user_id}`);/////////By this function we are  creating the channnel
-    //         if (channelArn) {
-    //             const channel = await describeChannel(channelArn, user_id);
-    //             if (channel) {
-    //                 // await channelListFunction(user_id);
-    //                 toast.success("Channel created successfully.");
-    //             } else {
-    //                 console.log('Error, could not retrieve channel information.');
-    //             }
-    //         } else {
-    //             console.log('Error, could not create new channel.');
-    //         }
-    //     }
-    //     handleClose();
-    // }
-
-    /////////// Get the channel list 
-    // const channelListFunction = async (userid) => {
-    //     const userChannelMemberships = await listChannelMembershipsForAppInstanceUser(
-    //         userid
-    //     );
-    //     const userChannelList = userChannelMemberships.map(
-    //         (channelMembership) => {
-    //             const channelSummary = channelMembership.ChannelSummary;
-    //             channelSummary.SubChannelId =
-    //                 channelMembership.AppInstanceUserMembershipSummary.SubChannelId;
-    //             return channelSummary;
-    //         }
-    //     );
-    //     setChannelList(userChannelList);
-    // }
 
     ///////// Create folder function and aadd staates here
     const [folderName, setFolderName] = useState("");
@@ -200,23 +132,22 @@ const ContentModels = ({
     /////// Get files of this user
     //////////////////////////////////////////////////////////////
     const [userFiles, setUserFiles] = useState([]);
+    const { mutateAsync: getAllFilesApiFun,isLoading:getAllFilesApiIsLoading } = useMutation(getAllFilesApi);
     const getFilesOfUser = async (userId) => {
         const userID = { userId: userId }
-        const response = await axios.get('v2/file/getfiles', {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        const response = await getAllFilesApiFun()
         const FilesResponse = response.data;
-        if (FilesResponse.status) {
-            const FilesData = FilesResponse.data;
-            const newCheckedArray = FilesData.filter(checkbox => {
+        if (response.status) { 
+            const FilesData = FilesResponse; //Total files present in server
 
-                const match = folderSelect.filesList.find((obj2) => {
-                    return checkbox._id === obj2
+            const newCheckedArray = FilesData.filter((checkbox) => {
+                // check each file with our folder files list below
+
+                const match = folderSelect.filesList.find((file) => {
+                    return checkbox._id === file._id // If file from server matches any of our files in folder return true or file obj
                 });
-
-                return !match ? { ...checkbox, checked: false } : null;
+                
+                return !match ? { ...checkbox, checked: false } : null; // If it's matched it returns true or if not matched it returns {...previousObjValue, checked:false} object
             });
             setUserFiles(newCheckedArray);
         } else {
@@ -310,20 +241,14 @@ const ContentModels = ({
         }
         setAddBtnDisable(true);
         const UserId = localStorage.getItem("userInfo");
-        console.log(folderSelect)
-        let filesArr = [...folderSelect.filesList]
+        let filesArr = [...folderSelect.filesList].map((item)=>{
+            return item._id
+        })
         for (let index = 0; index < selectedFile.length; index++) {
-
             filesArr.push(selectedFile[index]._id)
         }
 
         await addIngFileInFolder(UserId, filesArr, folderSelect._id);
-        // if (selectedFile.length - 1 === index) {
-        // toast.success("Files added successfully");
-        // setAddBtnDisable(false);
-        // getFoldersData(UserId);
-        // handleClose();
-        // }
     }
 
 
@@ -365,24 +290,6 @@ const ContentModels = ({
     /////////////////// add team mate model code  here
     //////// All users list store here //////
     const [AddAllUsers, SetAllUsersList] = useState([]);
-    ////////// Whenn user id set then this useEffect run
-    // useEffect(() => {
-    //     if ((user_id !== "") && (location.pathname === "/")) {
-    //         //setChannelInterval
-    //         channelListFunction(user_id);
-    //         getAllUsersFromCognitoIdp(IdentityServiceObject).then((uData) => {
-    //             if (uData.status) {
-    //                 SetAllUsersList(uData.data)
-    //             } else {
-    //                 toast.error("Something is wrong.");
-    //                 console.log("Something is wrong", uData);
-    //             }
-    //         }).catch((err) => {
-    //             console.log("Something is wrong error get  when user list get", err);
-    //         });
-    //     }
-    // }, [user_id, location]);
-
 
 
     /////////// when click on the add button in teammate model
@@ -404,28 +311,6 @@ const ContentModels = ({
             toast.error("Something is wrong.Member not add in channel");
         }
     }
-
-
-
-    // const AddMemberButton = async (selectChannel, selectUser, user_id) => {
-    //     try {
-    //         const membership = await createChannelMembership(
-    //             selectChannel.ChannelArn,
-    //             `${appConfig.appInstanceArn}/user/${selectUser.value}`,
-    //             user_id,
-    //             undefined //activeChannel.SubChannelId
-    //         );
-    //         const memberships = []  ///activeChannelMemberships;
-    //         memberships.push({ Member: membership });
-    //         handleClose();
-    //         return { status: true, data: memberships }
-    //     } catch (err) {
-    //         toast.error("Something is wrong please try after some time");
-    //         console.log("error in adding member in channel", err);
-    //         return { status: false, error: err };
-    //     }
-    // }
-
 
     ////////// search member  in new version 1 and start single chatting
     const { mutateAsync: MemberSearchV1 } = useMutation(searchUserV1);
@@ -461,7 +346,6 @@ const ContentModels = ({
         const selectUserIdMem = selectSrcMember._id;
         try {
             const response = await creatSingleMemChatV1({ userId: selectUserIdMem });
-            // console.log(response,)
             if (response) {
                 setSelectedChatV1(response);
                 InanotherPage("1", response);
@@ -502,7 +386,9 @@ const ContentModels = ({
     };
     ////////// when click on the create group function
     const createGroupFun = async () => {
-        if (groupNameStore === "") {
+        
+        if (groupNameStore === ""||groupNameStore.trim()==="") {
+            
             toast.info("Please enter group name.")
             return null;
         }
@@ -811,25 +697,25 @@ const ContentModels = ({
                         <DialogContentText id="alert-dialog-description">
                             <Typography variant="h6" fontWeight={"600"} color="#333333" align='center' mb={1}>Add Files</Typography>
                             <Box >
-                                <Typography variant="subtitle2" align='center' >
+                                {userFiles.length !== 0 &&<Typography variant="subtitle2" align='center' >
                                     Please select the files you want to add in the <b>{folderSelect.folderName}</b>&nbsp;folder.
-                                </Typography>
+                                </Typography>}
                             </Box>
                         </DialogContentText>
                         <Box px={"15px"} container id="add_channel_name" mt={0}>
                             <Box mb={1} mt={1.5} container sx={{ width: "100%" }}>
                                 {/* Search file code here */}
-                                <TextField
+                                {userFiles.length !== 0 &&<TextField
                                     id="search_file_here"
                                     label="Search File"
                                     size='small'
                                     sx={{ width: "100%" }}
                                     value={srcFileName}
                                     onChange={(e) => setSrcFileName(e.target.value)}
-                                />
+                                />}
                             </Box>
                             <Box container sx={{ width: "100%" }} mt={0}>
-                                {userFiles.length !== 0 && userFiles.map((fd, indexFile) => (
+                                {userFiles?.length !== 0 ? userFiles.map((fd, indexFile) => (
                                     indexFile < 5 &&
                                     <Box key={`index_file_model_${indexFile}`} container pl={0.7}>
                                         <FormControlLabel
@@ -844,7 +730,7 @@ const ContentModels = ({
                                             label={`${fd.fileName}`}
                                         />
                                     </Box>
-                                ))}
+                                )):!getAllFilesApiIsLoading&&<Typography textAlign='center'>No Files Exists To Add</Typography>}
 
                             </Box>
                         </Box>
@@ -990,14 +876,6 @@ const ContentModels = ({
                                     onClick={() => handleClose()}>
                                     Close
                                 </Button>
-                                {/* <Button
-                                    variant="contained"
-                                    size='small'
-                                    sx={{ padding: "5px 30px" }}
-                                    onClick={() => FinalAddFileInFolder()}
-                                >
-                                    Add
-                                </Button> */}
                             </Box>
                         </Box>
 
@@ -1153,17 +1031,6 @@ const ContentModels = ({
                                     onChange={(e) => setGroupName(e.target.value)}
                                 />
                             </Box>
-                            {/* <Box container sx={{ width: "100%" }} mt={1}>
-                                <TextareaAutosize
-                                    minRows={4}
-                                    maxRows={4}
-                                    aria-label="maximum height"
-                                    placeholder="Channel Description (Maximum 200 Words)"
-                                    defaultValue={""}
-                                    style={{ padding: "10px 15px", fontFamily: "sans-serif", fontSize: "14px", width: "100%", height: "80px !important", resize: "none", boxSizing: "border-box" }}
-                                    onChange={(e) => setChannelDiscription(e.target.value)}
-                                />
-                            </Box> */}
                             <Box container sx={{ width: "100%" }} mt={2}>
                                 <Autocomplete
                                     multiple

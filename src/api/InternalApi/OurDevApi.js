@@ -219,6 +219,15 @@ export const getCompanyName = async (userID) => {
     return response.data
 }
 
+export const getAllFilesApi = async (getData) => {
+    const response = await axios.get(`api/v2/file/getfiles`, getData, headerData);
+    if (!response.statusText === "OK") {
+        throw new Error("Something is wrong.");
+    }
+    return response.data
+}
+
+
 export const removeFileApi = async (getData) => {
     const response = await axios.post(`/removeFile`, getData, headerData);
     if (!response.statusText === "OK") {

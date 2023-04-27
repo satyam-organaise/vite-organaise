@@ -1,13 +1,9 @@
 import * as React from 'react';
-import { IconButton,Box,Button,Typography,Modal,InputAdornment,OutlinedInput,Badge,Avatar } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
+import {Box,Button,Typography,Modal,Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { fetchAllChatSingleUserOrGroup } from '../../api/InternalApi/OurDevApi';
 import { ChatState } from '../../Context/ChatProvider';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const style = {
   position: 'absolute',
@@ -45,7 +41,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 
 
-const DeleteModal = ({handleDelete,value,pageName,closeParentModal,toggleDeleteModal,type,refetch}) => {
+const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,toggleDeleteModal,type,refetch}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -66,16 +62,7 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal,toggleDeleteM
 
     return (
       <div>
-        {/* <DeleteForeverIcon
-            sx={{
-                fontSize: "19px",
-                cursor: "pointer",
-                marginRight: "5px",
-                color: "#e70f0fc2"
-            }}
-            onClick={handleOpen}
-        />  */}
-         {type=='list'?<CloseIcon  onClick={handleOpen} sx={{color:'red'}}/>
+         {type==='list'?<HighlightOffIcon  onClick={handleOpen} sx={{color:'red'}}/>
          :<Typography onClick={handleOpen} color={'red'}>Delete</Typography>}
 
         
@@ -91,7 +78,7 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal,toggleDeleteM
        
             
             <Box display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={'column'}>
-            {type=='list'?<Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
+            {type==='list'?<Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
             Are you sure do you want to remove this user ?
             </Typography>:<Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
             Are you sure do you want to delete this {pageName==='folder'?"folder":"file"} ?
@@ -103,12 +90,12 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal,toggleDeleteM
      
             
             <Box mt='1.2rem' mb='.5rem' display={'flex'} justifyContent={'space-between'}>
-            <Button variant="outlined" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleClose();closeParentModal();}} >
+            <Button variant="outlined" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleClose(); closeParentModal&&closeParentModal();}} >
                 Cancel
             </Button>
             
          
-           {type=='list'? <Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleDelete();handleClose();}}>
+           {type==='list'? <Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleDelete();handleClose();}}>
             Remove
           </Button>:<Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleDelete(value);handleClose();closeParentModal();}}>
             Delete

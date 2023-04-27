@@ -1,4 +1,4 @@
-body {
+ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -42,4 +42,24 @@ code {
 .otp-field__input ::-webkit-outer-spin-button,
 .otp-field__input::-webkit-inner-spin-button {
   display: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #cccaca; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #c2bebe; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c5c1c1; 
 }

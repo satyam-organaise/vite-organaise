@@ -3,7 +3,7 @@ import { styled, useTheme, alpha } from '@mui/material/styles';
 import {
     Box, Toolbar, List, ListItem, InputBase,
     ListItemText, CssBaseline, Typography, Divider, Avatar,
-    Button,  FormControl,CardMedia
+    Button,FormControl,CardMedia
 } from '@mui/material/';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -21,7 +21,7 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import ContentModels from '../../pages/ContentModels';
 import { useMutation } from 'react-query';
-import { fetchAllChatSingleUserOrGroup, getCompanyName } from '../../api/InternalApi/OurDevApi';
+import { fetchAllChatSingleUserOrGroup,fetchMessagesV1,sendV1Message , getCompanyName } from '../../api/InternalApi/OurDevApi';
 import { toast } from 'react-toastify';
 import { ChatState } from '../../Context/ChatProvider';
 import { getSender } from '../../utils/chatLogic';
@@ -30,8 +30,26 @@ import ChatTwoToneIcon from '@mui/icons-material/ChatTwoTone';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import LogOutModal from '../Chat/LogOutModal';
 import HeaderMenu from './Items/HeaderMenu';
+import socket from "../../socket/socket";
 
 const drawerWidth = '200px';
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        width: drawerWidth,
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    }),
+);
 
 const openedMixin = (theme) => ({
     // width: drawerWidth,
@@ -40,7 +58,7 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration['20000'],
     }),
     overflowX: 'hidden',
-    borderLeft: '2px solid  rgba(0, 0, 0, 0.06)',
+    boxShadow: 'inset 7px -2px 10px -5px rgba(0, 0, 0, 0.06)',
     borderRight:"0px",
     [theme.breakpoints.up('xs')]: {
         marginLeft: '3rem',
@@ -51,7 +69,8 @@ const openedMixin = (theme) => ({
         display: 'inherit',
         width: '160px'
     },
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('xl')]: {
+        marginLeft: '4.3rem',
         width: drawerWidth,
     },
 });
@@ -63,17 +82,18 @@ const closedMixin = (theme) => ({
         duration: theme.transitions.duration.complex,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(3.2)} + 1px)`,
+    marginLeft: '5rem',
+    width: `calc(${theme.spacing(0)} + 1px)`,
     [theme.breakpoints.up('xs')]: {
         width: `calc(${theme.spacing(0)} + 0px)`,
         display: 'none'
     },
     [theme.breakpoints.up('sm')]: {
-        marginLeft: '3rem',
+        marginLeft: '2.8rem',
         display: 'inherit',
     },
     [theme.breakpoints.up('md')]: {
-        marginLeft: '4rem',
+        marginLeft: '3.5rem',
     },
 });
 
@@ -104,28 +124,13 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    }),
-);
+
 
 const styleCss = {
     appBarCss: {
         backgroundColor: "#ffffff !important",
         boxShadow: "none",
-        borderBottom: "1px solid #efefef !important",
+        boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
         height: "65px",
     }
 }
@@ -177,7 +182,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const LeftSideBar = (props) => {
 
     ////// use conetext use here
-    const { user, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats, compNameContext, setCompNameContext } = ChatState();
+    const { user, setSelectedChatV1, pageNameContext, closeSideListContext, chats, setChats, compNameContext, setCompNameContext, notification, setNotification,setMessagingActive,setSelectedChannel,closeAppDrawer } = ChatState();
+    console.log(closeAppDrawer,"checkingna fdsa")
     const theme = useTheme();
     const navegate = useNavigate();
     const location = useLocation();
@@ -199,13 +205,13 @@ const LeftSideBar = (props) => {
 
 
     //////////// Store the userid of user ////////
+    const [UserId, setUserId] = useState("");
     const [subUserId, setSubUserId] = useState("");
-
     useEffect(() => {
-        if (props?.data?.pageName === "Folder") {
+        if (pageNameContext === "Folder") {
             setOpen(!open);
         }
-    }, [props.data])
+    }, [pageNameContext])
 
 
     //////// here we are call api to getting company name
@@ -216,11 +222,10 @@ const LeftSideBar = (props) => {
         try {
             const responseGetCom = await getComName(subUserId);
             if (responseGetCom.status !== 404 && responseGetCom?.status === true) {
-                SetComName(responseGetCom?.data[0]?.companyName)
-                setCompNameContext(responseGetCom?.data[0]?.companyName)
+                SetComName(responseGetCom?.data[0]?.companyName)     
             }
         } catch (error) {
-            toast.info("Company name is required");
+            // toast.info("Company name is required");
             navegate("/companyDetail")
         }
     }
@@ -249,6 +254,39 @@ const LeftSideBar = (props) => {
         setAnchorElNav(null);
     };
 
+    const handleCloseUserMenu = (data = "") => {
+        if (data === 'Edit Profile') {
+            navegate("/account")
+        }
+        if (data === 'Dashboard') {
+            navegate("/chat")
+        }
+        if (data === "Logout") {
+            localStorage.clear();
+            window.location = "/login";
+        }
+        setAnchorElUser(null);
+    };
+
+    const changePage = (indexVal) => {
+        let pagesArray = ['dashboard', 'message', 'folder', 'data', 'privacy-policy', 'settings'];
+        if (indexVal === 0) {
+            navegate(`/`);
+        } else {
+            if (indexVal === 2) {
+                setOpen(!open);
+            }
+            navegate(`/${pagesArray[indexVal]}`);
+        }
+
+    }
+
+    ///// Show company Drop Down
+    const [age, setAge] = React.useState(10);
+
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
 
 
     ////// Handle  Logout function
@@ -284,7 +322,9 @@ const LeftSideBar = (props) => {
     //////// Here we are store a channel name list //////
     /////////////////////////////////////////////////////
     const [channelList, setChannelList] = useState([]);
- 
+    ///////  Here store channel interval
+    const [ChannelInterval, setChannelInterval] = useState(null);
+   
 
     //////// useLocation Check and update the state according to left sidebar options 
     useEffect(() => {
@@ -298,8 +338,8 @@ const LeftSideBar = (props) => {
     const InanotherPage = async (type, data) => {
         if (type === "1") {
             setSelectedChatV1(data);
-            // props.data.setSelectedChannel(data);
-            props.data.setMessagingActive(true);
+            setMessagingActive(true);
+            setSelectedChannel(data);
         } else {
             if (location.pathname !== "/chat") {
                 setActivePage("groups");
@@ -329,14 +369,13 @@ const LeftSideBar = (props) => {
         setSubUserId(localStorage.getItem("userInfo"))
     }, [])
 
-
     return (
         <>
             <Box id="main_container_box" sx={{ display: 'flex' }} >
                 <CssBaseline />
 
                 {
-                    <AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
+                    !closeAppDrawer&&<AppBar sx={styleCss.appBarCss} position="fixed" open={open}>
                         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                             <Box display={'flex'} width={drawerWidth && drawerWidth} alignItems={'center'}>
 
@@ -376,9 +415,9 @@ const LeftSideBar = (props) => {
                             </Box> */}
 
                             <Box sx={{ flexGrow: 0, width: "60%" }} display="inline-flex"
-                                justifyContent={props.data.pageName === "Data" ? 'space-between' : "end"}
+                                justifyContent={pageNameContext === "Data" ? 'space-between' : "end"}
                             >
-                                {props.data.pageName === "Data" &&
+                                {pageNameContext === "Data" &&
                                     <Box id="file_upload_icon">
                                         {/* <Button
                                 variant="contained"
@@ -401,40 +440,40 @@ const LeftSideBar = (props) => {
                                             sx={{ width: "28px", height: "28px", fontSize: '30px', color: "#333", opacity: 0.5 }} />
                                     </Box>
                                     {/* <Box id="profile_icon"  px='.8rem'>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar src="https://images.pexels.com/photos/8864285/pexels-photo-8864285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                                     alt="Remy Sharp" sx={{ width: "32px", height: "32px" }} />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={() => handleCloseUserMenu()}
-                            >
-                                {settings.map((setting) => (
-                                    <>
-                                    <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                                        <ListItemIcon>
-                                            <EditIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <Typography textAlign="center">{setting}</Typography>
-                                    </MenuItem>
-                                    </>
-                                ))}
-                            </Menu>
-                        </Box> */}
+                                        <Tooltip title="Open settings">
+                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                                <Avatar src="https://images.pexels.com/photos/8864285/pexels-photo-8864285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                                alt="Remy Sharp" sx={{ width: "32px", height: "32px" }} />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Menu
+                                            sx={{ mt: '45px' }}
+                                            id="menu-appbar"
+                                            anchorEl={anchorElUser}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            keepMounted
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            open={Boolean(anchorElUser)}
+                                            onClose={() => handleCloseUserMenu()}
+                                        >
+                                            {settings.map((setting) => (
+                                                <>
+                                                <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
+                                                    <ListItemIcon>
+                                                        <EditIcon fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <Typography textAlign="center">{setting}</Typography>
+                                                </MenuItem>
+                                                </>
+                                            ))}
+                                        </Menu>
+                                    </Box> */}
                                     <HeaderMenu />
                                 </Box>
                             </Box>
@@ -444,7 +483,7 @@ const LeftSideBar = (props) => {
 
 
                 {/* New sidebar  */}
-                <Box height={'100vh'}  position={'fixed'} width={{ xs: '60px', xl: '70px' }} display={{ xs: 'none', sm: 'flex' }} flexDirection={'column'} overflow={'hidden'}>
+                {!closeAppDrawer&&<Box height={'100vh'}  position={'fixed'} width={{ xs: '60px', xl:'70px' }} display={{ xs: 'none', sm: 'flex' }} flexDirection={'column'} overflow={'hidden'} top='0' boxShadow={closeSideListContext&&'4px 0px 16px rgba(0, 0, 0, 0.04)'}>
 
 
                     <Box borderBottom={'1px solid rgba(0, 0, 0, 0.06)'} height={'65px'} width={'100%'} display={'flex'} alignItems={'center'} justifyContent={'center'} visibility={open ? "normal" : "hidden"}>
@@ -492,21 +531,21 @@ const LeftSideBar = (props) => {
                     </Box>
 
 
-                </Box>
+                </Box>}
 
 
 
-                <Drawer
+                {!closeAppDrawer&&<Drawer
                     variant="permanent"
-                    open={open && !props.closeSideList}
+                    open={open && !closeSideListContext}
                     position='relative'
+                >
+
                    
-                   >
-
-
                     <DrawerHeader />
 
                     {open && <Box>
+
                         <Divider />
 
                         <FormControl sx={{ m: 1, minWidth: 120, paddingLeft: "15px", paddingRight: "15px", }}>
@@ -537,14 +576,13 @@ const LeftSideBar = (props) => {
                             location.pathname.split(['/'])[1] === "chat" && (
                                 <>
                                     <Box id="channel_box">
-                                        <Box sx={{ paddingLeft: { sm: '10px', md: "25px" }, paddingRight: { sm: '10px', md: "25px" } }} onClick={() => { setShowGroups(!showGroups) }}>
+                                        <Box sx={{ paddingLeft: { sm: '10px', md: "20px" }, paddingRight: { sm: '10px', md: "15px" } }} onClick={() => { setShowGroups(!showGroups) }}>
                                             <Button
                                                 id="channel-create-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
                                                 onClick={() => { setActivePage("groups"); setActiveChatId(""); }}
-                                                // onClick={() => navigatePage("")}
                                                 variant={activePage === "groups" ? "contained" : "text"}
                                                 size='small'
                                                 sx={{
@@ -554,31 +592,13 @@ const LeftSideBar = (props) => {
                                                 endIcon={<KeyboardArrowDownIcon sx={{ position: "absolute", right: "10px", top: "8px" }} />}
                                             >
                                                 <GroupAddIcon sx={{ fontSize: "20px", marginRight: "8px" }} />
-                                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px", }}>
+                                                <span style={{ fontSize: "14px", textTransform: "capitalize", paddingTop: "2px", }}>
                                                     Groups
                                                 </span>
                                             </Button>
                                         </Box>
                                         {showGroups && <Box>
                                             <List sx={{ paddingTop: "5px" }} >
-                                                {/* <ListItem sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px" }}>
-                                    <ListItemText
-                                        primary={`# General`}
-                                        sx={{
-                                            opacity: open ? 1 : 0, marginTop: "4px", marginBottom: "0px",
-                                            "& span": { fontSize: "13px", color: "#5454D4", fontWeight: 500 }
-                                        }}
-                                    />
-                                </ListItem>
-                                <ListItem sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: "60px" }}>
-                                    <ListItemText
-                                        primary={`# Random`}
-                                        sx={{
-                                            opacity: open ? 1 : 0, marginTop: "4px",
-                                            marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: 500, color: "#333333b5" }
-                                        }}
-                                    />
-                                </ListItem> */}
 
                                                 {
                                                     //channelList.length !== 0 && channelList.map((d) =>
@@ -586,17 +606,13 @@ const LeftSideBar = (props) => {
 
                                                         <ListItem
                                                             key={index}
-                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: { sm: '25px', md: '40px', xl: "42px" }, cursor: "pointer" }}
-                                                            // onClick={() =>
-                                                            //     (location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d);setActiveChatId(d._id);setActivePage("groups");)
-                                                            // }
-
+                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: { sm: '25px', md: '30px', xl: "42px" }, cursor: "pointer" }}
+                                                        
                                                             onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("groups") }
                                                             }
                                                         >
                                                             <ListItemText
                                                                 primary={
-                                                                    //    d.Name.charAt(0).toUpperCase() + d.Name.slice(1)
                                                                     Object.keys(d).length > 0 &&
                                                                     (d?.isGroupChat && (`# ${d?.chatName}`))
                                                                 }
@@ -612,13 +628,13 @@ const LeftSideBar = (props) => {
                                                 <ListItem
                                                     sx={{
                                                         paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: { sm: '22px', md: '38px', xl: "42px" }, cursor: "pointer"
+                                                        paddingLeft: { sm: '22px', md: '28px', xl: "42px" }, cursor: "pointer"
                                                     }}
                                                     onClick={() => modelOpens()}
                                                 >
                                                     <AddBoxOutlinedIcon
                                                         sx={{
-                                                            fontSize: "13px", marginTop: "0px", marginRight: "2px", color: "#333333b4",
+                                                            fontSize: "16px", marginTop: "0px", marginRight: "2px", color: "#333333b4",
                                                         }} />
                                                     <ListItemText
                                                         primary={`Create Group`}
@@ -635,8 +651,8 @@ const LeftSideBar = (props) => {
 
 
 
-                                    <Box id="single_user_box" >
-                                        <Box sx={{ marginTop: '.5rem', paddingLeft: { sm: '10px', md: "25px" }, paddingRight: { sm: '10px', md: "25px" } }} onClick={() => setShowInbox(!showInbox)}>
+                                    <Box id="single_user_box">
+                                        <Box sx={{ marginTop: '.5rem', paddingLeft: { sm: '10px', md: "20px" }, paddingRight: { sm: '10px', md: "15px" } }} onClick={() => setShowInbox(!showInbox)}>
                                             <Button
                                                 id="single-user-inbox-create-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
@@ -653,7 +669,7 @@ const LeftSideBar = (props) => {
                                                 endIcon={<KeyboardArrowDownIcon sx={{ position: "absolute", right: "10px", top: "8px" }} />}
                                             >
                                                 <GroupAddIcon sx={{ fontSize: "20px", marginRight: "8px" }} />
-                                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px", }}>
+                                                <span style={{ fontSize:'14px', textTransform: "capitalize", paddingTop: "2px"}}>
                                                     Inbox
                                                 </span>
                                             </Button>
@@ -665,7 +681,7 @@ const LeftSideBar = (props) => {
 
                                                     <ListItem
                                                         key={index}
-                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: { sm: '25px', md: "40px", xl: '42px' }, cursor: "pointer" }}
+                                                        sx={{ paddingTop: "0px", paddingBottom: "0px", paddingLeft: { sm: '15px', md: "30px", xl: '42px' }, cursor: "pointer" }}
                                                         onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("inbox") }
                                                         }
                                                     >
@@ -697,20 +713,20 @@ const LeftSideBar = (props) => {
                                                 <ListItem
                                                     sx={{
                                                         paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: { sm: '22px', md: '38px', xl: "42px" }, cursor: "pointer"
+                                                        paddingLeft: { sm: '22px', md: '28px', xl: "42px" }, cursor: "pointer"
                                                     }}
                                                     onClick={() => singleMessTeamMemberModel()}
                                                 >
                                                     <AddBoxOutlinedIcon
                                                         sx={{
-                                                            fontSize: "13px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
+                                                            fontSize: "16px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
                                                         }} />
                                                     <ListItemText
                                                         primary={`Add Mamber`}
                                                         sx={{
                                                             opacity: open ? 1 : 0, marginTop: "4px",
                                                             marginBottom: "0px",
-                                                            "& span": { fontSize: "13px", fontWeight: 500, color: "#333333b5" }
+                                                            "& span": { fontSize: "14px", fontWeight: 500, color: "#333333b5" }
                                                         }}
                                                     />
                                                 </ListItem>
@@ -726,14 +742,12 @@ const LeftSideBar = (props) => {
                             location.pathname.split(['/'])[1] == 'files' && (
                                 <>
                                     <Box id="all_files" mt={1} >
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Box sx={{ paddingLeft: "22px", paddingRight: "18px" }}>
                                             <Button
                                                 id="all_file_button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
-                                                // onClick={() => navigatePage("allFiles")}
-                                                // onClick={() => {navigatePage("files/allFiles"),setActivePage("allFiles")}}
                                                 onClick={() => navigatePage("files/allFiles")}
                                                 variant={location.pathname === "/files/allFiles" ? "contained" : "text"}
                                                 size='small'
@@ -750,13 +764,12 @@ const LeftSideBar = (props) => {
                                         </Box>
                                     </Box>
                                     <Box id="Upload_file_box" mt={1}>
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Box sx={{ paddingLeft: "22px", paddingRight: "18px" }}>
                                             <Button
                                                 id="upload-file-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
-                                                // onClick={() => {navigatePage("files/upload"),setActivePage("upload")}}
                                                 onClick={() => navigatePage("files/upload")}
                                                 variant={location.pathname === "/files/upload" ? "contained" : "text"}
                                                 size='small'
@@ -774,14 +787,12 @@ const LeftSideBar = (props) => {
                                     </Box>
 
                                     <Box id="create_folder_box" mt={1}>
-                                        <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
+                                        <Box sx={{ paddingLeft: "22px", paddingRight: "18px" }}>
                                             <Button
                                                 id="create_folder-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
-                                                // onClick={() => navigatePage("create-folder")}
-                                                // onClick={() => {navigatePage("files/create-folder"),setActivePage("createFolder")}}
                                                 onClick={() => navigatePage("files/folder")}
                                                 variant={
                                                     location.pathname === ("/files/folder")||location.pathname.slice(0,13)=="/files/folder" ? "contained" : "text"
@@ -854,87 +865,25 @@ const LeftSideBar = (props) => {
                         }
 
 
-                        <Box id="logout_box" sx={{ position: "absolute", bottom: "0%", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: { sm: '8px', md: "10px" }, background: "white" }} mt={1}>
+                        {/* <Box id="logout_box" sx={{ position: "absolute", bottom: "0%", width: "100%", borderTop: "1px solid #CFCFCF", paddingTop: { sm: '8px', md: "10px" }, background: "white" }} mt={1}>
                             <Box sx={{ paddingLeft: "25px", paddingRight: "25px" }}>
-                                {/* <Button
-                                id="logout-button"
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleLogout}
-                                variant="text"
-                                size='small'
-                                sx={{ width: "100%", justifyContent: 'flex-start' }}
-                            >
-                                <LogoutIcon sx={{ fontSize: "18px", marginRight: "8px" }} />
-                                <span style={{ fontSize: "13px", textTransform: "capitalize", paddingTop: "2px" }}>
-                                    Logout
-                                </span>
-                            </Button> */}
                                 <LogOutModal handleLogout={handleLogout} />
                             </Box>
-                        </Box>
+                        </Box> */}
 
                         <List sx={{
                             paddingLeft: open ? "25px" : "5px",
                             paddingRight: open ? "25px" : "5px"
                         }}>
-                            {/* ['Dashboard', 'Messaging', 'Folders', 'Data', 'Privacy Policy', 'Settings'] */}
-
-                            {/* {['Dashboard', 'Messaging', 'Folders', 'Data'].map(
-                        (text, index) => (
-                            <ListItem key={text} disablePadding px="auto" sx={{ display: 'block' }}>
-                                <ListItemButton
-                                    sx={{
-                                        minHeight: 40,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                        paddingTop: "0px",
-                                        paddingBottom: "0px",
-                                        border: open && index === props.data.index ? "1px solid #5454D3" : "none",
-                                        borderRadius: open ? "25px" : "10px",
-                                        marginTop: "15px",
-                                        backgroundColor: (open && index === props.data.index) ? "#5454D4" : index === props.data.index ? "#5454D4" : "#fff",
-                                        color: (open && index === props.data.index) ? "#ffffff" : index === props.data.index ? "#ffffff" : "#333333",
-                                        opacity: open && index !== props.data.index ? 0.7 : 1,
-                                        "&:hover": {
-                                            backgroundColor: (open && index === props.data.index) ? "#5454D4" : index === props.data.index ? "#5454D3" : "#fff",
-
-                                        },
-                                        boxShadow: open && index === props.data.index ? "0px 0px 10px 10px rgba(0, 0, 0, 0.15)" : "none",
-                                    }}
-                                    onClick={() => changePage(index)}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 1 : 'auto',
-                                            justifyContent: 'center',
-                                            color: (open && index === props.data.index) ? "#ffffff" : index === props.data.index ? "#ffffff" : "#333333",
-
-                                        }}
-                                    >
-                                        {index === 0 && <HomeOutlinedIcon sx={{ fontSize: "20px" }} />}
-                                        {index === 1 && <ChatBubbleOutlineOutlinedIcon sx={{ fontSize: "18px" }} />}
-                                        {index === 2 && <FolderOutlinedIcon sx={{ fontSize: "18px" }} />}
-                                        {index === 3 && <DescriptionOutlinedIcon sx={{ fontSize: "18px" }} />}
-                                        {index === 4 && <HelpOutlineOutlinedIcon sx={{ fontSize: "18px" }} />}
-                                        {index === 5 && <SettingsOutlinedIcon sx={{ fontSize: "18px" }} />}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        ))} */}
+                    
                         </List>
 
                     </Box>}
-                </Drawer>
+                </Drawer>}
                 
                 {/* Drawer toggle icon */}
-                <Box height={'100vh'} width='16px' display={{ xs: 'none', sm: 'flex' }} overflow={'hidden'} flexDirection={'column'}borderRight='2px solid  rgba(0, 0, 0, 0.06)' zIndex={'999'}>
-                        
-                    {!props.closeSideList && 
+                {(!closeSideListContext&&!closeAppDrawer) && 
+                <Box height={'96vh'} width='15px' display={{ xs: 'none', sm: 'flex' }} overflow={'hidden'} flexDirection={'column'}borderRight='2px solid  rgba(0, 0, 0, 0.06)' zIndex={'999'} boxShadow={'4px 0px 18px rgba(0, 0, 0, 0.06)'}>     
                     <Box 
                         position={'absolute'}
                         bottom={'18%'}
@@ -945,15 +894,14 @@ const LeftSideBar = (props) => {
                             )
                         }
                     </Box>
-                     }
-
                 </Box>
+                     }
 
 
 
                 {/* <DrawerHeader /> */}
-                <Box component="main" sx={{ flexGrow: 1, py: 3, px: 0 }}>
-                    <Box mt={5.5}>
+                <Box component="main" sx={{ flexGrow: 1, py: 2.2, px: 0 }}>
+                    <Box mt={!closeAppDrawer&&6}>
                         {
                             props.children
                         }
@@ -977,6 +925,5 @@ const LeftSideBar = (props) => {
 }
 
 export default LeftSideBar
-
 
 

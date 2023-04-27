@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IconButton, Box, Button, Typography, Modal, InputAdornment, OutlinedInput, Badge, Avatar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ChatState } from '../../Context/ChatProvider';
@@ -135,17 +134,6 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
             />
           </Box>
 
-          <Box my='1.2rem' >
-
-            <IconButton aria-label="add" size="small" sx={{ color: '#A9A9A9', border: '1px solid #A9A9A9', borderRadius: '5px', outline: 'none !important' }} onClick={addMemberFunction}>
-              <AddIcon fontSize="inherit" />
-            </IconButton>
-
-            <Button sx={{ p: 0, px: 1, color: 'black', fontSize: '16px', textTransform: 'capitalize', outline: 'none !important' }} onClick={addMemberFunction}>
-              Add People
-            </Button>
-          </Box>
-
           <Box display={'flex'} flexDirection={'column'}>
           {
             selectChatV1?.users?.map((item, index) => {
@@ -170,10 +158,10 @@ const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }
     <Box display={'flex'} justifyContent={'space-between'} mt='1rem' order={id===adminId&&"-5"}>
 
       <Box display={'flex'} alignItems={'center'}>
-        {
-          online ? <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-            <Avatar alt="Remy Sharp" src={img} />
-          </StyledBadge> : <Avatar alt="Remy Sharp" src={img} />
+         {
+          online ?
+           <Avatar alt="Remy Sharp" src={img} />
+           : <Avatar alt="Remy Sharp" src={img} />
         }
 
         <Box>
