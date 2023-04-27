@@ -11,11 +11,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 /////Import react query functions
 import { useMutation } from 'react-query'
-// import {
-//     CognitoSignUp,
-//     otpWithResetPassword, resetPasswordFun
-// } from "../../api/CognitoApi/CognitoApi";
-import { userCreateAccount, forgetPasswordVerify } from '../../api/InternalApi/OurDevApi';
+import {forgetPasswordVerify } from '../../api/InternalApi/OurDevApi';
 import { ServiceState } from '../../Context/ServiceProvider';
 import { useNavigate, Link } from 'react-router-dom';
 const cssStyle = {
@@ -88,7 +84,7 @@ const ForgetPage = () => {
         }
         const updatePassword = await resetPasswordFunCall({ ...forgetData });
 
-        if (updatePassword.statusCode == 200) {
+        if (updatePassword.statusCode === 200) {
             toast.success("Password update successfullly.Please wait we are redirect in login page.");
             setTimeout(() => {
                 setVerifyBtnDisabled(false)

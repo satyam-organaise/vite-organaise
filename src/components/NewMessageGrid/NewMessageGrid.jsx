@@ -1,35 +1,22 @@
-import { Box, Grid, Typography, Avatar, Stack, Button, Badge, TextField, AvatarGroup } from '@mui/material'
+import { Box, Grid, Typography, Avatar, Stack, Button, Badge, TextField, AvatarGroup,Tooltip  } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
 import { styled } from '@mui/material/styles';
-// import {
-//     createChannel, describeChannel, listChannelMembershipsForAppInstanceUser, getAwsCredentialsFromCognito,
-//     sendChannelMessage, listChannelMessages
-// }
-//     from "../../api/ChimeApi/ChimeApi";
-
-// import appConfig from "../../Config";
-//////////get the all users from congnito ///////////////////
-// import { IdentityService } from '../../services/IdentityService.js';
-import ContentModels from '../../pages/ContentModels';
+import ContentModels from "../../pages/ContentModels";
 import { useLocation } from 'react-router-dom';
 import { ChatState } from '../../Context/ChatProvider';
 import { useMutation } from 'react-query';
 import { fetchAllChatSingleUserOrGroup, fetchMessagesV1, sendV1Message }
-    from '../../api/InternalApi/OurDevApi';
-import { getSender } from '../../utils/chatLogic';
+    from "../../api/InternalApi/OurDevApi";
+import { getSender } from "../../utils/chatLogic";
 import { getTime } from '../../utils/validation';
-import io from "socket.io-client";
+import socket from "../../socket/socket";
 
 import ListModal from '../Chat/ListModal';
 
-const ENDPOINT = "https://devorganaise.com";
-//"https://devorganaise.com/api"
-//"http://13.57.89.208:8000"
-//"http://localhost:8000"
 
-var socket, selectedChatCompare;
+var selectedChatCompare;
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
@@ -42,8 +29,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
             width: '100%',
             height: '100%',
             borderRadius: '50%',
-            // animation: 'ripple 1.2s infinite ease-in-out',
-            // border: '1px solid currentColor',
             content: '""',
         },
     },
@@ -59,15 +44,11 @@ const NewMessageGrid = ({ selectedChannel }) => {
     ////// socket connection state
     const [socketConnected, setSocketConnected] = useState(false);
     ////// use conetext use here
-    const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
+    const { user, setUser, selectChatV1,
+        setSelectedChatV1, currentChats, setCurrentChats,
+        chats, setChats, notification, setNotification } = ChatState();
     //////////// Store the userid of user ////////
     const [UserId, setUserId] = useState("");
-    ////////// Create and store Identity service //////
-    // const [IdentityServiceObject] = useState(
-    //     () => new IdentityService(appConfig.region, appConfig.cognitoUserPoolId)
-    // );
-
-    // console.log(selectChatV1,'sguas77as7dta78std78as');
     useEffect(() => {
         setActiveChannel(selectedChannel);
     }, [selectedChannel])
@@ -76,17 +57,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
     ///////// UseEffect for socket io
     useEffect(() => {
-        //////// Here we are check the login user status
-        socket = io(`${ENDPOINT}`, {
-            debug: true
-        });
-        socket.on("connect_error", (err) => {
-            console.error("Connection error:", err);
-        });
-
-        socket.on("connect_timeout", (timeout) => {
-            console.error("Connection timeout:", timeout);
-        });
         socket.emit("setup", user);
         socket.on("connected", () => setSocketConnected(true));
         socket.on("typing", () => setisTyping(true));
@@ -97,17 +67,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
 
 
-    //////////When this page render then user_id store , nad channel list also load
-    // useEffect(() => {
-    //     getAwsCredentialsFromCognito();
-    //     IdentityServiceObject.setupClient();
-    //     let getLoginUserName = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.LastAuthUser`);
-    //     let selectUserData = localStorage.getItem(`CognitoIdentityServiceProvider.${appConfig.cognitoAppClientId}.${getLoginUserName}.userData`);
-    //     let userid = (JSON.parse(selectUserData).UserAttributes.find((d) => d.Name === "profile")).Value;
-    //     setUserId(userid)
-    //     setMember({ username: getLoginUserName, userId: userid });
-    // }, [])
-
     /////////when user click on the channel/////////////
     //////// Here we are store the active channel //////
     const [ActiveChannel, setActiveChannel] = useState({});
@@ -115,39 +74,16 @@ const NewMessageGrid = ({ selectedChannel }) => {
     const [AllMessagesChannel, setAllMessgesOfChannel] = useState([]);
     const [messageInterval, setmessageInterval] = useState(null);
 
-    /////////// Get the channel messaages///////
-    // const GetMessagesListOnEverySec = (ActiveChannel, user_id) => {
-    //     listChannelMessages(ActiveChannel.ChannelArn, user_id, undefined, null).then((md) => {
-    //         setAllMessgesOfChannel(md.Messages)
-    //     }).catch((error) => {
-    //         console.log("error", error);
-    //     })
-    // }
-
-    // useEffect(() => {
-    //     console.log("messageInterval val", messageInterval)
-    //     if ((Object.keys(ActiveChannel).length > 0) && (location.pathname === "/")) {/////Here we are check object is empty or not
-    //         clearInterval(messageInterval);
-    //         setAllMessgesOfChannel([]);
-    //         setmessageInterval(setInterval(() => {
-    //             GetMessagesListOnEverySec(ActiveChannel, UserId);
-    //         }, [3000]))
-    //         console.log("messageInterval", messageInterval);
-    //     } else {
-    //         clearInterval(messageInterval);
-    //     }
-    // }, [ActiveChannel, location])
-
 
     const cssStyle = {
         firstBoxMessage: { height: "80vh", backgroundColor: "#ffffff", marginTop: "0px" },
         groupNameBox: {
             position: "sticky", top: "65px", width: "100%", height: "50px", zIndex: "100",
-            background: " #FFFFFF", boxSizing: "border-box",
+            background: "#ffffff", boxSizing: "border-box",
             borderBottom: "1px solid #F1F1F1"
         },
         avatarCss: { width: "25px", height: "25px" },
-        listofPeopeBtn: { paddingLeft: "10px", paddingRight: "10px", fontSize: "10px" },
+        listofPeopeBtn: { paddingLeft: "10px", paddingRight: "10px", fontSize: "11px" },
         timeRecMess: { fontSize: "10px", lineHeight: "25px", paddingLeft: "5px" },
         recRealMess: {
             paddingRight: "30px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
@@ -234,21 +170,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
     }
 
-    ////////// Send message here //////
-    // const sendMessageByUser = async (ActiveChannel, sendingMessgeHere, member) => {
-    //     await sendChannelMessage(ActiveChannel.ChannelArn, sendingMessgeHere, "PERSISTENT", "STANDARD", member, undefined, null)
-    //         .then((messData) => {
-    //             listChannelMessages(ActiveChannel.ChannelArn, UserId, undefined, null).then((md) => {
-    //                 setNewMessage("");
-    //                 setAllMessgesOfChannel(md.Messages);
-    //             }).catch((error) => {
-    //                 console.log("error", error);
-    //             })
-    //         }).catch((error) => {
-    //             console.log("message Sending error", error)
-    //         })
 
-    // }
 
     ////////// send message in new version //////
     const { mutateAsync: sendingMessageV1 } = useMutation(sendV1Message);
@@ -263,9 +185,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
             const response = await sendingMessageV1(sendingMessData);
             setCurrentChats([...currentChats, response])
 
-            //setMessages([...messages, response]);
-            //fetchAllMessV1(selectChatV1._id);
             socket.emit("new message", response);
+            socket.emit("add-notification-in-member",{response})
 
         } catch (error) {
             console.log(error.response);
@@ -274,12 +195,13 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
     useEffect(() => {
         socket.on("message recived", (newMessageRecived) => {
-            if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecived.chat._id) {
-                //give notification
+            if (!selectedChatCompare || (selectedChatCompare._id !== newMessageRecived.chat._id)) {
+                if (!notification.includes(newMessageRecived)) {
+                    setNotification([...notification, newMessageRecived]);
+                }
             } else {
                 console.log("send message and recove message test", [...currentChats, newMessageRecived]);
                 setCurrentChats([...currentChats, newMessageRecived]);
-                //setMessages([...messages, newMessageRecived]);
 
             }
         })
@@ -289,10 +211,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
     const handleEnterKeyPress = (event) => {
         if (event.key === 'Enter') {
             if (newMessage !== "") {
-                //sendMessageByUser(ActiveChannel, newMessage, member)
                 sendMessagev1(newMessage);
             }
-            // setCurrentChats
 
         }
     };
@@ -309,10 +229,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
     const fetchAllMessV1 = async (chatId) => {
         try {
             const response = await fetchingAllMess({ chatId });
-            // console.log(response,"ye response id hai")
-            // var utcDate = response[4].createdAt;  // ISO-8601 formatted date returned from server
-            // var localDate = new Date(utcDate);
-            // console.log(localDate.toLocaleTimeString())
             setCurrentChats(response)
             socket.emit("join chat", chatId)
         } catch (error) {
@@ -355,17 +271,16 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
     return (
         <>
-            <Box container py="13px" px={"25px"} bgcolor='pink' boxSizing={"border-box"} sx={cssStyle.groupNameBox} display="flex" justifyContent={"space-between"}>
+            <Box container px={"25px"} boxSizing={"border-box"} sx={cssStyle.groupNameBox} display="flex" justifyContent={"space-between"} alignItems={'center'}>
                 {
-                    //Object.keys(ActiveChannel).length > 3 &&
-                    //Object.keys(MyActiveChat).lenght > 0 &&
                     <>
-                        <Box display={"flex"} height='30px' >
+                        <Box display={"flex"} height='30px'>
                             {
                                 selectChatV1?.isGroupChat === false &&
                                 <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-
-                                    <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1].name[0].toUpperCase()}</Avatar>
+                                    <Tooltip title={selectChatV1?.users[1]?.name} placement="bottom">
+                                    <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1]?.name[0]?.toUpperCase()}</Avatar>
+                                    </Tooltip>
                                 </StyledBadge>
                             }
                             <Box display='flex' flexDirection='column' justifyContent={'center'}>
@@ -390,22 +305,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
                                 </Box>
                             </Box>
-                            {/* 
-
-                            <Box display={'flex'} alignItems={'center'}>
-                                <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-                                        <Avatar alt="Remy Sharp" src={img} />
-                                    </StyledBadge> : <Avatar alt="Remy Sharp" src={img} />
-
-                                <Box>
-
-                                    <Typography pl='8px' color="black" fontSize={{ xs: '12px', md: '15px' }} textTransform={'capitalize'}>{name}</Typography>
-                                    {id === adminId ? <Typography pl='8px' color="green" fontSize={{ xs: '9px', md: '11px' }} textTransform={'capitalize'}>admin</Typography> : <Typography pl='8px' color=" #A1A1A1" fontSize={{ xs: '9px', md: '11px' }} textTransform={'capitalize'}>
-                                        {role}
-                                    </Typography>}
-
-                                </Box>
-                            </Box> */}
 
                             <Stack ml={1} direction="row" spacing={-.25}>
                                 <AvatarGroup max={3}
@@ -414,9 +313,10 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     }}
                                 >
                                     {
-                                        selectChatV1?.isGroupChat === true &&
-                                        selectChatV1?.users?.map((item) => {
-                                            return <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
+                                        selectChatV1?.isGroupChat === true && selectChatV1?.users?.map((item) => {
+                                            return <Tooltip title={item.name} placement="bottom">
+                                            <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
+                                            </Tooltip> 
                                         })
                                     }
 
@@ -435,9 +335,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     onClick={() => modelOpens()}>
                                     Add Member
                                 </Button>}
-                                {/* <Button sx={cssStyle.listofPeopeBtn} variant="contained" size="small">
-                            List Of People
-                        </Button> */}
                                 <ListModal buttonStyle={cssStyle.listofPeopeBtn} addMemberFunction={modelOpens} />
                             </Box>
                         }
@@ -533,7 +430,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
                     {(currentChats.length > 0 && selectChatV1) &&
                         <>
                             {currentChats?.map((mes, index) => {
-                                if (mes?.sender?._id === selectChatV1?.users[0]?._id && selectChatV1.isGroupChat !== true) {
+                               
+                                if (mes?.sender?._id !== localStorage.getItem("userInfo")) {
                                     return <Grid
                                         id="rec_mess_con_grid"
                                         sx={{
@@ -652,6 +550,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                     setActiveModel={setActiveModel}
                     setNewModelOpen={setNewModelOpen}
                     ActiveChannel={ActiveChannel}
+                    socket={socket}
                 />
             }
 

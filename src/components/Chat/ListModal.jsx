@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { IconButton, Box, Button, Typography, Modal, InputAdornment, OutlinedInput, Badge, Avatar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import { ChatState } from '../../Context/ChatProvider';
@@ -18,8 +17,8 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
+  // border: '2px solid #000',
+  boxShadow: 12,
   padding: '2rem',
   borderRadius: "6px"
 };
@@ -49,8 +48,8 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [search, setSearch] = useState("")
-  const { selectChatV1, setChats, setSelectedChatV1 } = ChatState();
-
+  const { selectChatV1,setChats,setSelectedChatV1 } = ChatState();
+  const [adminPosition,setAdminPosition]=useState(null)
 
   const fetchChat = async () => {
     try {
@@ -84,6 +83,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
       toast.error("Something is wrong in delete")
     }
   }
+
 
   return (
     <div>
@@ -137,33 +137,14 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
             />
           </Box>
 
-          <Box my='1.2rem' >
-
-            <IconButton aria-label="add" size="small" sx={{ color: '#A9A9A9', border: '1px solid #A9A9A9', borderRadius: '5px', outline: 'none !important' }} onClick={addMemberFunction}>
-              <AddIcon fontSize="inherit" />
-            </IconButton>
-
-            <Button sx={{ p: 0, px: 1, color: 'black', fontSize: '16px', textTransform: 'capitalize', outline: 'none !important' }} onClick={addMemberFunction}>
-              Add People
-            </Button>
-          </Box>
-
-
+          <Box display={'flex'} flexDirection={'column'}>
           {
             selectChatV1?.users?.map((item, index) => {
-              return <User
-                key={index}
-                name={item.name}
-                role="front end developer"
-                online={true}
-                img={item.pic}
-                id={item._id}
-                removeMember={removeMember}
-                chatId={selectChatV1._id}
-              />
+              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id} adminId={selectChatV1?.groupAdmin?._id}/>
             })
           }
-
+          </Box>
+          
         </Box>
       </Modal>
     </div>
@@ -175,33 +156,37 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
 
 
-const User = ({ name, role, online = false, img, id, removeMember, chatId }) => {
+const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }) => {
   return (
-    <Box display={'flex'} justifyContent={'space-between'} mt='1rem'>
+    <Box display={'flex'} justifyContent={'space-between'} mt='1rem' order={id===adminId&&"-5"}>
 
       <Box display={'flex'} alignItems={'center'}>
-        {
-          online ? <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-            <Avatar alt="Remy Sharp" src={img} />
-          </StyledBadge> : <Avatar alt="Remy Sharp" src={img} />
+         {
+          online ?
+           <Avatar alt="Remy Sharp" src={img} />
+           : <Avatar alt="Remy Sharp" src={img} />
         }
 
+        <Box>
 
-        <Typography pl='8px' color="black" fontSize={{ xs: '12px', md: '15px' }} textTransform={'capitalize'}>{name}</Typography>
+        <Typography pl='8px' color="black" fontSize={{xs:'12px',md:'15px'}} textTransform={'capitalize'}>{name}</Typography>
+        {id===adminId?<Typography pl='8px' color="green" fontSize={{xs:'9px',md:'11px'}} textTransform={'capitalize'}>admin</Typography>: <Typography pl='8px' color=" #A1A1A1" fontSize={{xs:'9px',md:'11px'}}  textTransform={'capitalize'}>
+          {role}
+        </Typography>}
+       
+        </Box>
       </Box>
 
       <Box >
-        <Box display={'flex'} justifyContent='center' alignItems={'center'}>
-          <Typography pl='8px' color=" #A1A1A1" fontSize={{ xs: '10px', md: '12px' }} textTransform={'capitalize'}>
-            {role}
-          </Typography>
-          <Box>
-            <IconButton>
-              <DeleteModal type='list' handleDelete={() => { removeMember(chatId, id) }} />
-            </IconButton>
-          </Box>
-        </Box>
-
+      <Box display={'flex'} justifyContent='center' alignItems={'center'}>
+        
+        {(localStorage.getItem("userInfo")===adminId)&&<Box>
+            {id!==adminId&&<IconButton>
+              <DeleteModal type='list' handleDelete={()=>{removeMember(chatId,id)}}/>
+            </IconButton>}
+        </Box>}
+      </Box>
+      
 
       </Box>
 

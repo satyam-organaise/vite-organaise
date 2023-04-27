@@ -1,6 +1,7 @@
-import { useState, createContext,useEffect } from 'react'
-import { Route, Routes, useNavigate, useParams, useLocation } from 'react-router-dom'
+import { useState, createContext } from 'react'
+import { Route, Routes, useNavigate, useParams, useLocation, redirect } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material';
+import { useEffect } from 'react';
 import FileUpload from './pages/FileUpload';
 import FolderData from './pages/FolderData';
 import MyMessage from './pages/MyMessage';
@@ -20,8 +21,7 @@ import ProjectName from './pages/ProjectName';
 import FolderFiles from './pages/FolderFiles';
 import MyAccount from './pages/MyAccount';
 import { userTokenVerify } from './api/InternalApi/OurDevApi';
-import OtpVerfPagecopy from './components/AuthPages/OtpVerfPagecopy';
-
+import LeftSideBar from './components/LeftSideBar/LeftSideBar';
 export const LeftSideBarContext = createContext(null);
 function App() {
     const [leftSideData, setLeftSideData] = useState("")
@@ -53,7 +53,6 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState("")
 
-    
 
     const checkAuthentication = async() => {
         const userId = localStorage.getItem("userInfo");
@@ -63,7 +62,8 @@ function App() {
             if(response.status===true)
             {
                 setIsAuthenticated(true)
-                if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/getstart' || pathname == '/forgetEmail' || pathname == '/forget-password' || pathname == '/' )
+                
+                if (pathname === '/login' || pathname === '/signup' || pathname === '/getStart' || pathname === '/getstart' || pathname === '/forgetEmail' || pathname === '/forget-password' || pathname === '/' )
                 {
                     navigate("/chat")
                 } 
@@ -71,7 +71,7 @@ function App() {
                 setIsAuthenticated(false)
                 localStorage.removeItem("token");
                 localStorage.removeItem("userinfo");
-                if (pathname == '/login' || pathname == '/signup' || pathname == '/getStart' || pathname == '/forgetEmail' || pathname == '/forget-password') {
+                if (pathname === '/login' || pathname === '/signup' || pathname === '/getStart' || pathname === '/forgetEmail' || pathname == '/forget-password') {
                     navigate(pathname)
                 } else {
                     navigate("/getStart")
@@ -123,22 +123,28 @@ function App() {
                     </ServiceProvider>
                     :
                     <ChatProvider>
+
+                        <LeftSideBar>
                         <Routes>
 
-                            <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="/files/allFiles" element={<AllFiles />} />
                             <Route path="/files/upload" element={<FileUpload />} />
-                            <Route path="/files/folder" element={<FolderData userId={userId} />} />
-                            <Route path="/files/folder/:fid" element={<FolderFiles userId={userId} />} />
+                            <Route path="/files/folder" element={<FolderData />} />
+                            <Route path="/files/folder/:fid" element={<FolderFiles />} />
                             <Route path="/chat" element={<MyMessage userId={userId} />} />
+                            <Route path="/account" element={<MyAccount/>} />
+                            <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="*" element={<>404 page</>} />
-                            <Route path="/account" element={<MyAccount closeSideList={true}/>} />
 
                         </Routes>
+                        </LeftSideBar>
+                        
+
                     </ChatProvider>
                 }
 
             </ThemeProvider >
+
 
         </>
     )

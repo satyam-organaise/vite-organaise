@@ -23,19 +23,6 @@ const FileUploadModal = ({ handleClose, open, setJsonData, handleClickOpen, user
 
     const [loader, setLoader] = useState(false);
 
-    // const onDrop = useCallback((acceptedFiles) => {
-    //     acceptedFiles.forEach((file) => {
-    //         { setFile(file) }
-    //         { console.log(file) }
-    //     })
-    // }, [])
-
-    // const {
-    //     getRootProps,
-    //     getInputProps
-    // } = useDropzone({ onDrop });
-
-
     const convertToJson = () => {
         Papa.parse(fileGet, {
             complete: (results) => {
@@ -54,8 +41,6 @@ const FileUploadModal = ({ handleClose, open, setJsonData, handleClickOpen, user
             let fileData = ShowFiles[index];
             const formData = new FormData();
             formData.append('file', fileData);
-            // formData.append('userId', UserId);
-            // formData.append('fileSize', fileData.size);
             const response = await axios.post('v2/api/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -138,12 +123,9 @@ const FileUploadModal = ({ handleClose, open, setJsonData, handleClickOpen, user
                 fileData.append(`file_${index}`, file);
                 fileData.append('userId', UserId);
                 fileData.append('fileSize', file.size);
-                // formData.append("project_id", id);
                 const fileDataSet = [file];
                 allFiles.push(file);
             });
-            //   setFileUpload([...getFileUpload ,...allFiles]);///contextApi
-            //   SetFileData([...getFileUpload ,...allFiles]);///useState data
             SetFileData([...allFiles]);///useState data
         },
         [
@@ -288,7 +270,7 @@ const FileUploadModal = ({ handleClose, open, setJsonData, handleClickOpen, user
                                 </Box>
                                 <Box container>
                                     <Typography sx={{ fontWeight: "400", fontSize: "12px", color: "#C5C5C5" }} variant="subtitle2" align='center' >
-                                        Supports Excel and CSV Files
+                                        Any Kind Of Files Are Supported
                                     </Typography>
                                 </Box>
 
