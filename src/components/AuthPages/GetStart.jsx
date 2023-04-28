@@ -159,7 +159,7 @@ const GetStart = ({ serviceType }) => {
 
                         <Grid item xs={12} sm={6}  >
                             <Box paddingLeft={4} display='flex' justifyContent='center'>
-                                <img src={loginPageBackgroundImg} style={{ width: "57%" }} alt="login-page-background-image" />
+                                <img src={loginPageBackgroundImg} style={{ width: "50%" }} alt="login-page-background-image" />
                             </Box>
 
                             <Grid xs={8} sm={12} display={{xs:'none',md:'flex' }}justifyContent='center'  >

@@ -7,3 +7,19 @@ export const getSender = (loggedUser, users) => {
     }
 
 }
+
+export const getIdObjectFromArray=(arr)=>{
+    const idArr=[]
+    for(let val of arr)
+    {
+        idArr.push(val._id)
+    }
+    
+    const obj={}
+    for(let val of idArr)
+    {
+        obj[val]=true
+    }
+    
+    return obj
+}

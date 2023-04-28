@@ -14,6 +14,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess, AddMemberInGroup,getAllFilesApi } from '../api/InternalApi/OurDevApi';
 import { useMutation } from 'react-query';
 import { ChatState } from '../Context/ChatProvider';
+import { getIdObjectFromArray, getSender } from '../utils/chatLogic';
 
 import socket from "../socket/socket";
 const ContentModels = ({
@@ -32,26 +33,10 @@ const ContentModels = ({
     const [fullWidth, setFullWidth] = React.useState(true);
     const [maxWidth, setMaxWidth] = React.useState('xs');
     const [allUsersList,setAllUsersList]=useState({})
+    const [buttonClickedType,setButtonClickedType]=useState("")
 
-    useEffect(()=>{
-        const list=selectChatV1?.users;
-        const userIdArr=list?.map((item)=>{
-            return item?._id
-        })
-        if(userIdArr)
-        {
-
-            const idKeyObj={}
-            for(let val of userIdArr)
-            {
-                idKeyObj[val]=true
-            }
-            
-            setAllUsersList(idKeyObj)
-        }
-    },[])
     ////// use conetext use here
-    const { user, setUser, selectChatV1, setSelectedChatV1, currentChats, setCurrentChats, chats, setChats } = ChatState();
+    const { user, selectChatV1, setSelectedChatV1, chats, setChats } = ChatState();
 
     const location = useLocation();
     ////////// Create and store Identity service //////
@@ -258,7 +243,6 @@ const ContentModels = ({
     const [folderFiles, setFolderFiles] = useState([]);
     useEffect(() => {
         if (activeModel === "ShowFilesInFolderModel") {
-            console.log(folderSelect)
             setFolderFiles(folderSelect.filesList);
         }
     }, [activeModel, folderSelect])
@@ -318,27 +302,70 @@ const ContentModels = ({
     const [debouncedSearchMember] = useDebounce(srcMemberText, 500);
     const [listNewMembers, setNewMembersList] = useState([]);
     const [selectSrcMember, setSelectSrcMem] = useState(null);
+
+    useEffect(()=>{
+        const list=selectChatV1?.users;
+        if(list)
+        {
+            const idObj=getIdObjectFromArray(list)        
+            setAllUsersList(idObj)
+        }
+    },[selectChatV1])
     
     const searchMemberv1 = async (srcItem) => {
         try {
             const response = await MemberSearchV1({ search: srcItem });
             
-            const filterUsers=response.filter((item)=>{
-                if(allUsersList[item._id])
+            if(activeModel==="AddTeamMate"||activeModel==="SingleMemberChat"){
+                const filterUsers=response.filter((item)=>{
+                    if(allUsersList[item._id])
                 {
                     return false
                 }else{
                     return true
                 }
-            })
-
-            if (response.length > 0) {
-                setNewMembersList(filterUsers);
+                })
+                if (response.length > 0) {
+                    setNewMembersList(filterUsers);
+                }
             }
+            else if(activeModel==="CreateGroup") {
+                //Find all member at the time of creating a group
+                setNewMembersList(response);
+            }
+
         } catch (error) {
             console.log(error.response);
         }
     }
+
+    //For making id object of current drawer inbox member list and set it to all user list state to filter
+    useEffect(()=>{
+        if(activeModel==="SingleMemberChat")
+        {
+            const onlyMembersArr=chats.filter((item)=>{
+                return item.isGroupChat===false
+            })
+            // console.log(onlyMembersArr)
+            
+            const idArr=onlyMembersArr.map((item)=>{
+                if(item.users[0]._id===user)
+                {
+                    return item.users[1]
+                }else{
+                    return item.users[0]
+                }
+            })
+
+            const obj={}
+            for(let val of idArr)
+            {
+                obj[val._id]=true
+            }
+            setAllUsersList(obj)
+        }
+
+    },[activeModel])
 
     ///////// Single user chat create function 
     const { mutateAsync: creatSingleMemChatV1 } = useMutation(SingleUserchatAccess);
@@ -573,7 +600,7 @@ const ContentModels = ({
                 </Dialog>
             }
 
-            {/* Add teammate model */}
+            {/* Add new teammate model inside a group */}
             {show && activeModel === "AddTeamMate" &&
                 <Dialog
                     open={NewModelOpen}
@@ -615,7 +642,7 @@ const ContentModels = ({
                                     onChange={(event, newValue) => {
                                         setSelectSrcMem(newValue);
                                     }}
-                                    getOptionLabel={(option) => option.name}
+                                    getOptionLabel={(option) => `${option.name} ( ${option.email} )`}
                                     //getOptionSelected={(option, value) => option.email === value.email}
                                     renderOption={(props, option) => (
                                         <div {...props}>
@@ -883,7 +910,7 @@ const ContentModels = ({
                 </Dialog>
             }
 
-            {/* Add teammate model */}
+            {/* Drawer outside Add chat inbox model */}
             {show && activeModel === "SingleMemberChat" &&
                 <Dialog
                     open={NewModelOpen}
@@ -925,7 +952,7 @@ const ContentModels = ({
                                     onChange={(event, newValue) => {
                                         setSelectSrcMem(newValue);
                                     }}
-                                    getOptionLabel={(option) => option.name}
+                                    getOptionLabel={(option) => `${option.name} ( ${option.email} )`}
                                     //getOptionSelected={(option, value) => option.email === value.email}
                                     renderOption={(props, option) => (
                                         <div {...props}>
@@ -988,7 +1015,7 @@ const ContentModels = ({
                 </Dialog>
             }
 
-            {/* Create group */}
+            {/*Drawer outside Create group */}
             {show && activeModel === "CreateGroup" &&
                 <Dialog
                     open={NewModelOpen}
@@ -1036,7 +1063,7 @@ const ContentModels = ({
                                     multiple
                                     id="selected_mem_autocom"
                                     options={listNewMembers}
-                                    getOptionLabel={(option) => option.name}
+                                    getOptionLabel={(option) => `${option.name} ( ${option.email} )`}
                                     //defaultValue={[selectedMemStore]}
                                     onChange={SetMembersFun}
                                     renderInput={(params) => (

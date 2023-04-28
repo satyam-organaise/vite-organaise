@@ -140,7 +140,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
           <Box display={'flex'} flexDirection={'column'}>
           {
             selectChatV1?.users?.map((item, index) => {
-              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id} adminId={selectChatV1?.groupAdmin?._id}/>
+              return <User key={index} name={item.name} role="front end developer" online={true} img={item.pic} id={item._id} removeMember={removeMember} chatId={selectChatV1._id} adminId={selectChatV1?.groupAdmin?._id} email={item?.email}/>
             })
           }
           </Box>
@@ -156,7 +156,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
 
 
 
-const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }) => {
+const User = ({ name, role,email, online = false, img,id,removeMember,chatId,adminId }) => {
   return (
     <Box display={'flex'} justifyContent={'space-between'} mt='1rem' order={id===adminId&&"-5"}>
 
@@ -171,7 +171,7 @@ const User = ({ name, role, online = false, img,id,removeMember,chatId,adminId }
 
         <Typography pl='8px' color="black" fontSize={{xs:'12px',md:'15px'}} textTransform={'capitalize'}>{name}</Typography>
         {id===adminId?<Typography pl='8px' color="green" fontSize={{xs:'9px',md:'11px'}} textTransform={'capitalize'}>admin</Typography>: <Typography pl='8px' color=" #A1A1A1" fontSize={{xs:'9px',md:'11px'}}  textTransform={'capitalize'}>
-          {role}
+          {email}
         </Typography>}
        
         </Box>

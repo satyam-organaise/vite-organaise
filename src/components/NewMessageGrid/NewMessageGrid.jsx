@@ -266,23 +266,23 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
 
 
-
-
-
     return (
         <>
             <Box container px={"25px"} boxSizing={"border-box"} sx={cssStyle.groupNameBox} display="flex" justifyContent={"space-between"} alignItems={'center'}>
                 {
                     <>
                         <Box display={"flex"} height='30px'>
+
+                            {/* User Avatar */}
                             {
                                 selectChatV1?.isGroupChat === false &&
                                 <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
-                                    <Tooltip title={selectChatV1?.users[1]?.name} placement="bottom">
-                                    <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1]?.name[0]?.toUpperCase()}</Avatar>
+                                    <Tooltip title={selectChatV1?.users[1]._id===user?selectChatV1?.users[0].name:selectChatV1?.users[1].name} placement="bottom">
+                                    <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1]._id===user?selectChatV1?.users[0].name[0]?.toUpperCase():selectChatV1?.users[1].name[0]?.toUpperCase()}</Avatar>
                                     </Tooltip>
                                 </StyledBadge>
                             }
+                            
                             <Box display='flex' flexDirection='column' justifyContent={'center'}>
                                 <Box>
 
@@ -292,13 +292,14 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     {Object.keys(MyActiveChat).length > 0 &&
                                         (!MyActiveChat.isGroupChat ? getSender(user, MyActiveChat?.users) : (MyActiveChat.chatName))
                                     }
-                                     {
-                                        
+                                     
+                                     {/* {
+   
                                         selectChatV1?.isGroupChat === false &&
                                         <Typography fontSize='12px'>
                                             online
                                         </Typography>
-                                        }
+                                        } */}
                                     
                                 </Typography>
                                
@@ -451,8 +452,9 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                     <Stack ml={1} direction="row">
                                                         <Avatar
                                                             sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }}
-                                                            alt="Remy Sharp"
-                                                            src="https://mui.com/static/images/avatar/1.jpg" />
+                                                            alt={mes.sender.name[0].toUpperCase()}
+                                                            src="https://mui.com/static/images/asdfavatar/1.jpg" 
+                                                            />
                                                     </Stack>
                                                 </Box>
                                                 <Box ml={1}>
@@ -489,7 +491,9 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                             <Box container display={'flex'} flexDirection="row-reverse" mb={1} py={0.5}>
                                                 <Box id="mess_user_pic_box_send">
                                                     <Stack ml={1} direction="row">
-                                                        <Avatar sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }} alt="Remy Sharp" src="https://mui.com/static/images/avatar/1.jpg" />
+                                                        <Avatar sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }} alt={mes.sender.name[0].toUpperCase()} 
+                                                        src="https://mui.com/static/images/avatar/1fd.jpg" 
+                                                        />
                                                     </Stack>
                                                 </Box>
                                                 <Box ml={1}>

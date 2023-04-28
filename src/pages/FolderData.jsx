@@ -142,15 +142,20 @@ const FolderData = () => {
     ///////// Search Folder code  Here
     const [srcFolderText, SetSrcFolderText] = useState("");
     const [debouncedSearchTerm] = useDebounce(srcFolderText, 500);
-    // useEffect(() => {
-    //     if (debouncedSearchTerm !== "") {
-    //         const searchingFiles = allFoldersConstant.filter((srcFolders) => srcFolders.folderName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
-    //         setFoldersData(searchingFiles);
-    //     } else {
-    //         setFoldersData(allFoldersConstant)
-    //     }
+    useEffect(() => {
+        if (debouncedSearchTerm !== "") {
+            const searchingFiles = allFoldersConstant.filter((srcFolders) => srcFolders.folderName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
+            if(searchingFiles.length>0)
+            {
+                setFoldersData(searchingFiles);
+            }else{
+                toast.info("No Folder found of this name")
+            }
+        } else {
+            setFoldersData(allFoldersConstant)
+        }
 
-    // }, [debouncedSearchTerm])
+    }, [debouncedSearchTerm])
 
 
     //////////// calculate the folder size
@@ -271,7 +276,7 @@ const FolderData = () => {
                                 >
                                     <Box container display={'flex'} justifyContent="end"
                                     >
-                                        <DotMenu handleDelete={deleteFolder} value={d._id} pageName='folder' handleAddFile={()=>ActionDelFolAndAddFile("addFile",d)}/>
+                                        <DotMenu handleDelete={deleteFolder} value={d._id} pageName='folder' handleAddFile={()=>ActionDelFolAndAddFile("addFile",d)} deleteHeading="Delete Folder" deleteTitle="Are you sure you want to delete this folder ?"/>
                                         
 
                                     </Box>

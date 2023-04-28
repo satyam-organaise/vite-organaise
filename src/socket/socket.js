@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-const ENDPOINT = "https://app.organaise.com/";
+const ENDPOINT = "https://app.organaise.com/";;
 const userID = localStorage.getItem("userInfo");
 const socket = io(`${ENDPOINT}`, {
     debug: true,
