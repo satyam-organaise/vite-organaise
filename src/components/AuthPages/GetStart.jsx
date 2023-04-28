@@ -103,7 +103,7 @@ const GetStart = ({ serviceType }) => {
 
     return (
         <Box container  >
-            <Grid container padding={{ xs: 1, sm: 5 }}>
+            <Grid container paddingY={{ xs: 1, sm: 5 }} paddingX={{ xs: 1, sm: 2 }}  >
                 {/* grid1 */}
                 <Grid item xs={12} >
                     <Box container display={{ xs: 'start', sm: 'flex' }} >
@@ -248,34 +248,6 @@ const GetStart = ({ serviceType }) => {
                                     <Link to="/signup" style={{ textDecoration: "none", color: "#448DF0" }}>Create Account</Link>                     
                                 </Grid>
 
-                                <Grid item xs={12} display='flex' justifyContent='center' alignItems='center' gap={2} paddingY={3}>
-                                    <Box height='1px' width='45%' backgroundColor='gray' />
-                                    <Typography fontSize='15px'>OR</Typography>
-                                    <Box height='1px' width='45%' backgroundColor='gray' />
-                                </Grid>
-
-                                <Grid item xs={12} >
-                                    <Box marginTop={3} sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} borderRadius={2}>
-                                        <Box display='flex' justifyContent='center' alignItems='center' gap={2} padding={1}>
-                                            <img src={GoogleIcon} />
-                                            <Typography fontWeight='bold' >Continue with Google</Typography>
-                                        </Box>
-                                    </Box>
-
-                                    <Box marginTop={3} sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} borderRadius={2}>
-                                        <Box display='flex' justifyContent='center' alignItems='center' gap={2} padding={1}>
-                                            <img src={FacebookIcon} />
-                                            <Typography fontWeight='bold' textAlign='center'>Continue with Facebook</Typography>
-                                        </Box>
-                                    </Box>
-
-                                    <Box marginTop={3} sx={{ backgroundColor: 'white', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }} borderRadius={2}>
-                                        <Box display='flex' justifyContent='center' alignItems='center' gap={2} padding={1}>
-                                            <img src={AppleIcon} />
-                                            <Typography fontWeight='bold' textAlign='center'>Continue with Apple</Typography>
-                                        </Box>
-                                    </Box>
-                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
