@@ -100,7 +100,6 @@ const AllFiles = () => {
         // const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
         const createDeleteObj = { fileId: data._id};
         const resData = await deleteFileApiCall(createDeleteObj);
-        console.log(resData,'delete file by suraj')
             if (resData.status) {
                 toast.success(resData.message);
                 if (debouncedSearchTerm !== "") {
@@ -122,19 +121,21 @@ const AllFiles = () => {
     ///////////// Search file 
     const [srcFileText, SetSrcFileText] = useState("");
     const [debouncedSearchTerm] = useDebounce(srcFileText, 500);
-    // useEffect(() => {
-    //     if (debouncedSearchTerm !== "") {
-    //         const searchingFiles = allUserFilesConstant.filter((srcFiles) => srcFiles.fileName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
-    //         setUserFiles(searchingFiles);
-    //         if(searchingFiles.length===0)
-    //         {
-    //             setisFilesExist(false);
-    //         }
-    //     } else {
-    //         setUserFiles(allUserFilesConstant);
-    //     }
+    useEffect(() => {
+        if (debouncedSearchTerm !== "") {
+            const searchingFiles = allUserFilesConstant.filter((srcFiles) => srcFiles.fileName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
+            
+            if(searchingFiles.length>0)
+            {
+                setUserFiles(searchingFiles);
+            }else{
+                toast.info("No File found of this name")
+            }
+        } else {
+            setUserFiles(allUserFilesConstant);
+        }
 
-    // }, [debouncedSearchTerm])
+    }, [debouncedSearchTerm])
 
     if(loading)
     {
@@ -148,61 +149,19 @@ const AllFiles = () => {
         <Box px={"20px"} sx={style.folderCreateMainBox}>
             {userFiles.length === 0 &&
                 <Grid container>
-                    {!isFilesExist&&<Grid container item mt={2} xs={12} >
-                        <Box container width={"100%"} display={'flex'} justifyContent="space-between">
-                            <Typography variant="h6" >All Files</Typography>
-                            <Box >
-                                <TextField
-                                    onClick={()=>setShowSearchSmall(true)}
-                                    id="search_folder"
-                                    placeholder='Search file'
-                                    size='small'
-                                    sx={{
-                                        width:{xs:showSearchSmall?"150px":'50px',sm:'140px',md:'180px',xl:'220px'},
-                                        marginRight: "10px", 
-                                        "& input": {
-                                            paddingTop: "7px",
-                                            paddingBottom: "7px", fontSize: "14px"
-                                        },
-                                        paddingLeft: "4px", 
-                                        "& fieldset": { borderRadius: "8px" }
-                                    }}
-                                    value={srcFileText}
-                                    onChange={(e) => SetSrcFileText(e.target.value)}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Search sx={{ color: "#efefef" }} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                                <Button
-                                    variant="contained"
-                                    size='small'
-                                    sx={{ padding:{xs: "4px 15px",sm:"5px 20px"},textTransform:'capitalize' }}
-                                    onClick={() => navigate("/files/upload")}
-                                >
-                                    Add Files
-                                </Button>
-                            </Box>
-
-                        </Box>
-                    </Grid>}
+                  
                     <Grid container item xs={12} mt={2} display="flex"  justifyContent={'center'}>
                         <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
                     </Grid>
-                    {isFilesExist?<Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
                         <Typography variant="subtitle1" fontWeight={"600"} >No files added yet</Typography>
-                    </Grid>:<Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
-                        <Typography variant="subtitle1" fontWeight={"600"} >Files Not Found</Typography>
-                    </Grid>}
-                    {isFilesExist&&<Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                    </Grid>
+                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
                         <Typography sx={{ width: { sm: "75%", md: "45%" } }} color="#808191" variant="body2" textAlign={'center'}>
                             It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
                         </Typography>
-                    </Grid>}
-                    {isFilesExist&&<Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                    </Grid>
+                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
                         <Button
                             variant="contained"
                             size='small'
@@ -211,7 +170,7 @@ const AllFiles = () => {
                         >
                             Add File
                         </Button>
-                    </Grid>}
+                    </Grid>
                 </Grid>
             }
 
@@ -268,7 +227,7 @@ const AllFiles = () => {
                                 border: "0.5px solid #CBCBCB", borderRadius: "8px"
                             }}>
                                 <Box container display={'flex'} justifyContent="end">
-                                    <DotMenu handleDelete={ActionDelFile} value={d} pageName='files'/>
+                                    <DotMenu handleDelete={ActionDelFile} value={d} pageName='files' deleteHeading="Delete File" deleteTitle="Are you sure you want to delete this file ?"/>
                                     {/* <DeleteModal handleDelete={ActionDelFile} value={d} /> */}
                                 </Box>
                                 <Box container display={'flex'} justifyContent="center">

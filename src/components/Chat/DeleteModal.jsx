@@ -41,7 +41,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 
 
-const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,toggleDeleteModal,type,refetch}) => {
+const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,deleteHeading,deleteTitle,type,refetch}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -81,10 +81,10 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,toggleD
             {type==='list'?<Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
             Are you sure do you want to remove this user ?
             </Typography>:<Typography id="modal-modal-title" color={'black'} fontSize={'21px'}fontWeight={600} >
-            Are you sure do you want to delete this {pageName==='folder'?"folder":"file"} ?
+            {deleteHeading}
             </Typography>}
             <Typography mt='1rem' width={'95%'} color='#777777' fontWeight={400} id="modal-modal-title" textAlign={'center'} fontSize={'16px'} lineHeight={'148.19%'}>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+            {deleteTitle}
             </Typography>
             </Box>
      

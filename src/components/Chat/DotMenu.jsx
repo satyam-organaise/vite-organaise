@@ -8,7 +8,7 @@ import { Typography } from '@mui/material';
 
 const ITEM_HEIGHT = 48;
 
-export default function DotMenu({handleDelete,handleAddFile,value,pageName='folder'}) {
+export default function DotMenu({handleDelete,handleAddFile,value,pageName='folder',deleteHeading,deleteTitle}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -57,7 +57,7 @@ export default function DotMenu({handleDelete,handleAddFile,value,pageName='fold
             <Typography>Add File</Typography>
           </MenuItem>}
           <MenuItem>
-            <DeleteModal handleDelete={handleDelete} value={value} closeParentModal={handleClose} pageName={pageName}/> 
+            <DeleteModal handleDelete={handleDelete} value={value} closeParentModal={handleClose} pageName={pageName} deleteHeading={deleteHeading} deleteTitle={deleteTitle}/> 
           </MenuItem>
           
        </Menu>

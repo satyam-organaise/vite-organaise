@@ -14,19 +14,15 @@ const MyAccount = ({closeSideList}) => {
 
     const currencies = [
         {
-          value: 'USD',
           label: '$ United Stated Of America',
         },
         {
-          value: 'EUR',
           label: '€ United Kingdom',
         },
         {
-          value: 'BTC',
-          label: '฿ Bitcoin',
+          label: '₹ India',
         },
         {
-          value: 'JPY',
           label: '¥ Japan',
         },
       ];
@@ -85,12 +81,14 @@ const MyAccount = ({closeSideList}) => {
                             defaultValue="Olivia"
                             size='sm'
                             sx={{width:"48%"}}
+                            disabled
                             />
                         <TextField
                             id="outlined-helperText"
                             defaultValue="Colson"
                             size='sm'
                             sx={{width:"48%"}}
+                            disabled
                             />
                         </Box>
                     </Grid>
@@ -102,7 +100,7 @@ const MyAccount = ({closeSideList}) => {
                 <Grid container  my={'1rem'}>
                     <Grid xs={6} md={5} display={'flex'} alignItems={'center'}>
                         <Box>
-                            <Typography fontSize={'16px'} fontWeight={400}>Email address</Typography>
+                            <Typography  fontSize={'16px'} fontWeight={400}>Email address</Typography>
                         </Box>
                     </Grid>
                     <Grid xs={6} md={7}>
@@ -111,6 +109,7 @@ const MyAccount = ({closeSideList}) => {
                                 id="outlined-helperText"
                                 defaultValue="olivia@untitledui.com"
                                 fullWidth
+                                disabled
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -141,7 +140,7 @@ const MyAccount = ({closeSideList}) => {
                                 sx={{ width: 65, height: 65,pointerEvents:"none" }}
                                 />
                             </Box>
-                            <Box flex={0.85} border={' 1px dashed #EAECF0'} borderRadius={'8px'} padding={' 16px 24px'}>
+                            <Box flex={0.80} border={' 1px dashed #EAECF0'} borderRadius={'8px'} padding={' 16px 24px'}>
                                 <Box display={'flex'} justifyContent={'center'}>
                                 <CloudUploadOutlinedIcon/>
                                 </Box>
@@ -159,7 +158,7 @@ const MyAccount = ({closeSideList}) => {
 
                 <Divider/>
                 
-                {/* Role */}
+                {/* Role
                 <Grid container  my={'1rem'}>
                     <Grid xs={6} md={5} display={'flex'} alignItems={'center'}>
                         <Box>
@@ -174,7 +173,7 @@ const MyAccount = ({closeSideList}) => {
                                 />
                         </Box>
                     </Grid>
-                </Grid>
+                </Grid> */}
 
                 <Divider/>
                 
@@ -206,7 +205,7 @@ const MyAccount = ({closeSideList}) => {
                 <Divider/>
                 
                 {/* Timezone */}
-                <Grid container  my={'1rem'}>
+                {/* <Grid container  my={'1rem'}>
                     <Grid xs={6} md={5} display={'flex'} alignItems={'center'}>
                         <Box>
                             <Typography fontSize={'16px'} fontWeight={500}>Timezone</Typography>
@@ -228,48 +227,28 @@ const MyAccount = ({closeSideList}) => {
                             </TextField>
                         </Box>
                     </Grid>
-                </Grid>
+                </Grid> */}
                 
                 <Divider/>
 
                 {/* Bio */}
                 <Grid container my={'1rem'}>
-                    <Grid xs={6} md={5} display={'flex'}>
+                    <Grid xs={6} md={5} display='flex' alignItems={'center'}>
                         <Box>
-                            <Typography fontSize={'16px'} fontWeight={500}>Bio</Typography>
-                            <Typography fontSize={'14px'} fontWeight={300}>Write a short introduction.</Typography>
+                            <Typography fontSize={'16px'} fontWeight={500}>About</Typography>
+                           
                         </Box>
                     </Grid>
                     <Grid xs={6} md={7} >
-                        <Box width={'80%'} mb='1rem' display={'flex'}>
-                            <TextField
-                            sx={{width:'50%'}}
-                            id="outlined-select-currency"
-                            select
-                            defaultValue="Normal Text"
-                            
-                            >
-                                <MenuItem value="Normal Text">
-                                Normal Text
-                                </MenuItem>
-                            </TextField>
-
-                            <ButtonGroup variant="outline" sx={{color:"#98A2B3"}} aria-label="outlined primary button group">
-                            <Button><FormatBoldIcon/></Button>
-                            <Button><FormatItalicIcon/></Button>
-                            <Button><AttachmentIcon/></Button>
-                            <Button><ListIcon/></Button>
-                            </ButtonGroup>
-                        </Box>
+                      
                         <Box width={'80%'} display={'flex'} justifyContent={'space-between'}>
                         <TextField
                         placeholder='Enter your Bio'
-                            defaultValue="I'm a Product Designer based in Melbourne, Australia. I specialise in UX/UI design, brand strategy, and Webflow development."
-                            multiline
+                            defaultValue="I'm a Product Designer based in Melbourne, Australia."
+                            // multiline
                             rows={4}
                             maxRows={4}
                             fullWidth
-                            helperText="275 characters left"
                             />
                         </Box>
                     </Grid>
@@ -277,7 +256,7 @@ const MyAccount = ({closeSideList}) => {
 
                 {/* Submit */}
                 <Grid container display={'flex'} justifyContent={'flex-end'} mt='2rem' mb='1rem'>
-                    <Box width={'30%'} display={'flex'} justifyContent={'space-evenly'} mr='4rem'>
+                    <Box width={'30%'} display={'flex'} justifyContent={'space-evenly'} mr='8rem'>
                         <Button variant="outlined" size="large" sx={{width:'45%'}}>Discard</Button>
                         <Button variant="contained" size="large" sx={{width:'45%'}}>Save</Button>
                     </Box>

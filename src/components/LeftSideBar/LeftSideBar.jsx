@@ -183,7 +183,7 @@ const LeftSideBar = (props) => {
 
     ////// use conetext use here
     const { user, setSelectedChatV1, pageNameContext, closeSideListContext, chats, setChats, compNameContext, setCompNameContext, notification, setNotification,setMessagingActive,setSelectedChannel,closeAppDrawer } = ChatState();
-    console.log(closeAppDrawer,"checkingna fdsa")
+
     const theme = useTheme();
     const navegate = useNavigate();
     const location = useLocation();
@@ -355,6 +355,7 @@ const LeftSideBar = (props) => {
     const fetchChat = async () => {
         try {
             const response = await userGroupFetchChat();
+            
             if (response) {
                 setChats(response);
                 // setLoggedUser(localStorage.getItem("userInfo"));

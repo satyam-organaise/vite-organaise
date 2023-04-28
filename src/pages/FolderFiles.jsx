@@ -126,16 +126,21 @@ const FolderFiles = () => {
     ///////////// Search file 
     const [srcFileText, SetSrcFileText] = useState("");
     const [debouncedSearchTerm] = useDebounce(srcFileText, 500);
-    // useEffect(() => {
-    //     if (debouncedSearchTerm !== "") {
-    //         const searchingFiles = allUserFiles.filter((srcFiles) => srcFiles.fileName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
-    //         setUserFiles(searchingFiles);
-    //     } 
-    //     else {
-    //         setUserFiles(allUserFiles);
-    //     }
+    useEffect(() => {
+        if (debouncedSearchTerm !== "") {
+            const searchingFiles = allUserFiles.filter((srcFiles) => srcFiles.fileName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
+            if(searchingFiles.length>0)
+            {
+                setUserFiles(searchingFiles);
+            }else{
+                toast.info("No file found of this name")
+            }
+        } 
+        else {
+            setUserFiles(allUserFiles);
+        }
 
-    // }, [debouncedSearchTerm])
+    }, [debouncedSearchTerm])
     
     if(loading)
     {
@@ -223,7 +228,7 @@ const FolderFiles = () => {
                                 border: "0.5px solid #CBCBCB", borderRadius: "8px"
                             }}>
                                 <Box container display={'flex'} justifyContent="end">
-                                    <DotMenu handleDelete={ActionDelFile} value={d} pageName='files'/>
+                                    <DotMenu handleDelete={ActionDelFile} value={d} pageName='files' deleteHeading="Delete File" deleteTitle="Are you sure you want to delete this ?"/>
                                 </Box>
                                 <Box container display={'flex'} justifyContent="center">
                                     
