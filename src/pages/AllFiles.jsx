@@ -12,7 +12,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useMutation } from 'react-query';
-import { deleteFileApi,getAllFilesApi } from '../api/InternalApi/OurDevApi';
+import { deleteFileApi, getAllFilesApi } from '../api/InternalApi/OurDevApi';
 import { useDebounce } from 'use-debounce';
 import FileIcon from '../components/FileUploadModal/Icons/FileIcon';
 import DeleteModal from '../components/Chat/DeleteModal';
@@ -22,48 +22,47 @@ import { ChatState } from '../Context/ChatProvider';
 
 const AllFiles = () => {
     const navigate = useNavigate();
-    const [loading,setLoading]=useState(false);
+    const [loading, setLoading] = useState(false);
     const [userFiles, setUserFiles] = useState([]);
     const [allUserFilesConstant, setAllUserFilesConstant] = useState([]);
     const [UserId, setUserId] = useState("");
-    const [showSearchSmall,setShowSearchSmall]=useState(false)
-    const {setPageNameContext,setCloseSideList}=ChatState()
-    const [isFilesExist,setisFilesExist]=useState(true)
-
-   const colorsCode={
-        doc:'#2892e7d6',
-        docx:'#2892e7d6',
-        png:'#7CB2D2aa',
-        jpeg:'#74BE73aa',
-        jpg:'#74BE73',
-        pdf:'#EE2F37',
-        mkv:'#478559aa',
-        exe:'#ff8928',
-        gif:'#405de6aa',
-        htm:'#539568',
-        html:'#539568',
-        jar:'#ffc202',
-        zip:'#F0BC2C',
-        bat:'#c0ff2d',
-        bin:'#ffabb6',
-        csv:'#ffaaab',
-        iso:'#c89666',
-        mp4:'#8076a3',
-        mp3:'#9950A6',
-        mpeg:'#00beffaa',
-        ppsx:'#ffcb00',
-        rar:'#9bc400aa',
-        tmp:'#ec1f52aa',
-        txt:'#5D68BF',
-        xls:'#67AA46',
-        ppt:'#F68852',
-        eps:'#EFA162',
-        wav:'#176E88',
-        css:'#95BCD4',
-        mov:'#006CB7',
-        psd:'#297CAF',
+    const [showSearchSmall, setShowSearchSmall] = useState(false)
+    const { setPageNameContext, setCloseSideList } = ChatState()
+    const [isFilesExist, setisFilesExist] = useState(true)
+    const colorsCode = {
+        doc: '#2892e7d6',
+        docx: '#2892e7d6',
+        png: '#7CB2D2aa',
+        jpeg: '#74BE73aa',
+        jpg: '#74BE73',
+        pdf: '#EE2F37',
+        mkv: '#478559aa',
+        exe: '#ff8928',
+        gif: '#405de6aa',
+        htm: '#539568',
+        html: '#539568',
+        jar: '#ffc202',
+        zip: '#F0BC2C',
+        bat: '#c0ff2d',
+        bin: '#ffabb6',
+        csv: '#ffaaab',
+        iso: '#c89666',
+        mp4: '#8076a3',
+        mp3: '#9950A6',
+        mpeg: '#00beffaa',
+        ppsx: '#ffcb00',
+        rar: '#9bc400aa',
+        tmp: '#ec1f52aa',
+        txt: '#5D68BF',
+        xls: '#67AA46',
+        ppt: '#F68852',
+        eps: '#EFA162',
+        wav: '#176E88',
+        css: '#95BCD4',
+        mov: '#006CB7',
+        psd: '#297CAF',
     }
-   
+
     const style = {
         folderCreateMainBox: {
             minHeight: "500px", backgroundColor: "transparent",
@@ -73,16 +72,15 @@ const AllFiles = () => {
     /////// Get files of this user
     const getFilesOfUser = async () => {
         setLoading(true)
-        try{
+        try {
             const response = await getAllFilesApi()
             const FilesData = response.data;
             setUserFiles(FilesData)
             setAllUserFilesConstant(FilesData)
-        }catch(error)
-        {
+        } catch (error) {
             console.log("Cannot get files");
         }
-      
+
         setLoading(false)
     }
 
@@ -96,25 +94,25 @@ const AllFiles = () => {
 
     const { mutateAsync: deleteFileApiCall, isLoading: delFileIsLoading } = useMutation(deleteFileApi)
     const ActionDelFile = async (data) => {
-        
+
         // const UserId = JSON.parse(localStorage.getItem("UserData")).sub;
-        const createDeleteObj = { fileId: data._id};
+        const createDeleteObj = { fileId: data._id };
         const resData = await deleteFileApiCall(createDeleteObj);
-            if (resData.status) {
-                toast.success(resData.message);
-                if (debouncedSearchTerm !== "") {
-                    const afterDelFilterFile = userFiles.filter((srcFiles) => srcFiles.fileId !== data.fileId);
-                    setUserFiles(afterDelFilterFile);
-                    if (afterDelFilterFile.length === 0) {
-                        SetSrcFileText("");
-                    }
-                } else {
-                    getFilesOfUser();
+        if (resData.status) {
+            toast.success(resData.message);
+            if (debouncedSearchTerm !== "") {
+                const afterDelFilterFile = userFiles.filter((srcFiles) => srcFiles.fileId !== data.fileId);
+                setUserFiles(afterDelFilterFile);
+                if (afterDelFilterFile.length === 0) {
+                    SetSrcFileText("");
                 }
             } else {
-                toast.error(resData.message);
+                getFilesOfUser();
             }
-   
+        } else {
+            toast.error(resData.message);
+        }
+
 
     }
 
@@ -122,14 +120,15 @@ const AllFiles = () => {
     const [srcFileText, SetSrcFileText] = useState("");
     const [debouncedSearchTerm] = useDebounce(srcFileText, 500);
     useEffect(() => {
+        setisFilesExist(true);
         if (debouncedSearchTerm !== "") {
             const searchingFiles = allUserFilesConstant.filter((srcFiles) => srcFiles.fileName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
-            
-            if(searchingFiles.length>0)
-            {
+
+            if (searchingFiles.length > 0) {
                 setUserFiles(searchingFiles);
-            }else{
-                toast.info("No File found of this name")
+                // setisFilesExist(true);
+            } else {
+                setisFilesExist(false);
             }
         } else {
             setUserFiles(allUserFilesConstant);
@@ -137,88 +136,88 @@ const AllFiles = () => {
 
     }, [debouncedSearchTerm])
 
-    if(loading)
-    {
-        return(
-            <Loader/>
+    if (loading) {
+        return (
+            <Loader />
         )
     }
 
     return (
-    <>
-        <Box px={"20px"} sx={style.folderCreateMainBox}>
-            {userFiles.length === 0 &&
-                <Grid container>
-                  
-                    <Grid container item xs={12} mt={2} display="flex"  justifyContent={'center'}>
-                        <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
-                    </Grid>
-                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
-                        <Typography variant="subtitle1" fontWeight={"600"} >No files added yet</Typography>
-                    </Grid>
-                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
-                        <Typography sx={{ width: { sm: "75%", md: "45%" } }} color="#808191" variant="body2" textAlign={'center'}>
-                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                        </Typography>
-                    </Grid>
-                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
-                        <Button
-                            variant="contained"
-                            size='small'
-                            sx={{ padding: "5px 25px" }}
-                            onClick={() => navigate("/files/upload")}
-                        >
-                            Add File
-                        </Button>
-                    </Grid>
-                </Grid>
-            }
+        <>
+            <Box px={"20px"} sx={style.folderCreateMainBox}>
+                {userFiles.length === 0 &&
+                    <Grid container>
 
-            {userFiles.length !== 0 &&
-                <Grid container px={1} >
-                    <Grid container item mt={2} xs={12} >
-                        <Box container width={"100%"} display={'flex'} justifyContent="space-between">
-                            <Typography variant="h6" >All Files</Typography>
-                            <Box >
-                                <TextField
-                                    onClick={()=>setShowSearchSmall(true)}
-                                    id="search_folder"
-                                    placeholder='Search file'
-                                    size='small'
-                                    sx={{
-                                        width:{xs:showSearchSmall?"150px":'50px',sm:'140px',md:'180px',xl:'220px'},
-                                        marginRight: "10px", 
-                                        "& input": {
-                                            paddingTop: "7px",
-                                            paddingBottom: "7px", fontSize: "14px"
-                                        },
-                                        paddingLeft: "4px", 
-                                        "& fieldset": { borderRadius: "8px" }
-                                    }}
-                                    value={srcFileText}
-                                    onChange={(e) => SetSrcFileText(e.target.value)}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Search sx={{ color: "#efefef" }} />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                                <Button
-                                    variant="contained"
-                                    size='small'
-                                    sx={{ padding:{xs: "4px 15px",sm:"5px 20px"},textTransform:'capitalize' }}
-                                    onClick={() => navigate("/files/upload")}
-                                >
-                                    Add Files
-                                </Button>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
+                        </Grid>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <Typography variant="subtitle1" fontWeight={"600"} >No files added yet</Typography>
+                        </Grid>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <Typography sx={{ width: { sm: "75%", md: "45%" } }} color="#808191" variant="body2" textAlign={'center'}>
+                                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                            </Typography>
+                        </Grid>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <Button
+                                variant="contained"
+                                size='small'
+                                sx={{ padding: "5px 25px" }}
+                                onClick={() => navigate("/files/upload")}
+                            >
+                                Add File
+                            </Button>
+                        </Grid>
+                    </Grid>
+                }
+
+                {userFiles.length !== 0 &&
+                    <Grid container px={1} >
+                        <Grid container item mt={2} xs={12} >
+                            <Box container width={"100%"} display={'flex'} justifyContent="space-between">
+                                <Typography variant="h6" >All Files</Typography>
+                                <Box >
+                                    <TextField
+                                        onClick={() => setShowSearchSmall(true)}
+                                        id="search_folder"
+                                        placeholder='Search file'
+                                        size='small'
+                                        sx={{
+                                            width: { xs: showSearchSmall ? "150px" : '50px', sm: '140px', md: '180px', xl: '220px' },
+                                            marginRight: "10px",
+                                            "& input": {
+                                                paddingTop: "7px",
+                                                paddingBottom: "7px", fontSize: "14px"
+                                            },
+                                            paddingLeft: "4px",
+                                            "& fieldset": { borderRadius: "8px" }
+                                        }}
+                                        value={srcFileText}
+                                        onChange={(e) => SetSrcFileText(e.target.value)}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Search sx={{ color: "#efefef" }} />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
+                                    <Button
+                                        variant="contained"
+                                        size='small'
+                                        sx={{ padding: { xs: "4px 15px", sm: "5px 20px" }, textTransform: 'capitalize' }}
+                                        onClick={() => navigate("/files/upload")}
+                                    >
+                                        Add Files
+                                    </Button>
+                                </Box>
+
                             </Box>
-
-                        </Box>
-                    </Grid>
-                    <Grid container item mt={3} xs={12} display={'flex'} flexWrap={'wrap'} >
-                        {userFiles.length !== 0 && userFiles.map((d) =>
+                        </Grid>
+                        <Grid container item mt={3} xs={12} display={'flex'} flexWrap={'wrap'} >
+                         
+                            { (isFilesExist && userFiles.length !== 0) && userFiles.map((d) =>
                             <Box marginX={{xs:"10px",sm:"3px",md:"25px"}} my={"10px"} sx={{
                                 width: {xs:"130px",sm:'155px',md:"170px"},
                                 height: {xs:"150px",sm:'170px',md:"180px"},
@@ -228,7 +227,6 @@ const AllFiles = () => {
                             }}>
                                 <Box container display={'flex'} justifyContent="end">
                                     <DotMenu handleDelete={ActionDelFile} value={d} pageName='files' deleteHeading="Delete File" deleteTitle="Are you sure you want to delete this file ?"/>
-                                    {/* <DeleteModal handleDelete={ActionDelFile} value={d} /> */}
                                 </Box>
                                 <Box container display={'flex'} justifyContent="center">
                                     
@@ -247,11 +245,24 @@ const AllFiles = () => {
                                 </Box>
                             </Box>
                         )}
+
+                            {!isFilesExist &&
+                                <Grid container>
+                                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                                        <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
+                                    </Grid>
+                                    <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                                        <Typography variant="subtitle1" fontWeight={"600"} >No File Found Of This Name</Typography>
+                                    </Grid>
+
+                                </Grid>
+                            }
+
+                        </Grid>
                     </Grid>
-                </Grid>
-            }
-        </Box>
-    </>
+                }
+            </Box>
+        </>
     )
 }
 
