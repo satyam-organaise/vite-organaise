@@ -14,6 +14,7 @@ import { getTime } from '../../utils/validation';
 import socket from "../../socket/socket";
 
 import ListModal from '../Chat/ListModal';
+import ButtonHovers from '../AuthPages/ButtonHovers';
 
 
 var selectedChatCompare;
@@ -450,14 +451,15 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                             <Box container display={'flex'} mb={1} py={0.5}>
                                                 <Box id="mess_user_pic_box">
                                                     <Stack ml={1} direction="row">
-                                                        <Avatar
+                                                        {/* <Avatar
                                                             sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }}
                                                             alt={mes.sender.name[0].toUpperCase()}
                                                             src="https://mui.com/static/images/asdfavatar/1.jpg" 
-                                                            />
+                                                            /> */}
+                                                       <ButtonHovers message={mes.sender.name[0].toUpperCase()}/>
                                                     </Stack>
                                                 </Box>
-                                                <Box ml={1}>
+                                                <Box ml={5}>
                                                     <Grid container>
                                                         <Grid container item>
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
