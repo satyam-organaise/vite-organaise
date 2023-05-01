@@ -15,7 +15,13 @@ import socket from "../../socket/socket";
 
 import ListModal from '../Chat/ListModal';
 import ButtonHovers from '../AuthPages/ButtonHovers';
+import ServerDeviceModal from './ServerDeviceModal';
+import MoodIcon from '@mui/icons-material/Mood';
+// import { EmojiEmotions } from '@material-ui/icons'
 
+// import InputAdornment from '@mui/icons-material/InputAdornment';
+import { InputAdornment } from '@mui/material';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 var selectedChatCompare;
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -530,7 +536,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         }}
                     >
                         <TextField
-                            size='small'
+                            size='small' marginLeft='20px'
                             sx={{ ...cssStyle.sendMessInput, position: "absolute" }}
                             fullWidth
                             placeholder='Type a message'
@@ -538,9 +544,18 @@ const NewMessageGrid = ({ selectedChannel }) => {
                             value={newMessage}
                             onChange={(e) => setNewMessaageFun(e)}
                             onKeyPress={handleEnterKeyPress}
-
+                            InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                     <MoodIcon sx={{ backgroundColor: "#fff", color: "#333" }}/> 
+                                  </InputAdornment>
+                                ),
+                              }}
                         />
-                        <AttachFileIcon sx={{ ...cssStyle.sendMessIcon, right: "35px", backgroundColor: "#fff", color: "#333" }} />
+                        <Box  >
+
+                        <ServerDeviceModal  />
+                        </Box>
                         <SendIcon onClick={() => clickSendMessButton()} sx={cssStyle.sendMessIcon} />
                     </Box>
                 </Box>
