@@ -282,11 +282,13 @@ const MyAccount = ({closeSideList}) => {
 
                 
                 <Dialog open={open}
-                onClose={handleClose} margin={10}>
+                onClose={handleClose} margin={10}
+                width={"500px"}
+                >
                 
                 <DialogContent>
                 <AvatarEditor
-                    width={400}
+                    width={"400px"}
                     height={350}
                     image={avatar}
                     onCrop={(croppedImage) => setAvatar(croppedImage)}
