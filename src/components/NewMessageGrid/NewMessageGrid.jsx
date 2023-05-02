@@ -475,6 +475,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                 <Box id="mess_user_pic_box">
                                                     <Stack ml={1} direction="row">
                                                         {/* <Avatar
+                                                        {/* <Avatar
                                                             sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }}
                                                             alt={mes.sender.name[0].toUpperCase()}
                                                             src="https://mui.com/static/images/asdfavatar/1.jpg" 
