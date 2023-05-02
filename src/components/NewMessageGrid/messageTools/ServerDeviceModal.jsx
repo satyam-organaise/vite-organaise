@@ -10,6 +10,7 @@ import StorageIcon from '@mui/icons-material/Storage';
 import TvIcon from '@mui/icons-material/Tv';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Divider } from '@mui/material';
+import BasicModal from './BasicModal';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -70,55 +71,71 @@ const cssStyle = {
     }
 }
 
+const styled = {
+    position: 'absolute',
+    top: '78%',
+    left: '90%',
+    transform: 'translate(-50%, -50%)',
+    width: 140,
+    bgcolor: 'background.paper',
+    borderRadius: '10px',
+    border: '1px solid gray',
+    // boxShadow: 24,
+    p: 2,
+};
+
 export default function ServerDeviceModal() {
     // const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     // const handleClose = () => setOpen(false);
 
     const [btn, setBtn] = React.useState(false)
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
 
-    const handleOpen = () => {
-        if(btn)
-        {
-            setBtn(false)
-        }else{
-            setBtn(true)
-        }
-    }
-
-
-    const handleClose = () => {
-        // e.prevantDefalut();
-
-        setBtn(false);
-        // console(btn, 'call')
-    }
+    // const handleOpen = () => {
+    //     if (btn) {
+    //         setBtn(false)
+    //     } else {
+    //         setBtn(true)
+    //     }
+    // }
 
 
     return (
         <Box position='relative' >
-
             <AttachFileIcon sx={{ ...cssStyle.sendMessIcon, right: "35px", backgroundColor: "#fff", color: "#333" }} onClick={handleOpen} />
-            {btn &&
-                <Box onMouseLeave={handleClose} position='absolute' bottom={'1rem'} right={"2rem"}>
-                    <Box width={'245px'} bgcolor='white' borderRadius='8px' boxShadow="rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px" >
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                BackdropProps={{ style: { opacity: '0' } }}
+            >
+                <Box onMouseLeave={handleClose} position='absolute' bottom={'3rem'} right={"2rem"} >
+                    <Box width={'245px'} bgcolor='white' borderRadius='8px' 
+                   boxShadow=" rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" 
+                    border={"1px solid gray"}
+                    >
 
                         <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1.5}>
-                            <StorageIcon sx={{ backgroundColor: "#fff", color: "#333" }} fontSize={"2"} />
-                            <Typography fontSize='16px'>Attach from Server</Typography>
-                            <ArrowForwardIosIcon sx={{ backgroundColor: "#fff", color: "#333" }} fontSize={"2"}/>
+                            <StorageIcon sx={{ color: "gray" }} fontSize={"2"} />
+                            <Button width='40px'>
+                                <Typography fontSize='13px' color='gray'>Attach from Server</Typography>
+                            </Button>
+                            <ArrowForwardIosIcon sx={{ color: "gray" }} fontSize={"2"} />
                         </Box>
-                       <Divider/>
+                        <Divider />
                         <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1.5}>
-                            <TvIcon  sx={{ backgroundColor: "#fff", color: "#333" }} fontSize={"2"} />
-                            <Typography fontSize='16px'>Attach from Device</Typography>
-                            <ArrowForwardIosIcon sx={{ backgroundColor: "#fff", color: "#333" }} fontSize={"2"} />
-
+                            <TvIcon sx={{ color: "gray" }} fontSize={"2"} />
+                            <BasicModal closeModal={handleClose} />
+                            <ArrowForwardIosIcon sx={{ color: "gray" }} fontSize={"2"} />
                         </Box>
                     </Box>
                 </Box>
-            }
+            </Modal>
         </Box>
     );
 }
