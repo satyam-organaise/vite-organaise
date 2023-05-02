@@ -46,38 +46,6 @@ const FolderData = () => {
         x: '#f39308aa',
         y: '#39a0caaa',
         z: '#f95d9baa',
-    const navigate = useNavigate()
-    const [loading, setLoading] = useState(true);
-    const [showSearchSmall, setShowSearchSmall] = useState(false)
-    const { setPageNameContext, setCloseSideList } = ChatState();
-    const [isFolderExist, setIsFolderExist] = useState(true);
-    const colorsCode = {
-        a: '#ff7f47aa',
-        b: '#fcaf45aa',
-        c: '#808080aa',
-        d: '#ff5e6caa',
-        e: '#0171ceaa',
-        f: '#25D366aa',
-        g: '#ff8928aa',
-        h: '#405de6aa',
-        i: '#78c802aa',
-        j: '#51d0deaa',
-        k: '#ffc202aa',
-        l: '#f13107aa',
-        m: '#c0ff2daa',
-        n: '#ffabb6aa',
-        o: '#ffaaabaa',
-        p: '#c89666aa',
-        q: '#8076a3aa',
-        r: '#a06919aa',
-        s: '#00beffaa',
-        t: '#ffcb00aa',
-        u: '#9bc400aa',
-        v: '#ec1f52aa',
-        w: '#009338aa',
-        x: '#f39308aa',
-        y: '#39a0caaa',
-        z: '#f95d9baa',
     }
 
     const style = {
@@ -124,23 +92,6 @@ const FolderData = () => {
         } else {
             toast.error("Something is wrong");
         }
-        const response = await axios.delete('api/v2/folder/deleteFolder',
-            { data: { folderId: folderData } }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response.status === 200) {
-            const folderResponse = response.data;
-            if (folderResponse.status) {
-                toast.success(folderResponse.message);
-                await getFoldersData(UserId);
-            } else {
-                toast.error(folderResponse.message);
-            }
-        } else {
-            toast.error("Something is wrong");
-        }
     }
 
 
@@ -167,13 +118,10 @@ const FolderData = () => {
         try {
             const response = await axios.get('api/v2/folder', {
                 headers: {
-            const response = await axios.get('api/v2/folder', {
-                headers: {
                     'Content-Type': 'application/json'
                 }
             });
             const folderResponse = response.data;
-            if (folderResponse.status == true) {
             if (folderResponse.status == true) {
                 const foldersData = folderResponse.data;
                 setFoldersData(foldersData)
@@ -183,7 +131,6 @@ const FolderData = () => {
             }
         } catch (error) {
             if (!error.response.data.status) {
-                console.log(error?.response?.data?.message || "Get folder data not working");
                 console.log(error?.response?.data?.message || "Get folder data not working");
                 setFoldersData([])
             }
@@ -198,15 +145,10 @@ const FolderData = () => {
     const [debouncedSearchTerm] = useDebounce(srcFolderText, 500);
     useEffect(() => {
         setIsFolderExist(true);
-        setIsFolderExist(true);
         if (debouncedSearchTerm !== "") {
             const searchingFiles = allFoldersConstant.filter((srcFolders) => srcFolders.folderName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
             if (searchingFiles.length > 0) {
-            if (searchingFiles.length > 0) {
                 setFoldersData(searchingFiles);
-                // setIsFolderExist(true);
-            } else {
-                setIsFolderExist(false);
                 // setIsFolderExist(true);
             } else {
                 setIsFolderExist(false);
@@ -244,9 +186,6 @@ const FolderData = () => {
     if (loading) {
         return (
             <Loader />
-    if (loading) {
-        return (
-            <Loader />
         )
     }
 
@@ -254,7 +193,6 @@ const FolderData = () => {
 
     return (
         <>
-            <Box px={{ xs: '5px', sm: "20px" }} sx={style.folderCreateMainBox}>
             <Box px={{ xs: '5px', sm: "20px" }} sx={style.folderCreateMainBox}>
                 {folderDataStore.length === 0 &&
                     <Grid container>
@@ -324,7 +262,6 @@ const FolderData = () => {
                             </Box>
                         </Grid>
                         <Grid container item mt={3} xs={12} display={'flex'} flexWrap={'wrap'}>
-                            { isFolderExist && folderDataStore?.map((d, index) =>
                             { isFolderExist && folderDataStore?.map((d, index) =>
                                 <Box
                                 marginX={{xs:"5px",sm:"3px",md:"25px"}}
