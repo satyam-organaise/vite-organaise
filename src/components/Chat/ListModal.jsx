@@ -54,15 +54,12 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
   const fetchChat = async () => {
     try {
       const response = await fetchAllChatSingleUserOrGroup();
-
-      console.log(response, "all fetchhhhhhhh")
-      // setChats(response);
-      // setSelectedChatV1(response)
-      // setLoggedUser(localStorage.getItem("userInfo"));
+      setChats(response);
     } catch (error) {
       console.log("Something is wrong");
     }
   }
+
 
   const removeMember = async (chatId, userId) => {
     try {
@@ -75,6 +72,7 @@ export default function ListModal({ buttonStyle, addMemberFunction }) {
         setSelectedChatV1(response)
         socket.emit("remove-member-in-group",{"RemoveMemberUserId":userId, response})
         toast.success("User removed successfully");
+        fetchChat()
       } else {
         toast.error("User not removed")
       }

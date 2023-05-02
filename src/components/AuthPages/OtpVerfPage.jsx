@@ -7,9 +7,10 @@ import OtpField from 'react-otp-field';
 import { toast } from 'react-toastify';
 /////Import react query functions
 import { useMutation } from 'react-query'
-import { userLoginAccount, otpSignUpVerify } from '../../api/InternalApi/OurDevApi';
+import { userLoginAccount, otpSignUpVerify, resendVerification } from '../../api/InternalApi/OurDevApi';
 import { ServiceState } from '../../Context/ServiceProvider';
 import { useNavigate } from "react-router-dom"
+
 
 const cssStyle = {
     parent_box: {
@@ -106,6 +107,18 @@ const OtpVerfPage = ({ setIsAuthenticated }) => {
 
     }
 
+ ///////// resend otp 
+ const { mutateAsync: resendOtpFunCall, isLoading: resendOtpFunIsLoading } = useMutation(resendVerification);
+ const resendOtpInMail = async (email) => {
+     const response = await resendOtpFunCall({ email: email });
+     if (response.status) {
+         toast.info("Otp send in your mail please check your mail inbox.");
+         setShowVeriCon(true);
+     } else {
+         toast.error(response.error.message);
+     }
+ }
+
     const otpVerifyBtn = async (serviceType) => {
         if ((OtpValue === "") || (OtpValue.length !== 6)) {
             toast.error("Please enter six digit OTP.");
@@ -116,7 +129,12 @@ const OtpVerfPage = ({ setIsAuthenticated }) => {
             await signupVerificationOtp(OtpValue, contextEmail, contextName, contextPassword);
             return null;
         }
+
     }
+
+    // const resendOtpFunction = () =>{
+    //     resendOtpInMail(contextEmail);
+    // }
 
 
 
@@ -179,7 +197,10 @@ const OtpVerfPage = ({ setIsAuthenticated }) => {
                                         }
                                     </Typography>
                                     <Button
-                                        style={{ fontWeight: 700, color: "#1c529b" }}>
+                                        style={{ fontWeight: 700, color: "#1c529b" }}
+                                        onClick={() => resendOtpInMail(contextEmail)}
+                                        // disabled={resendOtpFunction}
+                                        >
                                         Resend
                                     </Button>
                                 </Grid>

@@ -25,6 +25,7 @@ const FolderFiles = () => {
     const [loading,setLoading]=useState(true);
     const { setPageNameContext,setCloseSideList } = ChatState();
     const [folderObj,setFolderObj]=useState({})
+    const [isFolderFileExist,setIsFolderFileExist] = useState(true);
     const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',
@@ -127,13 +128,14 @@ const FolderFiles = () => {
     const [srcFileText, SetSrcFileText] = useState("");
     const [debouncedSearchTerm] = useDebounce(srcFileText, 500);
     useEffect(() => {
+        setIsFolderFileExist(true)
         if (debouncedSearchTerm !== "") {
             const searchingFiles = allUserFiles.filter((srcFiles) => srcFiles.fileName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
             if(searchingFiles.length>0)
             {
                 setUserFiles(searchingFiles);
             }else{
-                toast.info("No file found of this name")
+                setIsFolderFileExist(false);
             }
         } 
         else {
@@ -179,7 +181,7 @@ const FolderFiles = () => {
                 </Grid>
             }
 
-            {userFiles&&userFiles?.length !== 0 &&
+            {  userFiles&&userFiles?.length !== 0 &&
                 <Grid container px={1} >
                     <Grid container item mt={2} xs={12} >
                         <Box container width={"100%"} display={'flex'} justifyContent="space-between">
@@ -219,7 +221,7 @@ const FolderFiles = () => {
                         </Box>
                     </Grid>
                     <Grid container item mt={3} xs={12} display={'flex'} >
-                        {userFiles.length !== 0 && userFiles.map((d,index) =>
+                        {(isFolderFileExist && userFiles.length !== 0) && userFiles.map((d,index) =>
                             <Box key={index} marginRight={"25px"} my={"10px"} sx={{
                                 width: "170px",
                                 height: "170px",
@@ -248,6 +250,17 @@ const FolderFiles = () => {
                             </Box>
                         )}
                     </Grid>
+
+                    {
+                        !isFolderFileExist && <Grid container>
+                        <Grid container item xs={12} mt={2} display="flex"  justifyContent={'center'}>
+                            <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
+                        </Grid>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <Typography variant="subtitle1" fontWeight={"600"} > No File Found Of This Name</Typography>
+                        </Grid>
+                    </Grid>
+                    }
                 </Grid>
             }
 

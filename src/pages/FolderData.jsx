@@ -14,37 +14,38 @@ import Loader from '../components/Tools/Loader';
 import { ChatState } from '../Context/ChatProvider';
 
 const FolderData = () => {
-    const navigate=useNavigate()
-    const [loading,setLoading]=useState(true);
-    const [showSearchSmall,setShowSearchSmall]=useState(false)
-    const { setPageNameContext,setCloseSideList } = ChatState();
-    const colorsCode={
-        a:'#ff7f47aa',
-        b:'#fcaf45aa',
-        c:'#808080aa',
-        d:'#ff5e6caa',
-        e:'#0171ceaa',
-        f:'#25D366aa',
-        g:'#ff8928aa',
-        h:'#405de6aa',
-        i:'#78c802aa',
-        j:'#51d0deaa',
-        k:'#ffc202aa',
-        l:'#f13107aa',
-        m:'#c0ff2daa',
-        n:'#ffabb6aa',
-        o:'#ffaaabaa',
-        p:'#c89666aa',
-        q:'#8076a3aa',
-        r:'#a06919aa',
-        s:'#00beffaa',
-        t:'#ffcb00aa',
-        u:'#9bc400aa',
-        v:'#ec1f52aa',
-        w:'#009338aa',
-        x:'#f39308aa',
-        y:'#39a0caaa',
-        z:'#f95d9baa',
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true);
+    const [showSearchSmall, setShowSearchSmall] = useState(false)
+    const { setPageNameContext, setCloseSideList } = ChatState();
+    const [isFolderExist, setIsFolderExist] = useState(true);
+    const colorsCode = {
+        a: '#ff7f47aa',
+        b: '#fcaf45aa',
+        c: '#808080aa',
+        d: '#ff5e6caa',
+        e: '#0171ceaa',
+        f: '#25D366aa',
+        g: '#ff8928aa',
+        h: '#405de6aa',
+        i: '#78c802aa',
+        j: '#51d0deaa',
+        k: '#ffc202aa',
+        l: '#f13107aa',
+        m: '#c0ff2daa',
+        n: '#ffabb6aa',
+        o: '#ffaaabaa',
+        p: '#c89666aa',
+        q: '#8076a3aa',
+        r: '#a06919aa',
+        s: '#00beffaa',
+        t: '#ffcb00aa',
+        u: '#9bc400aa',
+        v: '#ec1f52aa',
+        w: '#009338aa',
+        x: '#f39308aa',
+        y: '#39a0caaa',
+        z: '#f95d9baa',
     }
 
     const style = {
@@ -74,23 +75,23 @@ const FolderData = () => {
     //////// Delete Folder
     const deleteFolder = async (folderData) => {
         const UserId = localStorage.getItem("userInfo");
-            const response = await axios.delete('api/v2/folder/deleteFolder',
-                { data: { folderId: folderData} }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (response.status === 200) {
-                const folderResponse = response.data;
-                if (folderResponse.status) {
-                    toast.success(folderResponse.message);
-                    await getFoldersData(UserId);
-                } else {
-                    toast.error(folderResponse.message);
-                }
-            } else {
-                toast.error("Something is wrong");
+        const response = await axios.delete('api/v2/folder/deleteFolder',
+            { data: { folderId: folderData } }, {
+            headers: {
+                'Content-Type': 'application/json'
             }
+        });
+        if (response.status === 200) {
+            const folderResponse = response.data;
+            if (folderResponse.status) {
+                toast.success(folderResponse.message);
+                await getFoldersData(UserId);
+            } else {
+                toast.error(folderResponse.message);
+            }
+        } else {
+            toast.error("Something is wrong");
+        }
     }
 
 
@@ -115,13 +116,13 @@ const FolderData = () => {
     const getFoldersData = async () => {
         setLoading(true)
         try {
-            const response = await axios.get('api/v2/folder', {    
-            headers: {
+            const response = await axios.get('api/v2/folder', {
+                headers: {
                     'Content-Type': 'application/json'
                 }
             });
             const folderResponse = response.data;
-            if (folderResponse.status==true) {
+            if (folderResponse.status == true) {
                 const foldersData = folderResponse.data;
                 setFoldersData(foldersData)
                 setAllFoldersConstant(foldersData)
@@ -130,7 +131,7 @@ const FolderData = () => {
             }
         } catch (error) {
             if (!error.response.data.status) {
-                console.log(error?.response?.data?.message||"Get folder data not working");
+                console.log(error?.response?.data?.message || "Get folder data not working");
                 setFoldersData([])
             }
 
@@ -143,13 +144,14 @@ const FolderData = () => {
     const [srcFolderText, SetSrcFolderText] = useState("");
     const [debouncedSearchTerm] = useDebounce(srcFolderText, 500);
     useEffect(() => {
+        setIsFolderExist(true);
         if (debouncedSearchTerm !== "") {
             const searchingFiles = allFoldersConstant.filter((srcFolders) => srcFolders.folderName.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()));
-            if(searchingFiles.length>0)
-            {
+            if (searchingFiles.length > 0) {
                 setFoldersData(searchingFiles);
-            }else{
-                toast.info("No Folder found of this name")
+                // setIsFolderExist(true);
+            } else {
+                setIsFolderExist(false);
             }
         } else {
             setFoldersData(allFoldersConstant)
@@ -181,10 +183,9 @@ const FolderData = () => {
     }, [])
 
 
-    if(loading)
-    {
-        return(
-            <Loader/>
+    if (loading) {
+        return (
+            <Loader />
         )
     }
 
@@ -192,7 +193,7 @@ const FolderData = () => {
 
     return (
         <>
-            <Box px={{xs:'5px',sm:"20px"}} sx={style.folderCreateMainBox}>
+            <Box px={{ xs: '5px', sm: "20px" }} sx={style.folderCreateMainBox}>
                 {folderDataStore.length === 0 &&
                     <Grid container>
                         <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
@@ -261,7 +262,7 @@ const FolderData = () => {
                             </Box>
                         </Grid>
                         <Grid container item mt={3} xs={12} display={'flex'} flexWrap={'wrap'}>
-                            {folderDataStore?.map((d, index) =>
+                            { isFolderExist && folderDataStore?.map((d, index) =>
                                 <Box
                                 marginX={{xs:"5px",sm:"3px",md:"25px"}}
                                     my={"10px"}
@@ -300,6 +301,16 @@ const FolderData = () => {
                                 </Box>
                             )}
 
+                        </Grid>
+                    </Grid>
+                }
+                { !isFolderExist &&
+                    <Grid container>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
+                        </Grid>
+                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
+                            <Typography variant="subtitle1" fontWeight={"600"} >No Folder Found Of This Name</Typography>
                         </Grid>
                     </Grid>
                 }
