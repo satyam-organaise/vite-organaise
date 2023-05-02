@@ -1,13 +1,23 @@
 import {useEffect} from 'react'
-import {Typography,Grid,Box,TextField,InputAdornment,MenuItem,Divider,Avatar,Button,ButtonGroup} from '@mui/material'
+import {Typography,Grid,Box,TextField,InputAdornment,MenuItem,Divider,Avatar,Button,ButtonGroup,Dialog,DialogContent,DialogActions} from '@mui/material'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ListIcon from '@mui/icons-material/List';
+import React, { useState } from "react";
+import AvatarEditor from 'react-avatar-edit';
+
 import { ChatState } from '../Context/ChatProvider';
 const MyAccount = ({closeSideList}) => {
+    const [avatar, setAvatar] = useState(null);
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+    setOpen(false);
+    };
+
     //Index prop defiend by according to this array
     //['dashboard', 'message', 'folder', 'data', 'privacy-policy', 'settings'];
     const { setPageNameContext,setCloseSideList } = ChatState();
@@ -134,11 +144,19 @@ const MyAccount = ({closeSideList}) => {
                     <Grid xs={6} md={7}>
                         <Box width={'80%'} display={'flex'} justifyContent={'space-between'}>
                             <Box flex={0.15} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                <Avatar
+                                {/* <Avatar
                                 alt="Remy Sharp"
                                 src="https://images.pexels.com/photos/16085452/pexels-photo-16085452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                 sx={{ width: 65, height: 65,pointerEvents:"none" }}
-                                />
+                                /> */}
+                                <Box
+                 onClick={() => setOpen(true)}>
+                <Avatar
+                alt="Remy Sharp"
+                src="https://images.pexels.com/photos/16085452/pexels-photo-16085452.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                sx={{ width: 65, height: 65,pointerEvents:"none" }}
+                />
+                </Box>
                             </Box>
                             <Box flex={0.80} border={' 1px dashed #EAECF0'} borderRadius={'8px'} padding={' 16px 24px'}>
                                 <Box display={'flex'} justifyContent={'center'}>
@@ -262,8 +280,25 @@ const MyAccount = ({closeSideList}) => {
                     </Box>
                 </Grid>
 
-
-
+                
+                <Dialog open={open}
+                onClose={handleClose} margin={10}>
+                
+                <DialogContent>
+                <AvatarEditor
+                    width={400}
+                    height={350}
+                    image={avatar}
+                    onCrop={(croppedImage) => setAvatar(croppedImage)}
+                />
+                </DialogContent>
+                <DialogActions>
+            
+                <Button onClick={handleClose} variant='outlined' color='error'>Cancel</Button>
+                <Button onClick={handleClose} variant='contained' >Save Avatar</Button>
+                </DialogActions>
+                    
+                </Dialog>
                 
             </Box>
         </>

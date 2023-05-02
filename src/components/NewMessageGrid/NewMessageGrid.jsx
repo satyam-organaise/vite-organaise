@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Avatar, Stack, Button, Badge, TextField, AvatarGroup,Tooltip  } from '@mui/material'
+import { Box, Grid, Typography, Avatar, Stack, Button, Badge, TextField, AvatarGroup,Tooltip, Card,CardMedia, InputAdornment   } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
@@ -12,16 +12,15 @@ import { fetchAllChatSingleUserOrGroup, fetchMessagesV1, sendV1Message }
 import { getSender } from "../../utils/chatLogic";
 import { getTime } from '../../utils/validation';
 import socket from "../../socket/socket";
-
 import ListModal from '../Chat/ListModal';
-import ButtonHovers from '../AuthPages/ButtonHovers';
-import ServerDeviceModal from './ServerDeviceModal';
+import FileIcon from '../FileUploadModal/Icons/FileIcon';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import ReplySharpIcon from '@mui/icons-material/ReplySharp';
+import video from "../../assets/one.mp4"
+import audioFile from "../../assets/music.mp3"
+import ButtonHovers from '../Chat/ButtonHovers';
+import ServerDeviceModal from "./messageTools/ServerDeviceModal"
 import MoodIcon from '@mui/icons-material/Mood';
-// import { EmojiEmotions } from '@material-ui/icons'
-
-// import InputAdornment from '@mui/icons-material/InputAdornment';
-import { InputAdornment } from '@mui/material';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 var selectedChatCompare;
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -60,8 +59,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
         setActiveChannel(selectedChannel);
     }, [selectedChannel])
 
-
-
     ///////// UseEffect for socket io
     useEffect(() => {
         socket.emit("setup", user);
@@ -78,8 +75,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
     //////// Here we are store the active channel //////
     const [ActiveChannel, setActiveChannel] = useState({});
     //////// All messges of channel  store here //////////////
-    const [AllMessagesChannel, setAllMessgesOfChannel] = useState([]);
-    const [messageInterval, setmessageInterval] = useState(null);
+    // const [AllMessagesChannel, setAllMessgesOfChannel] = useState([]);
+    // const [messageInterval, setmessageInterval] = useState(null);
 
 
     const cssStyle = {
@@ -96,9 +93,30 @@ const NewMessageGrid = ({ selectedChannel }) => {
             paddingRight: "30px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
             fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400'
         },
+        recRealMessImage: {
+            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400',height:'200px',width:'400px',objectFit:' cover',
+        },
+        recRealMessAudio: {
+            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400',width:'400px',height:'65px',paddingBottom:'5px'
+        },
+        recRealIcon: {
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "white", borderRadius: "0px 10px 10px 10px", width:'300px',height:'90px'
+        },
         sendRealMess: {
             paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px", background: "#448DF0", color: "white", borderRadius: "10px 0px 10px 10px", fontWeight: "400"
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400"
+        },
+        sendRealIcon: {
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px",width:'300px',height:'90px'
+        },
+        sendRealMessImage: {
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400",height:'200px',width:'400px',objectFit:' cover',
+        },
+        sendRealMessAudio: {
+            fontSize: "14px", lineHeight: "15px", background: "#F2F2F2", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: '400',width:'400px',height:'65px',paddingBottom:'5px'
+        },
+        imageShareBox:{
+            position:'absolute', top:'0', right:'0', display:'flex', bgcolor:'rgba(20,20,20,0.7)' ,justifyContent:'space-evenly',alignItems:'center',width:'70px',padding:'5px 0',borderRadius:'0px 10px 0px 10px'
         },
         sendMessInput: {
             "& input": {
@@ -243,11 +261,11 @@ const NewMessageGrid = ({ selectedChannel }) => {
         }
     }
 
-    useEffect(() => {
-        if (AllMessagesChannel.length !== 0) {
-            console.log(AllMessagesChannel);
-        }
-    }, [AllMessagesChannel])
+    // useEffect(() => {
+    //     if (AllMessagesChannel.length !== 0) {
+    //         console.log(AllMessagesChannel);
+    //     }
+    // }, [AllMessagesChannel])
 
 
     /////////////////////// Here we are create new state for new Version  Apis ////////////////
@@ -283,7 +301,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                             {/* User Avatar */}
                             {
                                 selectChatV1?.isGroupChat === false &&
-                                <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
+                                <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant={(selectChatV1?.users[1]._id===user?selectChatV1?.users[0].isActive:selectChatV1?.users[1].isActive)&&"dot"}>
                                     <Tooltip title={selectChatV1?.users[1]._id===user?selectChatV1?.users[0].name:selectChatV1?.users[1].name} placement="bottom">
                                     <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1]._id===user?selectChatV1?.users[0].name[0]?.toUpperCase():selectChatV1?.users[1].name[0]?.toUpperCase()}</Avatar>
                                     </Tooltip>
@@ -438,7 +456,6 @@ const NewMessageGrid = ({ selectedChannel }) => {
                     {(currentChats.length > 0 && selectChatV1) &&
                         <>
                             {currentChats?.map((mes, index) => {
-                               
                                 if (mes?.sender?._id !== localStorage.getItem("userInfo")) {
                                     return <Grid
                                         id="rec_mess_con_grid"
@@ -462,22 +479,102 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             alt={mes.sender.name[0].toUpperCase()}
                                                             src="https://mui.com/static/images/asdfavatar/1.jpg" 
                                                             /> */}
-                                                       <ButtonHovers message={mes.sender.name[0].toUpperCase()}/>
+                                                             <ButtonHovers name={mes.sender.name} email={mes.sender.email}/>
                                                     </Stack>
                                                 </Box>
-                                                <Box ml={5}>
+                                                <Box 
+                                                // ml={1}
+                                                ml={5}
+                                                >
                                                     <Grid container>
                                                         <Grid container item>
+                                                            <Tooltip placement="right-start" sx={{cursor:'pointer'}}>
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
                                                                 {mes.sender.name}
                                                             </Typography>
+                                                            </Tooltip>
                                                             <Typography variant="body2" sx={cssStyle.timeRecMess} >{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
-                                                        <Grid container item boxSizing={"border-box"} mr="16px" >
+
+                                                        {/* Audio  */}
+                                                        {/* {index===0&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box position={'relative'}>
+                                                            <CardMedia 
+                                                                controls
+                                                                component="audio"
+                                                                src={audioFile}
+                                                                alt="Paella dish" variant="body2" 
+                                                                sx={cssStyle.recRealMessAudio}
+                                                                />
+                                                            </Box>
+                                                        </Grid>} */}
+                                                        
+                                                        {/* Video */}
+                                                        {/* {index===1&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box position={'relative'}>
+                                                            <CardMedia 
+                                                                controls
+                                                                component="video"
+                                                                image={video}
+                                                                alt="Paella dish" variant="body2" sx={cssStyle.recRealMessImage}/>
+                                                                
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>} */}
+
+                                                        {/* Image */}
+                                                        {/* {index===2&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box position={'relative'}>
+                                                            <CardMedia 
+                                                                component="img"
+                                                                image="https://images.pexels.com/photos/2916820/pexels-photo-2916820.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                                                alt="Paella dish" variant="body2" sx={cssStyle.recRealMessImage}/>
+                                                                
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>} */}
+                                                        
+                                                        {/* File */}
+                                                        {/* <Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box sx={{...cssStyle.recRealIcon}} position={'relative'}> 
+                                                                <Box display={'flex'} alignItems={'center'} height={'100%'} pl='5px'>
+
+                                                                    
+                                                                <Box pl='10px' display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} flex={0.7}>
+                                                                    <Typography variant="body2" fontSize={'1.2rem'}>
+                                                                    File name
+                                                                    </Typography>
+                                                                    <Typography variant="body2" fontSize={'.8rem'}>
+                                                                    Txt • 157B
+                                                                    </Typography>
+                                                                </Box>
+
+                                                                <Box borderRadius={'8px 0px 0px 8px'} bgcolor='white' flex={0.3}>
+                                                                    <FileIcon ext={'doc'}/>
+                                                                </Box>
+
+                                                                </Box>
+
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid> */}
+
+
+                                                        {/* Message */}
+                                                        {<Grid container item boxSizing={"border-box"} mr="16px" >
                                                             <Typography variant="body2" sx={cssStyle.recRealMess} >
                                                                 {mes.content}
                                                             </Typography>
-                                                        </Grid>
+                                                        </Grid>}
                                                     </Grid>
                                                 </Box>
                                             </Box>
@@ -508,10 +605,84 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                     <Grid container>
                                                         <Grid container item display={"flex"} justifyContent="flex-end">
                                                             <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
-                                                                {mes.sender.name}
+                                                                {/* {mes.sender.name} */}
+                                                                You
                                                             </Typography>
                                                             <Typography variant="body2" sx={cssStyle.timeRecMess}>{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
+
+                                                        
+                                                        {/* Audio  */}
+                                                        {/* {index===0&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box position={'relative'}>
+                                                            <CardMedia 
+                                                                controls
+                                                                component="audio"
+                                                                src={audioFile}
+                                                                alt="Paella dish" variant="body2" 
+                                                                sx={cssStyle.sendRealMessAudio}
+                                                                />
+                                                            </Box>
+                                                        </Grid>} */}
+                                                        
+                                                        {/* Video */}
+                                                        {/* {index===1&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box position={'relative'}>
+                                                            <CardMedia 
+                                                                controls
+                                                                component="video"
+                                                                image={video}
+                                                                alt="Paella dish" variant="body2" sx={cssStyle.sendRealMessImage}/>
+                                                                
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>} */}
+
+                                                        {/* Image */}
+                                                        {/* {index===2&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box position={'relative'}>
+                                                            <CardMedia 
+                                                                component="img"
+                                                                image="https://images.pexels.com/photos/2916820/pexels-photo-2916820.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                                                                alt="Paella dish" variant="body2" sx={cssStyle.sendRealMessImage}/>
+                                                                
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>} */}
+                                                        
+
+                                                        {/* File  */}
+                                                        {/* {index===3&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box sx={{...cssStyle.sendRealIcon}} position={'relative'}> 
+                                                                <Box display={'flex'} alignItems={'center'} height={'100%'} pl='5px'>
+
+                                                                <Box borderRadius={'8px 0px 0px 8px'} bgcolor='white' flex={0.3}>
+                                                                    <FileIcon ext={'html'}/>
+                                                                </Box>
+
+                                                                <Box pl='10px' display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} flex={0.7}>
+                                                                    <Typography variant="body2" fontSize={'1.2rem'}>
+                                                                    File name
+                                                                    </Typography>
+                                                                    <Typography variant="body2" fontSize={'.8rem'}>
+                                                                    Txt • 157B
+                                                                    </Typography>
+                                                                </Box>
+                                                                </Box>
+
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>} */}
+                                                        
                                                         <Grid container item boxSizing={"border-box"} mr="16px" display={"flex"} justifyContent="end">
                                                             <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign: "right" }} >
                                                                 {mes.content}
@@ -536,7 +707,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         }}
                     >
                         <TextField
-                            size='small' marginLeft='20px'
+                            size='small' 
+                            marginLeft='20px'
                             sx={{ ...cssStyle.sendMessInput, position: "absolute" }}
                             fullWidth
                             placeholder='Type a message'
@@ -546,18 +718,17 @@ const NewMessageGrid = ({ selectedChannel }) => {
                             onKeyPress={handleEnterKeyPress}
                             InputProps={{
                                 startAdornment: (
-                                  <InputAdornment position="start">
-                                     <MoodIcon sx={{ backgroundColor: "#fff", color: "#333" }}/> 
-                                  </InputAdornment>
-                                ),
-                              }}
-                        />
-                        <Box  >
+                                <InputAdornment position="start">
+                                    <MoodIcon sx={{ backgroundColor: "#fff", color: "#333" }}/> 
+                                </InputAdornment>
+                            ),
+                            }}
 
-                        <ServerDeviceModal  />
-                        </Box>
+                        />
+                        {/* <AttachFileIcon sx={{ ...cssStyle.sendMessIcon, right: "35px", backgroundColor: "#fff", color: "#333" }} /> */}
                         <SendIcon onClick={() => clickSendMessButton()} sx={cssStyle.sendMessIcon} />
                     </Box>
+                    <ServerDeviceModal  />
                 </Box>
             </Box>
 

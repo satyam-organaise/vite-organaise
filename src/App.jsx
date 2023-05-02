@@ -132,7 +132,7 @@ function App() {
                             <Route path="/files/folder" element={<FolderData />} />
                             <Route path="/files/folder/:fid" element={<FolderFiles />} />
                             <Route path="/chat" element={<MyMessage userId={userId} />} />
-                            <Route path="/account" element={<MyAccount/>} />
+                            {/* <Route path="/account" element={<MyAccount/>} /> */}
                             <Route path="/companyDetail" element={<CompanyDetails />} />
                             <Route path="*" element={<>404 page</>} />
 

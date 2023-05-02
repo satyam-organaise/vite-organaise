@@ -158,8 +158,8 @@ const ForgetPage = () => {
                                         type="email"
                                         sx={cssStyle.btn_textfield}
                                         value={emailAddress ? emailAddress : ""}
-                                        onChange={(e) => setEmailAddress(e?.target?.value)}
-                                        // disabled
+                                        // onChange={(e) => setEmailAddress(e?.target?.value)}
+                                        disabled
                                     />
                                 </Grid>
 

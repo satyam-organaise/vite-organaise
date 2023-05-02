@@ -129,7 +129,6 @@ const AppBar = styled(MuiAppBar, {
 const styleCss = {
     appBarCss: {
         backgroundColor: "#ffffff !important",
-        boxShadow: "none",
         boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
         height: "65px",
     }
@@ -358,7 +357,6 @@ const LeftSideBar = (props) => {
             
             if (response) {
                 setChats(response);
-                // setLoggedUser(localStorage.getItem("userInfo"));
             }
         } catch (error) {
             console.log("NewMessageGrid", error.response);
@@ -521,7 +519,7 @@ const LeftSideBar = (props) => {
                         <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '14px',cursor:"pointer" }}>Files</Typography>
                     </Box>
 
-                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("account") }} >
+                    {/* <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("account") }} >
                         <Button display='flex' flexDirection='column' sx={{
                             color: location.pathname === "/account" ? "#448DF0" : "#646464"
                         }}
@@ -529,7 +527,7 @@ const LeftSideBar = (props) => {
                             <AccountCircleOutlinedIcon fontSize='small' />
                         </Button>
                         <Typography sx={{ color: location.pathname.split(['/'])[1] === "account" ? "#448DF0" : "#646464", fontSize: '12.5px',cursor:"pointer" }}>Account</Typography>
-                    </Box>
+                    </Box> */}
 
 
                 </Box>}
@@ -723,7 +721,7 @@ const LeftSideBar = (props) => {
                                                             fontSize: "16px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
                                                         }} />
                                                     <ListItemText
-                                                        primary={`Add Mamber`}
+                                                        primary={`Add Member`}
                                                         sx={{
                                                             opacity: open ? 1 : 0, marginTop: "4px",
                                                             marginBottom: "0px",

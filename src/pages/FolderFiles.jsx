@@ -257,12 +257,7 @@ const FolderFiles = () => {
                             <img src={fileUploadImage} style={{ width: "350px", userSelect: "none", pointerEvents: "none" }} alt="folder-creating-image" />
                         </Grid>
                         <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
-                            <Typography variant="subtitle1" fontWeight={"600"} >No files added yet</Typography>
-                        </Grid>
-                        <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
-                            <Typography sx={{ width: { sm: "75%", md: "45%" } }} color="#808191" variant="body2" textAlign={'center'}>
-                            No File Found Of This Name
-                            </Typography>
+                            <Typography variant="subtitle1" fontWeight={"600"} > No File Found Of This Name</Typography>
                         </Grid>
                     </Grid>
                     }
