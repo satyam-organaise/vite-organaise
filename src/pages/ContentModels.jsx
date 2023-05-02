@@ -11,10 +11,10 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess, AddMemberInGroup,getAllFilesApi } from '../api/InternalApi/OurDevApi';
+import { createGroupChat, removeFileApi, searchUserV1, SingleUserchatAccess, AddMemberInGroup,getAllFilesApi,fetchAllChatSingleUserOrGroup } from '../api/InternalApi/OurDevApi';
 import { useMutation } from 'react-query';
 import { ChatState } from '../Context/ChatProvider';
-import { getIdObjectFromArray, getSender } from '../utils/chatLogic';
+import { getIdObjectFromArray } from '../utils/chatLogic';
 
 import socket from "../socket/socket";
 const ContentModels = ({
@@ -274,7 +274,15 @@ const ContentModels = ({
     /////////////////// add team mate model code  here
     //////// All users list store here //////
     const [AddAllUsers, SetAllUsersList] = useState([]);
-
+    const fetchChat = async () => {
+        try {
+          const response = await fetchAllChatSingleUserOrGroup();
+          setChats(response);
+        } catch (error) {
+          console.log("Something is wrong");
+        }
+      }
+    
 
     /////////// when click on the add button in teammate model
     const [selectUserSave, setAddUserObj] = useState(null);
@@ -288,6 +296,7 @@ const ContentModels = ({
         if (response) {
             setSelectedChatV1(response)
             //// Here we are call the socket function 
+            fetchChat();
             socket.emit("add-member-in-group", { AddMemberUserId: selectSrcMember._id  , response:response});
             toast.success("Member added successfully");
             handleClose();

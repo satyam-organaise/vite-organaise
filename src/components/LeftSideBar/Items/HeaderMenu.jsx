@@ -68,12 +68,12 @@ const HeaderMenu = () => {
             onClose={() => handleCloseUserMenu()}
         >
            
-            <MenuItem onClick={() => handleCloseUserMenu("Edit")}>
+            {/* <MenuItem onClick={() => handleCloseUserMenu("Edit")}>
                 <ListItemIcon>
                     <EditIcon fontSize="small" />
                 </ListItemIcon>
                 <Typography textAlign="center" fontSize={'14px'}>Edit Profile</Typography>
-            </MenuItem>
+            </MenuItem> */}
             {/* <Divider/> */}
             {/* <MenuItem onClick={() => handleCloseUserMenu("da")}>
                 <ListItemIcon>
@@ -95,7 +95,7 @@ const HeaderMenu = () => {
                 </ListItemIcon>
                 <Typography textAlign="center"  fontSize={'14px'}>Help</Typography>
             </MenuItem> */}
-            <Divider/>
+            {/* <Divider/> */}
             <LogOutModal/>
             
         
