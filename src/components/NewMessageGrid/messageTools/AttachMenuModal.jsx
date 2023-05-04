@@ -10,7 +10,9 @@ import StorageIcon from '@mui/icons-material/Storage';
 import TvIcon from '@mui/icons-material/Tv';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Divider } from '@mui/material';
-import BasicModal from './BasicModal';
+import DeviceMenuModal from './DeviceMenuModal';
+// import ServerModal from './ServerFilesModal';
+import ServerFilesModal from './ServerFilesModal';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -84,7 +86,7 @@ const styled = {
     p: 2,
 };
 
-export default function ServerDeviceModal() {
+export default function AttachMenuModal() {
     // const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     // const handleClose = () => setOpen(false);
@@ -114,7 +116,9 @@ export default function ServerDeviceModal() {
                 aria-describedby="modal-modal-description"
                 BackdropProps={{ style: { opacity: '0' } }}
             >
-                <Box onMouseLeave={handleClose} position='absolute' bottom={'3rem'} right={"2rem"} >
+                <Box 
+                // onMouseLeave={handleClose} 
+                position='absolute' bottom={'3rem'} right={"2rem"} >
                     <Box width={'245px'} bgcolor='white' borderRadius='8px' 
                    boxShadow=" rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" 
                     border={"1px solid gray"}
@@ -122,15 +126,13 @@ export default function ServerDeviceModal() {
 
                         <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1.5}>
                             <StorageIcon sx={{ color: "gray" }} fontSize={"2"} />
-                            <Button width='40px'>
-                                <Typography fontSize='13px' color='gray'>Attach from Server</Typography>
-                            </Button>
+                           <ServerFilesModal closeModal={handleClose} />
                             <ArrowForwardIosIcon sx={{ color: "gray" }} fontSize={"2"} />
                         </Box>
                         <Divider />
                         <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1.5}>
                             <TvIcon sx={{ color: "gray" }} fontSize={"2"} />
-                            <BasicModal closeModal={handleClose} />
+                            <DeviceMenuModal closeModal={handleClose} />
                             <ArrowForwardIosIcon sx={{ color: "gray" }} fontSize={"2"} />
                         </Box>
                     </Box>

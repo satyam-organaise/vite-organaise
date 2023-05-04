@@ -227,8 +227,10 @@ const FolderFiles = () => {
                                 height: "170px",
                                 padding: "5px 5px",
                                 boxSizing: "border-box",
-                                border: "0.5px solid #CBCBCB", borderRadius: "8px"
-                            }}>
+                                border: "0.5px solid #CBCBCB", borderRadius: "8px",
+                                
+                            }}
+                            >
                                 <Box container display={'flex'} justifyContent="end">
                                     <DotMenu handleDelete={ActionDelFile} value={d} pageName='files' deleteHeading="Delete File" deleteTitle="Are you sure you want to delete this ?"/>
                                 </Box>

@@ -7,7 +7,7 @@ import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
 
-const FileIcon = ({ext}) => {
+const FileIcon = ({ext,maxH='80px'}) => {
    
     const colorsCode={
         doc:'#2892e7d6',
@@ -47,33 +47,33 @@ const FileIcon = ({ext}) => {
 
     if(ext==='doc'||ext==='docx')
     {
-        return <TextSnippetIcon sx={{fontSize: '80px', color:colorsCode[ext]||"#2892e7d6"}} />
+        return <TextSnippetIcon sx={{fontSize: maxH, color:colorsCode[ext]||"#2892e7d6"}} />
     }
     if(ext==='png'||ext==='jpg'||ext==='jpeg')
     {
-        return <PhotoLibraryOutlinedIcon sx={{fontSize: {xs:'55px',sm:'80px'}, color:colorsCode[ext]||"#2892e7d6"}} />
+        return <PhotoLibraryOutlinedIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
     if(ext==='pdf')
     {
-        return <PictureAsPdfIcon sx={{fontSize: {xs:'55px',sm:'80px'}, color:colorsCode[ext]||"#2892e7d6"}} />
+        return <PictureAsPdfIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
     if(ext==='txt')
     {
-        return <ArticleOutlinedIcon sx={{fontSize: {xs:'55px',sm:'80px'}, color:colorsCode[ext]||"#2892e7d6"}} />
+        return <ArticleOutlinedIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
     if(ext==='mp3')
     {
-        return <AudioFileIcon sx={{fontSize: {xs:'55px',sm:'80px'}, color:colorsCode[ext]||"#2892e7d6"}} />
+        return <AudioFileIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
     if(ext==='htm'||ext==='html')
     {
-        return <CodeIcon sx={{fontSize: {xs:'55px',sm:'80px'}, color:colorsCode[ext]||"#2892e7d6"}} />
+        return <CodeIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
 
 
     return (
     <>
-      <InsertDriveFileOutlinedIcon sx={{fontSize: {xs:'55px',sm:'80px'}, color:colorsCode[ext]||"#2892e7d6"}} />
+      <InsertDriveFileOutlinedIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     </>
   )
 }

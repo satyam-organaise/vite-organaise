@@ -19,7 +19,7 @@ import ReplySharpIcon from '@mui/icons-material/ReplySharp';
 import video from "../../assets/one.mp4"
 import audioFile from "../../assets/music.mp3"
 import ButtonHovers from '../Chat/ButtonHovers';
-import ServerDeviceModal from "./messageTools/ServerDeviceModal"
+import AttachMenuModal from './messageTools/AttachMenuModal';
 import MoodIcon from '@mui/icons-material/Mood';
 
 var selectedChatCompare;
@@ -728,7 +728,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         {/* <AttachFileIcon sx={{ ...cssStyle.sendMessIcon, right: "35px", backgroundColor: "#fff", color: "#333" }} /> */}
                         <SendIcon onClick={() => clickSendMessButton()} sx={cssStyle.sendMessIcon} />
                     </Box>
-                    <ServerDeviceModal  />
+                    <AttachMenuModal  />
                 </Box>
             </Box>
 

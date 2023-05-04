@@ -21,7 +21,7 @@ const style = {
   border:'1px solid gray'
 };
 
-export default function BasicModal({closeModal}) {
+export default function DeviceMenuModal({closeModal}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
     setOpen(true)
