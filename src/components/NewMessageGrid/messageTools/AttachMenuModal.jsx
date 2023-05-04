@@ -13,75 +13,21 @@ import { Divider } from '@mui/material';
 import DeviceMenuModal from './DeviceMenuModal';
 // import ServerModal from './ServerFilesModal';
 import ServerFilesModal from './ServerFilesModal';
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
 const cssStyle = {
-    firstBoxMessage: { height: "80vh", backgroundColor: "#ffffff", marginTop: "0px" },
-    groupNameBox: {
-        position: "sticky", top: "65px", width: "100%", height: "50px", zIndex: "100",
-        background: "#ffffff", boxSizing: "border-box",
-        borderBottom: "1px solid #F1F1F1"
-    },
-    avatarCss: { width: "25px", height: "25px" },
-    listofPeopeBtn: { paddingLeft: "10px", paddingRight: "10px", fontSize: "11px" },
-    timeRecMess: { fontSize: "10px", lineHeight: "25px", paddingLeft: "5px" },
-    recRealMess: {
-        paddingRight: "30px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-        fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400'
-    },
-    sendRealMess: {
-        paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-        fontSize: "14px", lineHeight: "15px", background: "#448DF0", color: "white", borderRadius: "10px 0px 10px 10px", fontWeight: "400"
-    },
-    sendMessInput: {
-        "& input": {
-            fontSize: "13px !important"
-        },
-        "& fieldset": {
-            borderRadius: "50px",
-        }
-    },
+   
     sendMessIcon: {
         position: "absolute", right: "5px", top: "4px", fontSize: "28px", backgroundColor: "#333333", borderRadius: "25px", padding: "5px", color: "#fff", cursor: "pointer"
     },
-    messageBoxCon: {
-        backgroundColor: "#ffffff",
-        height: "75vh", width: "100%", position: "absolute", overflowY: "auto",
-        '&::-webkit-scrollbar': {
-            width: '0px',
-        },
-        '&::-webkit-scrollbar-track': {
-            background: '#f1f1f1',
-        },
-        '&::-webkit-scrollbar-thumb': {
-            background: '#888',
-            borderRadius: '10px',
-        },
-        '&::-webkit-scrollbar-thumb:hover': {
-            background: '#555',
-        },
-    }
 }
 
 const styled = {
     position: 'absolute',
-    top: '78%',
-    left: '90%',
+    bottom: '0%',
+    right: '8%',
     transform: 'translate(-50%, -50%)',
     width: 140,
-    bgcolor: 'background.paper',
     borderRadius: '10px',
-    border: '1px solid gray',
+    // border: '1px solid gray',
     // boxShadow: 24,
     p: 2,
 };
@@ -117,20 +63,20 @@ export default function AttachMenuModal() {
                 BackdropProps={{ style: { opacity: '0' } }}
             >
                 <Box 
-                // onMouseLeave={handleClose} 
+                sx={styled}
                 position='absolute' bottom={'3rem'} right={"2rem"} >
                     <Box width={'245px'} bgcolor='white' borderRadius='8px' 
-                   boxShadow=" rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" 
+                    boxShadow=" rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" 
                     border={"1px solid gray"}
                     >
 
-                        <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1.5}>
+                        <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1}>
                             <StorageIcon sx={{ color: "gray" }} fontSize={"2"} />
                            <ServerFilesModal closeModal={handleClose} />
                             <ArrowForwardIosIcon sx={{ color: "gray" }} fontSize={"2"} />
                         </Box>
                         <Divider />
-                        <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1.5}>
+                        <Box display='flex' justifyContent="space-evenly" alignItems='center' padding={1}>
                             <TvIcon sx={{ color: "gray" }} fontSize={"2"} />
                             <DeviceMenuModal closeModal={handleClose} />
                             <ArrowForwardIosIcon sx={{ color: "gray" }} fontSize={"2"} />

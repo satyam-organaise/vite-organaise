@@ -19,8 +19,10 @@ import ReplySharpIcon from '@mui/icons-material/ReplySharp';
 import video from "../../assets/one.mp4"
 import audioFile from "../../assets/music.mp3"
 import ButtonHovers from '../Chat/ButtonHovers';
+import ServerFilesModal from "./messageTools/ServerFilesModal"
 import AttachMenuModal from './messageTools/AttachMenuModal';
 import MoodIcon from '@mui/icons-material/Mood';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 var selectedChatCompare;
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -104,7 +106,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
         },
         sendRealMess: {
             paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400"
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400",minHeight:'40px',minWidth:"80px"
         },
         sendRealIcon: {
             fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px",width:'300px',height:'90px'
@@ -497,7 +499,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                         </Grid>
 
                                                         {/* Audio  */}
-                                                        {/* {index===0&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                        {/* {<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box position={'relative'}>
                                                             <CardMedia 
                                                                 controls
@@ -508,9 +510,38 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 />
                                                             </Box>
                                                         </Grid>} */}
+
+                                                          
+                                                        {/* File */}
+                                                        {/* {<Grid container item boxSizing={"border-box"} mr="16px">
+                                                            <Box sx={{...cssStyle.recRealIcon}} position={'relative'}> 
+                                                                <Box display={'flex'} alignItems={'center'} height={'100%'} pl='5px'>
+                                                                <Box borderRadius={'8px 0px 0px 8px'} bgcolor='white' flex={0.3}>
+                                                                    <FileIcon ext={'doc'}/>
+                                                                </Box>
+                                                                    
+                                                                <Box pl='10px' display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} flex={0.7} color='black'>
+                                                                    <Typography variant="body2" fontSize={'1.1rem'}>
+                                                                    File name
+                                                                    </Typography>
+                                                                    <Typography variant="body2" fontSize={'.8rem'}>
+                                                                    Txt • 157B
+                                                                    </Typography>
+                                                                </Box>
+
+                                                                
+
+                                                                </Box>
+
+                                                                <Box sx={cssStyle.imageShareBox}>
+                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
+                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
+                                                                </Box>
+                                                            </Box>
+                                                        </Grid>} */}
                                                         
                                                         {/* Video */}
-                                                        {/* {index===1&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                        {/* {<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box position={'relative'}>
                                                             <CardMedia 
                                                                 controls
@@ -526,7 +557,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                         </Grid>} */}
 
                                                         {/* Image */}
-                                                        {/* {index===2&&<Grid container item boxSizing={"border-box"} mr="16px">
+                                                        {/* {<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box position={'relative'}>
                                                             <CardMedia 
                                                                 component="img"
@@ -539,34 +570,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 </Box>
                                                             </Box>
                                                         </Grid>} */}
-                                                        
-                                                        {/* File */}
-                                                        {/* <Grid container item boxSizing={"border-box"} mr="16px">
-                                                            <Box sx={{...cssStyle.recRealIcon}} position={'relative'}> 
-                                                                <Box display={'flex'} alignItems={'center'} height={'100%'} pl='5px'>
-
-                                                                    
-                                                                <Box pl='10px' display={'flex'} flexDirection={'column'} justifyContent={'space-evenly'} flex={0.7}>
-                                                                    <Typography variant="body2" fontSize={'1.2rem'}>
-                                                                    File name
-                                                                    </Typography>
-                                                                    <Typography variant="body2" fontSize={'.8rem'}>
-                                                                    Txt • 157B
-                                                                    </Typography>
-                                                                </Box>
-
-                                                                <Box borderRadius={'8px 0px 0px 8px'} bgcolor='white' flex={0.3}>
-                                                                    <FileIcon ext={'doc'}/>
-                                                                </Box>
-
-                                                                </Box>
-
-                                                                <Box sx={cssStyle.imageShareBox}>
-                                                                    <FileDownloadOutlinedIcon sx={{color:'white'}} fontSize='small'/>
-                                                                    <ReplySharpIcon sx={{transform:"scale(-1,1)",color:'white'}}  fontSize='small'/>
-                                                                </Box>
-                                                            </Box>
-                                                        </Grid> */}
+                                                      
 
 
                                                         {/* Message */}
@@ -575,6 +579,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 {mes.content}
                                                             </Typography>
                                                         </Grid>}
+                                                        
                                                     </Grid>
                                                 </Box>
                                             </Box>
@@ -684,8 +689,12 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                         </Grid>} */}
                                                         
                                                         <Grid container item boxSizing={"border-box"} mr="16px" display={"flex"} justifyContent="end">
-                                                            <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign: "right" }} >
+                                                            <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign:mes.content.length>10?"left":'right' }} >
                                                                 {mes.content}
+                                                            <Box display={'flex'} justifyContent={'flex-end'} alignItems={'flex-end'} mt={'5px'}>
+                                                                <Typography fontSize={'.7rem'} mr='.5rem'>Seen at 05:45 PM</Typography>
+                                                                <DoneAllIcon fontSize='small' color='primary'/>
+                                                            </Box>
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
