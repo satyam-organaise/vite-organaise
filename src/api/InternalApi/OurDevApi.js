@@ -263,3 +263,50 @@ export const getFileFolderApi = async (folderId) => {
     }
     return response.data
 }
+
+// Invite all api
+
+export const sendInvitationApi=async(getData)=>{
+    const response=await axios.post('api/v2/invite/sendInvitation',getData,headerData);
+    if(!response.statusText==='OK')
+    {
+        throw new Error("Something is wrong in send api")
+    }
+    return response.data;
+}
+
+export const resendInvitationApi=async(getData)=>{
+    const response=await axios.put('api/v2/invite/resendInvitations',getData,headerData);
+    if(!response.statusText==='OK')
+    {
+        throw new Error("Something is wrong in send api")
+    }
+    return response.data;
+}
+
+export const allInviteMemberListApi=async()=>{
+    const response=await axios.get('api/v2/invite/allInvitedMembers',headerData);
+    if(!response.statusText==='OK')
+    {
+        throw new Error("Something is wrong in send api")
+    }
+    return response.data;
+}
+
+export const inviteTokenValidationApi=async(inviteToken)=>{
+    const response=await axios.get(`api/v2/invite/validateToken?invitationToken=${inviteToken}`,headerData);
+    if(!response.statusText==='OK')
+    {
+        throw new Error("Something is wrong in send api")
+    }
+    return response.data;
+}
+
+export const changeInviteStatusApi=async(getData)=>{
+    const response=await axios.put("api/v2/invite/invitationAction",getData,headerData);
+    if(!response.statusText==='OK')
+    {
+        throw new Error("Something is wrong in send api")
+    }
+    return response.data;
+}

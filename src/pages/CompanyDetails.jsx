@@ -44,7 +44,7 @@ const CompanyDetails = () => {
     useEffect(() => {
         const userId = localStorage.getItem("userInfo");
         setUserID(userId);
-        setCloseAppDrawer(true)
+        // setCloseAppDrawer(true)
         getComFun();
     }, [])
 

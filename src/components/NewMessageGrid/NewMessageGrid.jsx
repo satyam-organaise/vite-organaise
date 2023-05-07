@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Avatar, Stack, Button, Badge, TextField, AvatarGroup,Tooltip, Card,CardMedia, InputAdornment   } from '@mui/material'
+import { Box, Grid, Typography, Avatar, Stack, Button, Badge, TextField, AvatarGroup, Tooltip, Card, CardMedia, InputAdornment } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
@@ -23,6 +23,9 @@ import ServerFilesModal from "./messageTools/ServerFilesModal"
 import AttachMenuModal from './messageTools/AttachMenuModal';
 import MoodIcon from '@mui/icons-material/Mood';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import EmojiPicker from 'emoji-picker-react';
+import Modal from '@mui/material/Modal';
+import "../../index.css"
 
 var selectedChatCompare;
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -42,6 +45,19 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
+const styleModal = {
+    position: 'absolute',
+    bottom: '8%',
+    left: '20%',
+    // transform: 'translate(-50%, -50%)',
+    // width: 100,
+    bgcolor: 'background.paper',
+    // border: '1px solid gray',
+    borderRadius:'10px',
+    boxShadow: "rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px"   
+     ,p: 1,
+};
+
 const NewMessageGrid = ({ selectedChannel }) => {
 
     const location = useLocation();
@@ -49,14 +65,35 @@ const NewMessageGrid = ({ selectedChannel }) => {
     const contentRef = useRef(null);
     const [isTyping, setisTyping] = useState(false);
     const [typing, setTyping] = useState(false);
+
+    const [openEmoji, setOpenEmoji] = useState(false);
+    const handleOpenModal = () => setOpenEmoji(true);
+    const handleCloseModal = () => setOpenEmoji(false);
+
     ////// socket connection state
     const [socketConnected, setSocketConnected] = useState(false);
+
     ////// use conetext use here
     const { user, setUser, selectChatV1,
         setSelectedChatV1, currentChats, setCurrentChats,
         chats, setChats, notification, setNotification } = ChatState();
+
     //////////// Store the userid of user ////////
     const [UserId, setUserId] = useState("");
+
+
+    //emoji code here
+    const [text, setText] = useState("");
+    const [showEmoji, setShowEmoji] = useState(false);
+
+    
+
+    const handleOpenClose = () => {
+        setShowEmoji(!showEmoji);
+    }
+
+
+
     useEffect(() => {
         setActiveChannel(selectedChannel);
     }, [selectedChannel])
@@ -96,29 +133,29 @@ const NewMessageGrid = ({ selectedChannel }) => {
             fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400'
         },
         recRealMessImage: {
-            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400',height:'200px',width:'400px',objectFit:' cover',
+            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400', height: '200px', width: '400px', objectFit: ' cover',
         },
         recRealMessAudio: {
-            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400',width:'400px',height:'65px',paddingBottom:'5px'
+            fontSize: "14px", lineHeight: "15px", color: "black", background: "#F2F2F2", borderRadius: "0px 10px 10px 10px", fontWeight: '400', width: '400px', height: '65px', paddingBottom: '5px'
         },
         recRealIcon: {
-            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "white", borderRadius: "0px 10px 10px 10px", width:'300px',height:'90px'
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "white", borderRadius: "0px 10px 10px 10px", width: '300px', height: '90px'
         },
         sendRealMess: {
             paddingRight: "10px", paddingLeft: "10px", paddingTop: "10px", paddingBottom: "10px",
-            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400",minHeight:'40px',minWidth:"80px"
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400", minHeight: '40px', minWidth: "80px"
         },
         sendRealIcon: {
-            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px",width:'300px',height:'90px'
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", width: '300px', height: '90px'
         },
         sendRealMessImage: {
-            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400",height:'200px',width:'400px',objectFit:' cover',
+            fontSize: "14px", lineHeight: "15px", background: "#ECF4FF", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: "400", height: '200px', width: '400px', objectFit: ' cover',
         },
         sendRealMessAudio: {
-            fontSize: "14px", lineHeight: "15px", background: "#F2F2F2", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: '400',width:'400px',height:'65px',paddingBottom:'5px'
+            fontSize: "14px", lineHeight: "15px", background: "#F2F2F2", color: "black", borderRadius: "10px 0px 10px 10px", fontWeight: '400', width: '400px', height: '65px', paddingBottom: '5px'
         },
-        imageShareBox:{
-            position:'absolute', top:'0', right:'0', display:'flex', bgcolor:'rgba(20,20,20,0.7)' ,justifyContent:'space-evenly',alignItems:'center',width:'70px',padding:'5px 0',borderRadius:'0px 10px 0px 10px'
+        imageShareBox: {
+            position: 'absolute', top: '0', right: '0', display: 'flex', bgcolor: 'rgba(20,20,20,0.7)', justifyContent: 'space-evenly', alignItems: 'center', width: '70px', padding: '5px 0', borderRadius: '0px 10px 0px 10px'
         },
         sendMessInput: {
             "& input": {
@@ -173,6 +210,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
     });
 
     const setNewMessaageFun = (event) => {
+        
         setNewMessage(event.target.value);
 
         /////// three dot show when typing start
@@ -197,6 +235,12 @@ const NewMessageGrid = ({ selectedChannel }) => {
 
     }
 
+    function handleEmojiSelect(event, emojiObject) {
+        const emoji = event.emoji;
+        setNewMessage((preValue)=> preValue + emoji)
+        // setText(event.emoji);
+        // setText(text + emojiObject.emoji);
+    }
 
 
     ////////// send message in new version //////
@@ -209,11 +253,12 @@ const NewMessageGrid = ({ selectedChannel }) => {
                 chatId: selectChatV1._id
             }
             setNewMessage("");
+            setText("")
             const response = await sendingMessageV1(sendingMessData);
             setCurrentChats([...currentChats, response])
 
             socket.emit("new message", response);
-            socket.emit("add-notification-in-member",{response})
+            socket.emit("add-notification-in-member", { response })
 
         } catch (error) {
             console.log(error.response);
@@ -303,33 +348,33 @@ const NewMessageGrid = ({ selectedChannel }) => {
                             {/* User Avatar */}
                             {
                                 selectChatV1?.isGroupChat === false &&
-                                <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant={(selectChatV1?.users[1]._id===user?selectChatV1?.users[0].isActive:selectChatV1?.users[1].isActive)&&"dot"}>
-                                    <Tooltip title={selectChatV1?.users[1]._id===user?selectChatV1?.users[0].name:selectChatV1?.users[1].name} placement="bottom">
-                                    <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1]._id===user?selectChatV1?.users[0].name[0]?.toUpperCase():selectChatV1?.users[1].name[0]?.toUpperCase()}</Avatar>
+                                <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant={(selectChatV1?.users[1]._id === user ? selectChatV1?.users[0].isActive : selectChatV1?.users[1].isActive) && "dot"}>
+                                    <Tooltip title={selectChatV1?.users[1]._id === user ? selectChatV1?.users[0].name : selectChatV1?.users[1].name} placement="bottom">
+                                        <Avatar alt="Remy Sharp" src="" sx={{ width: 30, height: 30 }}  >{selectChatV1?.users[1]._id === user ? selectChatV1?.users[0].name[0]?.toUpperCase() : selectChatV1?.users[1].name[0]?.toUpperCase()}</Avatar>
                                     </Tooltip>
                                 </StyledBadge>
                             }
-                            
+
                             <Box display='flex' flexDirection='column' justifyContent={'center'}>
                                 <Box>
 
-                                <Typography fontWeight={"600"}
-                                    variant="subtitle2" paddingTop={0.3} paddingLeft={1.2} textTransform={'capitalize'} >
-                                    {/* {ActiveChannel.Name.charAt(0).toUpperCase() + ActiveChannel.Name.slice(1)} */}
-                                    {Object.keys(MyActiveChat).length > 0 &&
-                                        (!MyActiveChat.isGroupChat ? getSender(user, MyActiveChat?.users) : (MyActiveChat.chatName))
-                                    }
-                                     
-                                     {/* {
+                                    <Typography fontWeight={"600"}
+                                        variant="subtitle2" paddingTop={0.3} paddingLeft={1.2} textTransform={'capitalize'} >
+                                        {/* {ActiveChannel.Name.charAt(0).toUpperCase() + ActiveChannel.Name.slice(1)} */}
+                                        {Object.keys(MyActiveChat).length > 0 &&
+                                            (!MyActiveChat.isGroupChat ? getSender(user, MyActiveChat?.users) : (MyActiveChat.chatName))
+                                        }
+
+                                        {/* {
    
                                         selectChatV1?.isGroupChat === false &&
                                         <Typography fontSize='12px'>
                                             online
                                         </Typography>
                                         } */}
-                                    
-                                </Typography>
-                               
+
+                                    </Typography>
+
 
                                 </Box>
                             </Box>
@@ -343,8 +388,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                     {
                                         selectChatV1?.isGroupChat === true && selectChatV1?.users?.map((item) => {
                                             return <Tooltip title={item.name} placement="bottom">
-                                            <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
-                                            </Tooltip> 
+                                                <Avatar alt="Remy Sharp" src={item?.pic}>{item.name[0].toUpperCase()}</Avatar>
+                                            </Tooltip>
                                         })
                                     }
 
@@ -481,19 +526,19 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             alt={mes.sender.name[0].toUpperCase()}
                                                             src="https://mui.com/static/images/asdfavatar/1.jpg" 
                                                             /> */}
-                                                             <ButtonHovers name={mes.sender.name} email={mes.sender.email}/>
+                                                        <ButtonHovers name={mes.sender.name} email={mes.sender.email} />
                                                     </Stack>
                                                 </Box>
-                                                <Box 
-                                                // ml={1}
-                                                ml={5}
+                                                <Box
+                                                    // ml={1}
+                                                    ml={5}
                                                 >
                                                     <Grid container>
                                                         <Grid container item>
-                                                            <Tooltip placement="right-start" sx={{cursor:'pointer'}}>
-                                                            <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
-                                                                {mes.sender.name}
-                                                            </Typography>
+                                                            <Tooltip placement="right-start" sx={{ cursor: 'pointer' }}>
+                                                                <Typography variant="subtitle2" fontWeight={"700"} textTransform={'capitalize'}>
+                                                                    {mes.sender.name}
+                                                                </Typography>
                                                             </Tooltip>
                                                             <Typography variant="body2" sx={cssStyle.timeRecMess} >{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
@@ -511,7 +556,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             </Box>
                                                         </Grid>} */}
 
-                                                          
+
                                                         {/* File */}
                                                         {/* {<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box sx={{...cssStyle.recRealIcon}} position={'relative'}> 
@@ -539,7 +584,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 </Box>
                                                             </Box>
                                                         </Grid>} */}
-                                                        
+
                                                         {/* Video */}
                                                         {/* {<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box position={'relative'}>
@@ -570,7 +615,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 </Box>
                                                             </Box>
                                                         </Grid>} */}
-                                                      
+
 
 
                                                         {/* Message */}
@@ -579,7 +624,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 {mes.content}
                                                             </Typography>
                                                         </Grid>}
-                                                        
+
                                                     </Grid>
                                                 </Box>
                                             </Box>
@@ -601,8 +646,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                             <Box container display={'flex'} flexDirection="row-reverse" mb={1} py={0.5}>
                                                 <Box id="mess_user_pic_box_send">
                                                     <Stack ml={1} direction="row">
-                                                        <Avatar sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }} alt={mes.sender.name[0].toUpperCase()} 
-                                                        src="https://mui.com/static/images/avatar/1fd.jpg" 
+                                                        <Avatar sx={{ ...cssStyle.avatarCss, width: "30px", height: "30px" }} alt={mes.sender.name[0].toUpperCase()}
+                                                            src="https://mui.com/static/images/avatar/1fd.jpg"
                                                         />
                                                     </Stack>
                                                 </Box>
@@ -616,7 +661,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             <Typography variant="body2" sx={cssStyle.timeRecMess}>{getTime(mes?.createdAt)}</Typography>
                                                         </Grid>
 
-                                                        
+
                                                         {/* Audio  */}
                                                         {/* {index===0&&<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box position={'relative'}>
@@ -629,7 +674,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 />
                                                             </Box>
                                                         </Grid>} */}
-                                                        
+
                                                         {/* Video */}
                                                         {/* {index===1&&<Grid container item boxSizing={"border-box"} mr="16px">
                                                             <Box position={'relative'}>
@@ -660,7 +705,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 </Box>
                                                             </Box>
                                                         </Grid>} */}
-                                                        
+
 
                                                         {/* File  */}
                                                         {/* {index===3&&<Grid container item boxSizing={"border-box"} mr="16px">
@@ -687,14 +732,14 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                                 </Box>
                                                             </Box>
                                                         </Grid>} */}
-                                                        
+
                                                         <Grid container item boxSizing={"border-box"} mr="16px" display={"flex"} justifyContent="end">
-                                                            <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign:mes.content.length>10?"left":'right' }} >
+                                                            <Typography variant="body2" sx={{ ...cssStyle.sendRealMess, width: "auto", textAlign: mes.content.length > 10 ? "left" : 'right' }} >
                                                                 {mes.content}
-                                                            <Box display={'flex'} justifyContent={'flex-end'} alignItems={'flex-end'} mt={'5px'}>
-                                                                <Typography fontSize={'.7rem'} mr='.5rem'>Seen at 05:45 PM</Typography>
-                                                                <DoneAllIcon fontSize='small' color='primary'/>
-                                                            </Box>
+                                                                <Box display={'flex'} justifyContent={'flex-end'} alignItems={'flex-end'} mt={'5px'}>
+                                                                    <Typography fontSize={'.7rem'} mr='.5rem'>Seen at 05:45 PM</Typography>
+                                                                    <DoneAllIcon fontSize='small' color='primary' />
+                                                                </Box>
                                                             </Typography>
                                                         </Grid>
                                                     </Grid>
@@ -707,7 +752,7 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         </>}
 
                 </Box>
-                <Box position={'absolute'} sx={{ width: "100%", bottom: "3%", backgroundColor: "#ffffff" }} py={"10px"} container px={"25px"}>
+                <Box position={'absolute'} sx={{ width: "100%", bottom: "0%", backgroundColor: "#ffffff" }} py={"10px"} container px={"25px"}>
                     {isTyping ? <Box sx={{ fontSize: "15px", marginLeft: "10px" }}>Typing...</Box> : <Box></Box>}
                     <Box container
                         sx={{
@@ -716,28 +761,47 @@ const NewMessageGrid = ({ selectedChannel }) => {
                         }}
                     >
                         <TextField
-                            size='small' 
+                            size='small'
                             marginLeft='20px'
                             sx={{ ...cssStyle.sendMessInput, position: "absolute" }}
                             fullWidth
                             placeholder='Type a message'
                             id="messageInput"
+                            // value={text}
                             value={newMessage}
                             onChange={(e) => setNewMessaageFun(e)}
                             onKeyPress={handleEnterKeyPress}
                             InputProps={{
                                 startAdornment: (
-                                <InputAdornment position="start">
-                                    <MoodIcon sx={{ backgroundColor: "#fff", color: "#333" }}/> 
-                                </InputAdornment>
-                            ),
+                                    <InputAdornment position="start">
+                                        <MoodIcon sx={{ backgroundColor: "#fff", color: "#333", cursor: 'pointer' }} onClick={handleOpenModal} />
+                                    </InputAdornment>
+                                ),
                             }}
 
                         />
+                        <Modal
+                            open={openEmoji}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                            BackdropProps={{ style: { opacity: '0' } }}
+                        >
+                            <Box sx={styleModal}  >
+                                <EmojiPicker width="300px" height='350px' onEmojiClick={handleEmojiSelect} />
+                            </Box>
+
+                        </Modal>
+                        {/* {showEmoji &&
+                            <Box sx={styleModal} position='absolute' bottom='10%' paddingBottom="6px" ful >
+                                <EmojiPicker onEmojiClick={handleEmojiSelect} />
+
+                            </Box>
+                        } */}
                         {/* <AttachFileIcon sx={{ ...cssStyle.sendMessIcon, right: "35px", backgroundColor: "#fff", color: "#333" }} /> */}
                         <SendIcon onClick={() => clickSendMessButton()} sx={cssStyle.sendMessIcon} />
                     </Box>
-                    <AttachMenuModal  />
+                    <AttachMenuModal />
                 </Box>
             </Box>
 

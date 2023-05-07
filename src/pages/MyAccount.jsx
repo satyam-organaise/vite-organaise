@@ -1,15 +1,15 @@
-import {useEffect} from 'react'
-import {Typography,Grid,Box,TextField,InputAdornment,MenuItem,Divider,Avatar,Button,ButtonGroup,Dialog,DialogContent,DialogActions} from '@mui/material'
+import React, { useState,useEffect } from "react";
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ListIcon from '@mui/icons-material/List';
-import React, { useState } from "react";
 import AvatarEditor from 'react-avatar-edit';
-
 import { ChatState } from '../Context/ChatProvider';
+import {Typography,Grid,Box,TextField,InputAdornment,MenuItem,Divider,Avatar,Button,ButtonGroup,Dialog,DialogContent,DialogActions} from '@mui/material'
+
+
 const MyAccount = ({closeSideList}) => {
     const [avatar, setAvatar] = useState(null);
     const [open, setOpen] = useState(false);

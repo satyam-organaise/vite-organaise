@@ -12,7 +12,7 @@ import { useRef } from "react";
 
 const style = {
   position: "absolute",
-  bottom: "11%",
+  bottom: "7%",
   right: "21%",
   cursor: "pointer",
   width: 140,

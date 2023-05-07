@@ -48,17 +48,17 @@ export default function DotMenu({handleDelete,handleAddFile,value,pageName='fold
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: '20ch',
+            width: '14ch',
           },
         }}
       >
         { 
           pageName==='folder'&&<MenuItem onClick={()=>{handleAddFile();handleClose()}}>
-            <Typography>Add File</Typography>
+            <Typography >Add File</Typography>
           </MenuItem>}
-          <MenuItem>
+          {/* <MenuItem> */}
             <DeleteModal handleDelete={handleDelete} value={value} closeParentModal={handleClose} pageName={pageName} deleteHeading={deleteHeading} deleteTitle={deleteTitle}/> 
-          </MenuItem>
+          {/* </MenuItem> */}
           
        </Menu>
     </div>

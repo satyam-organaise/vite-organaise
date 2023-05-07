@@ -129,6 +129,7 @@ const AppBar = styled(MuiAppBar, {
 const styleCss = {
     appBarCss: {
         backgroundColor: "#ffffff !important",
+        boxShadow: "none",
         boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
         height: "65px",
     }
@@ -519,6 +520,17 @@ const LeftSideBar = (props) => {
                         <Typography sx={{ color: location.pathname.split(['/'])[1] === "files" ? "#448DF0" : "#646464", fontSize: '14px',cursor:"pointer" }}>Files</Typography>
                     </Box>
 
+
+                    <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("inviteList") }}>
+                        <Button  display='flex' flexDirection='column' sx={{
+                            color: location.pathname.split(['/'])[1] === "inviteList" ? "#448DF0" : "#646464"
+                        }}
+                        >
+                            <AccountCircleOutlinedIcon fontSize='small' />
+                        </Button>
+                        <Typography sx={{ color: location.pathname.split(['/'])[1] === "inviteList" ? "#448DF0" : "#646464", fontSize: '14px',cursor:"pointer" }}>Invite</Typography>
+                    </Box>
+
                     {/* <Box bgcolor={'white'} height={'5rem'} display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} onClick={() => { navigatePage("account") }} >
                         <Button display='flex' flexDirection='column' sx={{
                             color: location.pathname === "/account" ? "#448DF0" : "#646464"
@@ -597,7 +609,7 @@ const LeftSideBar = (props) => {
                                             </Button>
                                         </Box>
                                         {showGroups && <Box>
-                                            <List sx={{ paddingTop: "5px" }} >
+                                            <List sx={{ paddingTop: "2px" }} >
 
                                                 {
                                                     //channelList.length !== 0 && channelList.map((d) =>
@@ -605,7 +617,7 @@ const LeftSideBar = (props) => {
 
                                                         d?.isGroupChat&&<ListItem
                                                             key={index}
-                                                            sx={{ paddingTop: "2px", paddingBottom: "0px", paddingLeft: { sm: '25px', md: '30px', xl: "42px" }, cursor: "pointer" }}
+                                                            sx={{ paddingTop: "6px", paddingBottom: "0px", paddingLeft: { sm: '25px', md: '30px', xl: "42px" }, cursor: "pointer" }}
                                                         
                                                             onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("groups") }
                                                             }
@@ -618,7 +630,7 @@ const LeftSideBar = (props) => {
                                                                 sx={{
                                                                     textTransform:"capitalize",
                                                                     opacity: open ? 1 : 0, marginTop: "0px",
-                                                                    marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
+                                                                    marginBottom: "0px", "& span": { fontSize: "14px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5"}
                                                                 }}
                                                             />
                                                         </ListItem>
@@ -626,14 +638,14 @@ const LeftSideBar = (props) => {
                                                 }
                                                 <ListItem
                                                     sx={{
-                                                        paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: { sm: '22px', md: '28px', xl: "42px" }, cursor: "pointer"
+                                                        paddingTop: "6px", paddingBottom: "0px",
+                                                        paddingLeft: { sm: '22px', md: '28px', xl: "40px" }, cursor: "pointer"
                                                     }}
                                                     onClick={() => modelOpens()}
                                                 >
                                                     <AddBoxOutlinedIcon
                                                         sx={{
-                                                            fontSize: "16px", marginTop: "0px", marginRight: "2px", color: "#333333b4",
+                                                            fontSize: "16px", marginTop: "0px", marginRight: "4px", color: "#333333b4",
                                                         }} />
                                                     <ListItemText
                                                         primary={`Create Group`}
@@ -680,7 +692,7 @@ const LeftSideBar = (props) => {
 
                                                     !d.isGroupChat&&<ListItem
                                                         key={index}
-                                                        sx={{ paddingTop: "1px", paddingBottom: "0px", paddingLeft: { sm: '15px', md: "30px", xl: '42px' }, cursor: "pointer" }}
+                                                        sx={{ paddingTop: "6px", paddingBottom: "0px", paddingLeft: { sm: '15px', md: "30px", xl: '42px' }, cursor: "pointer" }}
                                                         onClick={() => { location.pathname === "/chat" ? InanotherPage("1", d) : InanotherPage("2", d); setActiveChatId(d?._id); setActivePage("inbox") }
                                                         }
                                                     >
@@ -703,7 +715,7 @@ const LeftSideBar = (props) => {
                                                             sx={{
                                                                 textTransform:"capitalize",
                                                                 opacity: open ? 1 : 0, marginTop: "1px",
-                                                                marginBottom: "0px", "& span": { fontSize: "13px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
+                                                                marginBottom: "0px", "& span": { fontSize: "14px", fontWeight: activeChatId == d?._id ? 700 : 500, color: activeChatId == d?._id ? "#3976C9" : "#333333b5" }
                                                             }}
                                                         />
                                                     </ListItem>
@@ -711,19 +723,19 @@ const LeftSideBar = (props) => {
                                                 }
                                                 <ListItem
                                                     sx={{
-                                                        paddingTop: "0px", paddingBottom: "0px",
-                                                        paddingLeft: { sm: '22px', md: '28px', xl: "42px" }, cursor: "pointer"
+                                                        paddingTop: "6px", paddingBottom: "0px",
+                                                        paddingLeft: { sm: '22px', md: '28px', xl: "40px" }, cursor: "pointer"
                                                     }}
                                                     onClick={() => singleMessTeamMemberModel()}
                                                 >
                                                     <AddBoxOutlinedIcon
                                                         sx={{
-                                                            fontSize: "16px", marginTop: "4px", marginRight: "2px", color: "#333333b4",
+                                                            fontSize: "15px", marginTop: "0px", marginRight: "4px", color: "#333333b4",
                                                         }} />
                                                     <ListItemText
                                                         primary={`Add Member`}
                                                         sx={{
-                                                            opacity: open ? 1 : 0, marginTop: "4px",
+                                                            opacity: open ? 1 : 0, marginTop: "3px",
                                                             marginBottom: "0px",
                                                             "& span": { fontSize: "14px", fontWeight: 500, color: "#333333b5" }
                                                         }}
@@ -924,5 +936,4 @@ const LeftSideBar = (props) => {
 }
 
 export default LeftSideBar
-
 
