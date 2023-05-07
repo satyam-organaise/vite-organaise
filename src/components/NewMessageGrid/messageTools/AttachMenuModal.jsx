@@ -22,9 +22,9 @@ const cssStyle = {
 
 const styled = {
     position: 'absolute',
-    bottom: '0%',
-    right: '8%',
-    transform: 'translate(-50%, -50%)',
+    bottom: '5%',
+    right: '12%',
+    // transform: 'translate(-50%, -50%)',
     width: 140,
     borderRadius: '10px',
     // border: '1px solid gray',

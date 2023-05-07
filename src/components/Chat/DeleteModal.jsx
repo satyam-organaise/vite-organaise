@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { fetchAllChatSingleUserOrGroup } from '../../api/InternalApi/OurDevApi';
 import { ChatState } from '../../Context/ChatProvider';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import MenuItem from '@mui/material/MenuItem';
 
 const style = {
   position: 'absolute',
@@ -63,8 +64,8 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,deleteH
     return (
       <div>
          {type==='list'?<HighlightOffIcon  onClick={handleOpen} sx={{color:'red'}}/>
-         :<Typography onClick={handleOpen} color={'red'}>Delete</Typography>}
-
+         :<MenuItem onClick={handleOpen}><Typography color={'red'}>Delete</Typography></MenuItem>
+          }
         
         <Modal
           open={open}

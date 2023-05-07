@@ -420,6 +420,7 @@ const ContentModels = ({
     const SetMembersFun = (event, values) => {
         setSelectedMemStore(values);
     };
+
     ////////// when click on the create group function
     const createGroupFun = async () => {
         
@@ -1110,8 +1111,6 @@ const ContentModels = ({
                     </DialogActions>
                 </Dialog>
             }
-
-
 
         </>
     )
