@@ -386,6 +386,7 @@ const ContentModels = ({
                 setSelectedChatV1(response);
                 InanotherPage("1", response);
                 setChats([response, ...chats]);
+                socket.emit("add-member-in-group", { AddMemberUserId: selectSrcMember._id  , response:response});
                 handleClose();
             }
         } catch (error) {
@@ -440,6 +441,7 @@ const ContentModels = ({
             }
             const response = await createChatFun(createObj);
             setChats([response, ...chats]);
+            socket.emit("create-member-group",{CreateMembersUserIds:selectedMemStore.map((u) => u._id), response});
         } catch (error) {
             console.log(error.response);
         }

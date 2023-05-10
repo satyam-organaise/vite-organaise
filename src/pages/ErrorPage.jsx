@@ -7,7 +7,7 @@ const ErrorPage = () => {
         setCloseAppDrawer(true)
     },[])
   return (
-    <div>ErrorPage</div>
+    <div>Error Page</div>
   )
 }
 

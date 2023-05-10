@@ -129,7 +129,6 @@ const AppBar = styled(MuiAppBar, {
 const styleCss = {
     appBarCss: {
         backgroundColor: "#ffffff !important",
-        boxShadow: "none",
         boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.06)",
         height: "65px",
     }

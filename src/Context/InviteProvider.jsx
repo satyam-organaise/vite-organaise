@@ -1,17 +1,19 @@
-import { createContext, useCallback, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useState } from "react"
 
-const InviteContext = createContext();
+export  const InviteContext = createContext();
 
 const InviteProvider = ({ children }) => {
+    const [inviteToken,setInviteToken]=useState("");
+    const [inviteObj,setInviteObj]=useState({});
+    const [emailContext,setEmailContext]=useState("")
     return (
-        <InviteContext.Provider value={{}}>
+        <InviteContext.Provider value={{inviteToken,setInviteToken,inviteObj,setInviteObj,emailContext,setEmailContext}}>
             {children}
         </InviteContext.Provider>
-
     )
 }
 
-export const InviteState = () => {
+export const InviteStateContext = () => {
     return useContext(InviteContext);
 }
 

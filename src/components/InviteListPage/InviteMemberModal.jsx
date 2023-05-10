@@ -1,10 +1,12 @@
 import { useState,useEffect } from 'react';
-import { IconButton, Box, Button, Typography, Modal, Autocomplete, TextField, Badge, Avatar } from '@mui/material';
+import { IconButton, Box, Button, Typography, Modal, Autocomplete, TextField, Badge, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 import { searchUserV1,sendInvitationApi } from '../../api/InternalApi/OurDevApi';
 import { useMutation } from 'react-query';
 import { useDebounce } from 'use-debounce';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import { toast } from 'react-toastify';
 
 const style = {
   position: 'absolute',
@@ -39,7 +41,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 
-export default function InviteMemberModal({ buttonStyle, addMemberFunction }) {
+export default function InviteMemberModal({refetch,setShowPending }) {
     
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -51,6 +53,7 @@ export default function InviteMemberModal({ buttonStyle, addMemberFunction }) {
   const [listNewMembers, setNewMembersList] = useState([]);
   const [selectSrcMember, setSelectSrcMem] = useState(null);
   const [debouncedSearchMember] = useDebounce(srcMemberText, 500);
+  const [memberEmail,setMemberEmail]=useState("")
 
   useEffect(() => {
     if (debouncedSearchMember) {
@@ -85,22 +88,31 @@ export default function InviteMemberModal({ buttonStyle, addMemberFunction }) {
 
   const sendInvitationFun=async()=>{
     const obj={
-      "emailId":selectSrcMember.email
+      "emailId":memberEmail
   }
     try{
       const response=await sendInvitationApi(obj)
+      refetch()
+      setShowPending(true)
+      setMemberEmail("")
       handleClose()
+      toast.success("Invitation send successfully")
     }catch(error)
     {
-      console.log(error)
+      console.log(error.message)
+      toast.error("Invitation not send")
     }
   }
 
   return (
     <div>
-      <Button variant="contained" ml='1rem' sx={{textTransform:'capitalize'}} size='small' 
-      onClick={handleOpen}>New Invite</Button>
-
+      {/* <Button variant="contained" ml='1rem' sx={{textTransform:'capitalize'}} size='small' 
+      >New Invite</Button> */}
+      <Tooltip  title="New Invitation" placement="top">
+      <IconButton aria-label="delete" size="large" onClick={handleOpen}>
+        <AddBoxIcon fontSize="inherit" color='primary'/>
+      </IconButton>
+      </Tooltip>
 
       <Modal
         open={open}
@@ -139,7 +151,7 @@ export default function InviteMemberModal({ buttonStyle, addMemberFunction }) {
             <Box m={'1rem 0'}>
                 <Box m='1rem 0'>
                 {/* <TextField id="outlined-basic" label="Email Address" variant="outlined" fullWidth/> */}
-                <Autocomplete
+                {/* <Autocomplete
                     freeSolo
                     id="search_member_and_add"
                     disableClearable
@@ -156,7 +168,7 @@ export default function InviteMemberModal({ buttonStyle, addMemberFunction }) {
                     renderInput={(params) => (
                         <TextField
                             {...params}
-                            label="Name Or Email"
+                            label="Enter Email"
                             InputProps={{
                                 ...params.InputProps,
                                 type: 'search',
@@ -165,6 +177,14 @@ export default function InviteMemberModal({ buttonStyle, addMemberFunction }) {
                                 SetSrcMemberText(event.target.value);
                             }} />
                     )}
+                /> */}
+                <TextField
+                id="outlined-multiline-static"
+                label="Email"
+                multiline
+                fullWidth
+                value={memberEmail}
+                onChange={(e)=>setMemberEmail(e.target.value)}
                 />
                 </Box>
                 <TextField

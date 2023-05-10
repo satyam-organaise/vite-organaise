@@ -1,67 +1,70 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Box, Grid, Typography, InputAdornment, IconButton } from '@mui/material/';
+import { Button, Box, Grid, Typography, InputAdornment } from '@mui/material/';
 import fileUploadImage from "../assets/BackgroundImages/folder-data.png";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FolderIcon from '@mui/icons-material/Folder';
 import TextField from '@mui/material/TextField'
-import { AccountCircle } from '@mui/icons-material';
 import { Search } from '@mui/icons-material';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useMutation } from 'react-query';
-import { deleteFileApi, getAllFilesApi } from '../api/InternalApi/OurDevApi';
-import { useDebounce } from 'use-debounce';
-import FileIcon from '../components/FileUploadModal/Icons/FileIcon';
-import DeleteModal from '../components/Chat/DeleteModal';
-import DotMenu from '../components/Chat/DotMenu';
-import Loader from '../components/Tools/Loader';
+import File from '../components/FilesAndFolders/File';
+import { useNavigate } from 'react-router-dom';
 import { ChatState } from '../Context/ChatProvider';
+import Loader from '../components/Tools/Loader';
+import { toast } from 'react-toastify';
+import { useDebounce } from 'use-debounce';
+import { deleteFileApi, getAllFilesApi } from '../api/InternalApi/OurDevApi';
+// import FolderIcon from '@mui/icons-material/Folder';
+// import { AccountCircle, FileOpen } from '@mui/icons-material';
+// import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+// import axios from 'axios';
+// import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+// import FileIcon from '../components/FileUploadModal/Icons/FileIcon';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import DeleteModal from '../components/Chat/DeleteModal';
+// import DotMenu from '../components/Chat/DotMenu';
+// import ShowFileModal from '../components/FilesAndFolders/ShowFileModal';
 
 const AllFiles = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [userFiles, setUserFiles] = useState([]);
     const [allUserFilesConstant, setAllUserFilesConstant] = useState([]);
-    const [UserId, setUserId] = useState("");
     const [showSearchSmall, setShowSearchSmall] = useState(false)
     const { setPageNameContext, setCloseSideList } = ChatState()
     const [isFilesExist, setisFilesExist] = useState(true)
-    const colorsCode = {
-        doc: '#2892e7d6',
-        docx: '#2892e7d6',
-        png: '#7CB2D2aa',
-        jpeg: '#74BE73aa',
-        jpg: '#74BE73',
-        pdf: '#EE2F37',
-        mkv: '#478559aa',
-        exe: '#ff8928',
-        gif: '#405de6aa',
-        htm: '#539568',
-        html: '#539568',
-        jar: '#ffc202',
-        zip: '#F0BC2C',
-        bat: '#c0ff2d',
-        bin: '#ffabb6',
-        csv: '#ffaaab',
-        iso: '#c89666',
-        mp4: '#8076a3',
-        mp3: '#9950A6',
-        mpeg: '#00beffaa',
-        ppsx: '#ffcb00',
-        rar: '#9bc400aa',
-        tmp: '#ec1f52aa',
-        txt: '#5D68BF',
-        xls: '#67AA46',
-        ppt: '#F68852',
-        eps: '#EFA162',
-        wav: '#176E88',
-        css: '#95BCD4',
-        mov: '#006CB7',
-        psd: '#297CAF',
-    }
+    // const [UserId, setUserId] = useState("");
+    // const [fileOpen,setFileOpen]=useState(false)
+    // const colorsCode = {
+    //     doc: '#2892e7d6',
+    //     docx: '#2892e7d6',
+    //     png: '#7CB2D2aa',
+    //     jpeg: '#74BE73aa',
+    //     jpg: '#74BE73',
+    //     pdf: '#EE2F37',
+    //     mkv: '#478559aa',
+    //     exe: '#ff8928',
+    //     gif: '#405de6aa',
+    //     htm: '#539568',
+    //     html: '#539568',
+    //     jar: '#ffc202',
+    //     zip: '#F0BC2C',
+    //     bat: '#c0ff2d',
+    //     bin: '#ffabb6',
+    //     csv: '#ffaaab',
+    //     iso: '#c89666',
+    //     mp4: '#8076a3',
+    //     mp3: '#9950A6',
+    //     mpeg: '#00beffaa',
+    //     ppsx: '#ffcb00',
+    //     rar: '#9bc400aa',
+    //     tmp: '#ec1f52aa',
+    //     txt: '#5D68BF',
+    //     xls: '#67AA46',
+    //     ppt: '#F68852',
+    //     eps: '#EFA162',
+    //     wav: '#176E88',
+    //     css: '#95BCD4',
+    //     mov: '#006CB7',
+    //     psd: '#297CAF',
+    // }
 
     const style = {
         folderCreateMainBox: {
@@ -145,7 +148,8 @@ const AllFiles = () => {
     return (
         <>
             <Box px={"20px"} sx={style.folderCreateMainBox}>
-                {userFiles.length === 0 &&
+                {
+                userFiles.length === 0 &&
                     <Grid container>
 
                         <Grid container item xs={12} mt={2} display="flex" justifyContent={'center'}>
@@ -215,35 +219,10 @@ const AllFiles = () => {
 
                             </Box>
                         </Grid>
-                        <Grid container item mt={3} xs={12} display={'flex'} flexWrap={'wrap'} >
+                        <Grid container item mt={3} xs={12} display={'flex'} flexWrap={'wrap'}>
                          
                             { (isFilesExist && userFiles.length !== 0) && userFiles.map((d) =>
-                            <Box marginX={{xs:"10px",sm:"3px",md:"25px"}} my={"10px"} sx={{
-                                width: {xs:"130px",sm:'155px',md:"170px"},
-                                height: {xs:"150px",sm:'170px',md:"180px"},
-                                padding: "5px 5px",
-                                boxSizing: "border-box",
-                                border: "0.5px solid #CBCBCB", borderRadius: "8px"
-                            }}>
-                                <Box container display={'flex'} justifyContent="end">
-                                    <DotMenu handleDelete={ActionDelFile} value={d} pageName='files' deleteHeading="Delete File" deleteTitle="Are you sure you want to delete this file ?"/>
-                                </Box>
-                                <Box container display={'flex'} justifyContent="center">
-                                    
-                                    <FileIcon ext={d.fileName.split(['.'])[1]}/>
-                                </Box>
-                                <Box container>
-                                    <Typography align='center' variant="subtitle2" color={"#121212"} fontSize={{xs:"0.79rem",sm:"0.875rem"}}>
-                                        {d.fileName.split(".")[0].length > 15 ? d.fileName.split(".")[0].substring(0, 14) : d.fileName.split(".")[0]}
-                                    </Typography>
-                                </Box>
-                                <Box container>
-                                    <Typography align='center' variant="subtitle2" fontSize={"13px"}
-                                        color={"#CDCDCD"}>
-                                        {`${Math.abs(parseInt(d.fileSize) / 1000000) % 1 !== 0 ? Math.abs(parseInt(d.fileSize) / 1000000).toFixed(2) : Math.floor(Math.abs(parseInt(d.fileSize) / 1000000))} MB`}
-                                    </Typography>
-                                </Box>
-                            </Box>
+                            <File d={d} ActionDelFile={ActionDelFile}/>
                         )}
 
                             {!isFilesExist &&

@@ -26,6 +26,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import EmojiPicker from 'emoji-picker-react';
 import Modal from '@mui/material/Modal';
 import "../../index.css"
+import UserProfileModal from '../Chat/UserProfileModal';
 
 var selectedChatCompare;
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -526,7 +527,8 @@ const NewMessageGrid = ({ selectedChannel }) => {
                                                             alt={mes.sender.name[0].toUpperCase()}
                                                             src="https://mui.com/static/images/asdfavatar/1.jpg" 
                                                             /> */}
-                                                        <ButtonHovers name={mes.sender.name} email={mes.sender.email} />
+                                                        {/* <ButtonHovers /> */}
+                                                        <UserProfileModal name={mes.sender.name} email={mes.sender.email} />
                                                     </Stack>
                                                 </Box>
                                                 <Box
