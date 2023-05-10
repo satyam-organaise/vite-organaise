@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { useMutation } from 'react-query'
 import { ServiceState } from '../../Context/ServiceProvider';
 import { userLoginAccount, resendVerification } from '../../api/InternalApi/OurDevApi';
+import { InviteStateContext } from '../../Context/InviteProvider';
 
 const cssStyle = {
   parent_box: {
@@ -59,6 +60,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
   const emailRedux = useSelector((state) => state.CreateAccountUserData.email)
   const navigate = useNavigate();
 
+  const {setEmailContext}=InviteStateContext();
   const { contextEmail, serviceType, setSeviceType, setContextEmail, setContextPassword } = ServiceState();
 
   ////////Here we are write the calling api react query function and call the login fuction and resend  confermation mail
@@ -72,6 +74,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
     const response = await loginApiCall({ email, password });
     if ((response.status === true || response.status === true) && response.statusCode !== 400) {
       toast.success("Login successfully");
+      setEmailContext(email);
       setTimeout(() => {
         setBtnDisabled(false);/////login , signup ,forget account btn disaabled after clicking
         setIsAuthenticated(true)

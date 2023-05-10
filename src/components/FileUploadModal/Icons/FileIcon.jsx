@@ -6,22 +6,24 @@ import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutl
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import CodeIcon from '@mui/icons-material/Code';
 import AudioFileIcon from '@mui/icons-material/AudioFile';
+import MovieCreationOutlinedIcon from '@mui/icons-material/MovieCreationOutlined';
 
 const FileIcon = ({ext,maxH='80px'}) => {
-   
+   console.log(ext)
     const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',
         pdf:'#EE2F37',
         gif:'#405de6aa',
-        png:'#7CB2D2aa',
+        png:'#0072CCaa',
+        PNG:'#0072CCaa',
         jpeg:'#74BE73aa',
         jpg:'#74BE73',
         htm:'#FFA500',
         html:'#FFA500',
         css:'#95BCD4',
-        js:'#D1AC2Ecd',
-        json:'#D1AC2Ecd',
+        js:'#EAD41Caa',
+        json:'#EAD41Caa',
         exe:'#ff8928',
         jar:'#ffc202',
         rar:'#9bc400aa',
@@ -30,8 +32,8 @@ const FileIcon = ({ext,maxH='80px'}) => {
         bin:'#ffabb6',
         csv:'#ffaaab',
         iso:'#c89666',
-        mp4:'#8076a3',
-        mp3:'#9950A6',
+        mp4:'#E06C03aa',
+        mp3:'#F20000aa',
         mkv:'#478559aa',
         mpeg:'#00beffaa',
         ppsx:'#ffcb00',
@@ -49,7 +51,7 @@ const FileIcon = ({ext,maxH='80px'}) => {
     {
         return <TextSnippetIcon sx={{fontSize: maxH, color:colorsCode[ext]||"#2892e7d6"}} />
     }
-    if(ext==='png'||ext==='jpg'||ext==='jpeg')
+    if(ext==='png'||ext==='jpg'||ext==='jpeg'||ext==='PNG')
     {
         return <PhotoLibraryOutlinedIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
@@ -68,6 +70,10 @@ const FileIcon = ({ext,maxH='80px'}) => {
     if(ext==='htm'||ext==='html')
     {
         return <CodeIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
+    }
+    if(ext==='mp4'||ext==='mov')
+    {
+        return <MovieCreationOutlinedIcon sx={{fontSize: {xs:'55px',sm:maxH}, color:colorsCode[ext]||"#2892e7d6"}} />
     }
 
 

@@ -16,11 +16,11 @@ const ChatProvider = ({ children }) => {
     const [compNameContext, setCompNameContext] = useState("")
     const [notification, setNotification] = useState([]);
 
-    const [pageNameContext,setPageNameContext]=useState("data");
-    const [closeSideListContext,setCloseSideList]=useState(false)
+    const [pageNameContext, setPageNameContext] = useState("data");
+    const [closeSideListContext, setCloseSideList] = useState(false)
     const [messagingActive, setMessagingActive] = useState(false);
     const [selectedChannel, setSelectedChannel] = useState({});
-    const [closeAppDrawer,setCloseAppDrawer]=useState(false)
+    const [closeAppDrawer, setCloseAppDrawer] = useState(false)
 
     useEffect(() => {
         const userInfo = localStorage.getItem("userInfo");
@@ -56,8 +56,11 @@ const ChatProvider = ({ children }) => {
             const newChatData = ChatsData.filter((d) => d._id !== RemoveChatId);
             setChats(newChatData);
         })
-        socket.on("show-notification-count-in-member",(response)=>{
-            console.log({chats , response});
+        socket.on("show-notification-count-in-member", (response) => {
+            console.log({ chats, response });
+        })
+        socket.on("create-group-event-call", (response) => {
+            setChats([...chats, response]);
         })
     }, [chats])
 

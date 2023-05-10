@@ -4,9 +4,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { resendInvitationApi } from '../../api/InternalApi/OurDevApi';
+import { resendInvitationApi,deleteInviteStatusApi } from '../../api/InternalApi/OurDevApi';
 
-export default function InviteMenu({inviteId}) {
+export default function InviteMenu({inviteId,isSender,refetch}) {
+  console.log(refetch)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -22,7 +23,24 @@ export default function InviteMenu({inviteId}) {
         "invitationId":inviteId
       }
       const response = await resendInvitationApi(obj);
+      refetch()
+      handleClose();
+      
+    }catch(error)
+    {
+      console.log(error)
+    }
+  }
+
+  const deleteFunction =async() =>{
+    try{
+      const obj={
+        data:{"invitationId":inviteId}
+      }
+      const response = await deleteInviteStatusApi(obj);
       console.log(response);
+      refetch()
+      handleClose()
       
     }catch(error)
     {
@@ -53,7 +71,7 @@ export default function InviteMenu({inviteId}) {
         }}
       >
         <MenuItem onClick={resendFunction}>Invite Again</MenuItem>
-        <MenuItem onClick={handleClose}>Delete</MenuItem>
+        <MenuItem onClick={deleteFunction}>Delete</MenuItem>
       </Menu>
     </div>
   );

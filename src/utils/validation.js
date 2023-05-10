@@ -19,3 +19,8 @@ export const getTime=(utcTime)=>{
     const time=localDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
     return time;
 }
+
+export const getDate=(utcTime)=>{
+    var date = new Date(utcTime).toJSON().slice(0, 10);
+    return date;
+}

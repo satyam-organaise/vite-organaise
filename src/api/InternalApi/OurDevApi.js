@@ -212,7 +212,7 @@ export const postCompannyName = async (getData) => {
 }
 
 export const getCompanyName = async (userID) => {
-    const response = await axios.get(`api/v2/company/?${userID}`);
+    const response = await axios.get(`api/v2/company/`);
     if (!response.statusText === "OK") {
         throw new Error("Something is wrong.");
     }
@@ -304,6 +304,15 @@ export const inviteTokenValidationApi=async(inviteToken)=>{
 
 export const changeInviteStatusApi=async(getData)=>{
     const response=await axios.put("api/v2/invite/invitationAction",getData,headerData);
+    if(!response.statusText==='OK')
+    {
+        throw new Error("Something is wrong in send api")
+    }
+    return response.data;
+}
+
+export const deleteInviteStatusApi=async(getData)=>{
+    const response=await axios.delete("api/v2/invite/deleteInvitation",getData,headerData);
     if(!response.statusText==='OK')
     {
         throw new Error("Something is wrong in send api")
