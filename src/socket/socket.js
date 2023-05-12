@@ -1,6 +1,6 @@
 import io from "socket.io-client";
-// const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 const ENDPOINT = "https://devorganaise.com/";
+// const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 const userID = localStorage.getItem("userInfo");
 const socket = io(`${ENDPOINT}`, {
     debug: true,

@@ -42,7 +42,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 
 
-const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,deleteHeading,deleteTitle,type,refetch}) => {
+const DeleteInviteModal = ({handleDelete,value,pageName,closeParentModal=false,deleteHeading,deleteTitle,type,refetch}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -100,18 +100,15 @@ const DeleteModal = ({handleDelete,value,pageName,closeParentModal=false,deleteH
           </Button>:<Button variant="contained" sx={{width:'48%',fontSize:'16px',textTransform:'capitalize',outline:'none !important' }} onClick={()=>{handleDelete(value);handleClose();closeParentModal();}}>
             Delete
           </Button>}
-            
-            
-            
-            
-            </Box>
-          
-  
-          
-          </Box>
-        </Modal>
-      </div>
+     
+        </Box>
+        
+
+        
+        </Box>
+    </Modal>
+    </div>
     );
 }
 
-export default DeleteModal
+export default DeleteInviteModal
