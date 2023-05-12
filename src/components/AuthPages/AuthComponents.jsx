@@ -5,10 +5,9 @@ import FileUpload from '../../pages/FileUpload'
 import FolderData from '../../pages/FolderData' 
 import FolderFiles from '../../pages/FolderFiles' 
 import MyMessage from '../../pages/MyMessage' 
-import InviteListPage from '../../pages/InviteListPage' 
-import CompanyDetails from '../../pages/CompanyDetails' 
 import LeftSideBar from '../LeftSideBar/LeftSideBar';
 import ErrorPage from '../../pages/ErrorPage'
+import InviteAllList from '../../pages/InviteAllList'
 
 const AuthComponents = () => {
   return (
@@ -21,8 +20,7 @@ const AuthComponents = () => {
         <Route path="/files/folder/:fid" element={<FolderFiles />} />
         <Route path="/chat" element={<MyMessage/>} />
         {/* <Route path="/account" element={<MyAccount/>} /> */}
-        <Route path="/inviteList" element={<InviteListPage />} />
-        
+        <Route path="/inviteList" element={<InviteAllList />} />
         <Route path="*" element={<ErrorPage/>} />
 
     </Routes>

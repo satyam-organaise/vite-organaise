@@ -80,6 +80,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
         setIsAuthenticated(true)
         localStorage.setItem("token", response?.token)
         localStorage.setItem("userInfo", response?._id)
+        localStorage.setItem("email",emailAddress)
         navigate("/chat")
       }, [1500])
     } else {
@@ -97,6 +98,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
 
           setSeviceType('loginVerification')
           setContextEmail(emailAddress);
+         
           setContextPassword(password)
           navigate("/otpVerf")
 

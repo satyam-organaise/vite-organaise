@@ -9,7 +9,6 @@ import AudioFileIcon from '@mui/icons-material/AudioFile';
 import MovieCreationOutlinedIcon from '@mui/icons-material/MovieCreationOutlined';
 
 const FileIcon = ({ext,maxH='80px'}) => {
-   console.log(ext)
     const colorsCode={
         doc:'#2892e7d6',
         docx:'#2892e7d6',

@@ -93,14 +93,16 @@ function App() {
         <>
             
             <ThemeProvider theme={theme}>
-            <InviteProvider>
                 {!isAuthenticated
                     ?
 
                     <ServiceProvider>
-
+                        <InviteProvider>         
                         <Routes>
                             <Route path="/login" element={<LoginPage serviceType="login" setIsAuthenticated={setIsAuthenticated} />} />
+                        </Routes>
+                        </InviteProvider>
+                        <Routes>
                             <Route path="/signup" element={<SignupPage serviceType="signup" />} />
                             <Route path="/getStart" element={<GetStart serviceType='start' />} />
                             <Route path="/whoAmI" element={<WhoIAm/>} />
@@ -113,22 +115,23 @@ function App() {
                     </ServiceProvider>
                     :
                     <ChatProvider>     
+                        {/* <InviteProvider> */}
 
                         {location.pathname==='/modal'||location.pathname==='/invite'||location.pathname==='/projectName'||location.pathname==='/companyDetail'||location.pathname.slice(0,8)==='/invite/'?<>
                         
                         <Routes>
                             <Route path="/invite/:invId" element={<InviteAccess isAuthenticated={isAuthenticated}/>} />
+                            <Route path="/startInvite" element={<InviteTeam />} />    
                             <Route path="/model" element={<ContentModels />} />
-                            <Route path="/startInvite" element={<InviteTeam />} />
                             <Route path="/projectName" element={<ProjectName />} /> 
                             <Route path="/companyDetail" element={<CompanyDetails />} />            
                         </Routes>
                         </>:
                         <AuthComponents/>}
+                        {/* </InviteProvider> */}
                     </ChatProvider>
                 }
 
-                </InviteProvider>
             </ThemeProvider >
 
 
